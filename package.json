@@ -1,0 +1,38 @@
+{
+  "name": "why-app",
+  "version": "0.1.0",
+  "author": "OCSoft42",
+  "description": "A philosophical tool for your existential journey.",
+  "keywords": [
+    "42",
+    "nihilism",
+    "absurdism",
+    "existentialism",
+    "epistemology",
+    "philosophy",
+    "meaning-of-life",
+    "thought-experiment",
+    "self-discovery",
+    "mental-health",
+    "personal-growth",
+    "introspection",
+    "ethics",
+    "morality"
+  ],
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "preinstall": "npx only-allow pnpm",
+    "host:beta": "firebase --project why-app deploy --only hosting:beta",
+    "host:prod": "firebase --project why-app deploy --only hosting:prod",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ortwic/why-app.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ortwic/why-app/issues"
+  },
+  "homepage": "https://why-app.web.app"
+}

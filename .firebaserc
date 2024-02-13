@@ -1,0 +1,18 @@
+{
+  "projects": {
+    "default": "why-app-8a640"
+  },
+  "targets": {
+    "why-app-8a640": {
+      "hosting": {
+        "beta": [
+          "why-beta"
+        ],
+        "prod": [
+          "why-app"
+        ]
+      }
+    }
+  },
+  "etags": {}
+}
