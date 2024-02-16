@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/why-app",
+            "outputPath": "dist",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -99,6 +99,23 @@
             ],
             "scripts": []
           }
+        },
+        "deploy": {
+          "builder": "@angular/fire:deploy",
+          "options": {
+            "version": 2
+          },
+          "configurations": {
+            "production": {
+              "buildTarget": "why-app:build:production",
+              "serveTarget": "why-app:serve:production"
+            },
+            "development": {
+              "buildTarget": "why-app:build:development",
+              "serveTarget": "why-app:serve:development"
+            }
+          },
+          "defaultConfiguration": "production"
         }
       }
     }

@@ -1,0 +1,16 @@
+<div *ngFor="let post of blogPosts$ | async">
+    <div class="post">
+        <div *ngIf="post.images?.length" class="thumbnail">
+            <img class="thumbnail" [src]="post.images[0].value" />
+        </div>
+        <h2>
+            <a [routerLink]="['/post', post.id]">{{post.title}}</a>
+        </h2>
+        <p>{{post.excerpt}}</p>
+        <div class="label-group">
+            <ng-container *ngFor="let label of post.tags">
+                <a [routerLink]="['/blog', label]" class="label">{{label}}</a>
+            </ng-container>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,39 @@
+<style>  
+main header {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+  align-items: center;
+  box-sizing: inherit;
+  max-width: 700px;
+}
+
+header div.label-group {
+  gap: 1.25rem;
+}
+
+main section.content {
+  margin-top: 2em;
+}
+</style>
+
+<main>
+  <header>
+    <div class="label-group">
+      @for (item of [
+        { title: 'Start', link: '' },
+        { title: 'Blog', link: 'blog' },
+      ]; track item.title) {
+        <a class="label" [routerLink]="item.link">
+          <span>{{ item.title }}</span>
+        </a>
+      }
+    </div>
+  </header>
+  <section class="content">
+    <router-outlet />
+  </section>
+</main>
+
