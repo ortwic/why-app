@@ -8,9 +8,9 @@
         </h2>
         <p>{{post.excerpt}}</p>
         <div class="label-group">
-            <ng-container *ngFor="let label of post.tags">
-                <a [routerLink]="['/blog', label]" class="label">{{label}}</a>
-            </ng-container>
+            @for (tag of post.tags; track $index) {
+                <a [routerLink]="['/blog', tag]" class="label">{{tag}}</a>
+            }
         </div>
     </div>
 </div>

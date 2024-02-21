@@ -45,13 +45,9 @@ import { BlogPost } from '../../models/blog.model';
 })
 export class BlogComponent {
   route = inject(ActivatedRoute);
-  label = this.route.snapshot.params['tag'];
-
   blogService = inject(BlogService);
-  blogPosts$ = this.loadBlogPosts();
 
-  constructor() {
-  }
+  blogPosts$ = this.loadBlogPosts();
 
   private loadBlogPosts(): Observable<BlogPost[]> {
     const constraints = [
@@ -59,8 +55,9 @@ export class BlogComponent {
       where('status', '==', 'published')
     ];
     
-    if (this.label) {
-      constraints.push(where('tags', 'array-contains', this.label));
+    const tag = this.route.snapshot.params['tag'];
+    if (tag) {
+      constraints.push(where('tags', 'array-contains', tag));
     }
 
     return this.blogService.getDocuments(...constraints);

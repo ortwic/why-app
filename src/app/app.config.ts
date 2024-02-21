@@ -3,9 +3,9 @@ import { provideRouter } from '@angular/router';
 import { provideClientHydration } from '@angular/platform-browser';
 import { initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
-import { getAnalytics, provideAnalytics, ScreenTrackingService, UserTrackingService } from '@angular/fire/analytics';
+// import { getAnalytics, provideAnalytics, ScreenTrackingService, UserTrackingService } from '@angular/fire/analytics';
 import { getFirestore, provideFirestore } from '@angular/fire/firestore';
-import { getStorage, provideStorage } from '@angular/fire/storage';
+// import { getStorage, provideStorage } from '@angular/fire/storage';
 import { provideServiceWorker } from '@angular/service-worker';
 import { routes } from './app.routes';
 
@@ -24,11 +24,11 @@ export const appConfig: ApplicationConfig = {
         "measurementId": "G-1MPCGHPTJ5"
     }))),
     importProvidersFrom(provideAuth(() => getAuth())),
-    importProvidersFrom(provideAnalytics(() => getAnalytics())),
-    ScreenTrackingService,
-    UserTrackingService,
+    // importProvidersFrom(provideAnalytics(() => getAnalytics())),
+    // ScreenTrackingService,
+    // UserTrackingService,
     importProvidersFrom(provideFirestore(() => getFirestore())),
-    importProvidersFrom(provideStorage(() => getStorage())),
+    // importProvidersFrom(provideStorage(() => getStorage())),
     provideServiceWorker('ngsw-worker.js', {
         enabled: !isDevMode(),
         registrationStrategy: 'registerWhenStable:30000'

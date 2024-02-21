@@ -13,15 +13,12 @@ import { BlogPost } from '../../models/blog.model';
 })
 export class BlogPostComponent {
   route = inject(ActivatedRoute);
-  id = this.route.snapshot.params['id'];
-  
   blogService = inject(BlogService);
+  
   document = this.loadDocument();
 
-  constructor() {
-  }
-
   private loadDocument(): Promise<BlogPost | undefined> {
-    return this.blogService.getDocument(this.id);
+    const id = this.route.snapshot.params['id'];
+    return this.blogService.getDocument(id);
   }
 }

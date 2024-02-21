@@ -20,6 +20,11 @@
             "outputPath": "dist",
             "index": "src/index.html",
             "browser": "src/main.ts",
+            "allowedCommonJsDependencies": [
+              "undici", 
+              "@grpc/grpc-js", 
+              "@grpc/proto-loader"
+            ],
             "polyfills": [
               "zone.js"
             ],
