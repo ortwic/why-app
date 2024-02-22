@@ -1,16 +1,29 @@
-<div *ngFor="let post of blogPosts$ | async">
-    <div class="post">
-        <div *ngIf="post.images?.length" class="thumbnail">
-            <img class="thumbnail" [src]="post.images[0].value" />
-        </div>
-        <h2>
-            <a [routerLink]="['/post', post.id]">{{post.title}}</a>
-        </h2>
-        <p>{{post.excerpt}}</p>
-        <div class="label-group">
-            @for (tag of post.tags; track $index) {
-                <a [routerLink]="['/blog', tag]" class="label">{{tag}}</a>
+<div class="card" *ngFor="let post of blogPosts$ | async">
+    <mat-card class="card">
+        <mat-card-header>
+            @if (post.images) {
+                <img class="thumbnail" mat-card-lg-image [src]="post.images[0].value" />
             }
-        </div>
-    </div>
+            <mat-card-title-group>
+                <mat-card-title>
+                    <h3>
+                        <a [routerLink]="['/post', post.id]">
+                            {{post.title}}
+                        </a>
+                    </h3>
+                </mat-card-title>
+                <mat-card-subtitle>
+                    {{post.excerpt}}
+                </mat-card-subtitle>
+            </mat-card-title-group>
+        </mat-card-header>
+        <mat-card-content />
+        <mat-card-footer>
+            <div class="label-group">
+                @for (tag of post.tags; track $index) {
+                    <a [routerLink]="['/blog', tag]" class="label">{{tag}}</a>
+                }
+            </div>
+        </mat-card-footer>
+    </mat-card>
 </div>

@@ -1,0 +1,42 @@
+<ng-template #menu>
+  <a mat-list-item routerLink="">Start</a>
+  <a mat-list-item routerLink="blog">Blog</a>
+  <a mat-list-item routerLink="guide">Guide</a>
+</ng-template>
+
+<ng-template #title>
+  <img src="assets/icons/logo.svg" alt="Why" width="24"/> 
+  <span>&nbsp; Why</span>
+</ng-template>
+
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer 
+      class="sidenav" 
+      fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false">
+    <mat-toolbar *ngIf="(isHandset$ | async)">
+      <ng-container *ngTemplateOutlet="title"></ng-container>
+    </mat-toolbar>
+    <mat-nav-list>
+      <ng-container *ngTemplateOutlet="menu"></ng-container>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <mat-toolbar color="primary">
+      @if (isHandset$ | async) {
+        <button
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="drawer.toggle()">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+      }
+      <ng-container *ngTemplateOutlet="title"></ng-container>
+      <span class="spacer"></span>
+    </mat-toolbar>
+    <ng-content />
+  </mat-sidenav-content>
+</mat-sidenav-container>
