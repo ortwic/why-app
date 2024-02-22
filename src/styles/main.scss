@@ -1,0 +1,20 @@
+@use '@angular/material' as mat;
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+:root {   
+  --primary: #ffec00;
+  --accent: #93d1db;
+  // --accent: mat.get-color-from-palette($why-primary, A200);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.3s ease;
+
+  &:hover {
+    color: white;
+  }
+}
