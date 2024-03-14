@@ -4,17 +4,71 @@ html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 :root {   
-  --primary: #ffec00;
-  --accent: #93d1db;
-  // --accent: mat.get-color-from-palette($why-primary, A200);
+  --primary: #93d1db;
+  --accent: #ffec00;
+  // --accent: mat.get-color-from-palette($why-accent, A200);
 }
 
 a {
-  color: var(--accent);
+  color: var(--primary);
   text-decoration: none;
   transition: color 0.3s ease;
 
   &:hover {
     color: white;
   }
+}
+
+blockquote {
+  background-color: var(--mdc-elevated-card-container-color);
+  font-size: 14pt;
+  margin: 30px 0;
+  padding: 30px 30px 30px 40px;
+  position: relative;
+  font-style: normal;
+  border-left: 3px solid var(--primary);
+
+  cite {
+      color: gray;
+      text-transform: uppercase;
+      font-size: 10pt;
+      font-style: normal;
+      letter-spacing: 1px;
+  }
+}
+
+pre.wp-block-verse {
+  border-radius: 1rem;
+  background-color: var(--mdc-elevated-card-container-color);
+  padding: 30px;
+  font-size: 14pt;
+  margin: 30px 0;
+  color: var(--primary);
+  font-style: normal;
+  text-align: center;
+}
+
+/* *** interview format *** */
+ul.interview {
+	list-style: none;
+	padding: 0;
+}
+
+ul.interview li {
+	border: 1px solid;
+	border-radius: 1rem;
+	background: var(--mdc-elevated-card-container-color);
+	margin: 2rem 0;
+	padding: 1rem;
+	padding-left: 3.5rem;
+	text-indent: -2rem;
+}
+
+ul.interview li:nth-child(odd) {
+	margin-right: 5rem;
+	color: var(--primary);
+}
+
+ul.interview li:nth-child(even) {
+	margin-left: 5rem;
 }

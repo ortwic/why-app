@@ -14,7 +14,7 @@ interface PostImage {
     value: string;
 }
 
-export type Content = MarkupContent | QuoteContent | YouTubeContent | ImagesContent;
+export type Content = MarkupContent | QuoteContent | IFrameContent | ImagesContent;
 
 interface MarkupContent {
     type: 'text';
@@ -29,10 +29,10 @@ interface QuoteContent {
     };
 }
 
-interface YouTubeContent {
-    type: 'youtube';
+interface IFrameContent {
+    type: 'iframe';
     value: {
-        id: string;
+        src: string;
         title: string;
     };
 }
