@@ -5,9 +5,7 @@ import { FirestoreService } from './firestore.service';
   providedIn: 'root'
 })
 export class BlogService extends FirestoreService {
-  override path = 'blog';
-
   constructor() {
-    super();
+    super('blog');
   }
 }

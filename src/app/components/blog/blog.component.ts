@@ -16,9 +16,9 @@ import { BlogPost } from '../../models/blog.model';
 })
 export class BlogComponent {
   route = inject(ActivatedRoute);
-  blogService = inject(BlogService);
+  readonly blogService = inject(BlogService);
 
-  blogPosts$ = this.loadBlogPosts();
+  readonly blogPosts$ = this.loadBlogPosts();
 
   private loadBlogPosts(): Observable<BlogPost[]> {
     const constraints = [

@@ -6,6 +6,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 :root {   
   --primary: #93d1db;
   --accent: #ffec00;
+  --bg1: #303030;
+  --bg2: #383838;
+  --bg3: #424242; // var(--mdc-elevated-card-container-color)
   // --accent: mat.get-color-from-palette($why-accent, A200);
 }
 
@@ -20,7 +23,7 @@ a {
 }
 
 blockquote {
-  background-color: var(--mdc-elevated-card-container-color);
+  background-color: var(--bg3);
   font-size: 14pt;
   margin: 30px 0;
   padding: 30px 30px 30px 40px;
@@ -39,7 +42,7 @@ blockquote {
 
 pre.wp-block-verse {
   border-radius: 1rem;
-  background-color: var(--mdc-elevated-card-container-color);
+  background-color: var(--bg3);
   padding: 30px;
   font-size: 14pt;
   margin: 30px 0;
@@ -57,7 +60,7 @@ ul.interview {
 ul.interview li {
 	border: 1px solid;
 	border-radius: 1rem;
-	background: var(--mdc-elevated-card-container-color);
+	background: var(--bg3);
 	margin: 2rem 0;
 	padding: 1rem;
 	padding-left: 3.5rem;

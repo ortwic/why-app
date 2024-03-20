@@ -14,6 +14,8 @@ import {
     CollectionReference,
     DocumentData,
     QueryConstraint,
+    SnapshotOptions,
+    DocumentReference,
 } from '@angular/fire/firestore';
 import { startWith } from 'rxjs/operators';
 import type { Observable } from 'rxjs';
@@ -28,33 +30,44 @@ const omitUndefinedFields = (data: Record<string, unknown>) => {
   return data;
 };
 
+export const snapshotOptions: SnapshotOptions = {
+    serverTimestamps: 'none'
+};
+
 type Data = { id: string };
 
 @Injectable({
   providedIn: 'root'
 })
 export abstract class FirestoreService {
-  private store = inject(Firestore);
-  abstract path: string;
+  readonly store = inject(Firestore);
 
-  constructor() { }
+  constructor(private path: string) { }
   
-  public getDocuments<T extends Data>(...constraints: QueryConstraint[]): Observable<T[]> {
-    const items = collection(this.store, this.path) as CollectionReference<T>;
+  public getDocuments<T extends DocumentData>(...constraints: QueryConstraint[]): Observable<T[]> {
+    const items = this.getCollection<T>();
 
     // Query requires an index, see screenshot below
     const q = query<T, DocumentData>(items, ...constraints);
     return collectionData<T>(q, { idField: 'id' }).pipe(startWith([]));
   }
 
+  protected getCollection<T extends DocumentData>(): CollectionReference<T, DocumentData> {
+      return collection(this.store, this.path) as CollectionReference<T>;
+  }
+
   public async getDocument<T>(id: string): Promise<T | undefined> {
       const docRef = doc(this.store, this.path, id);
-      const snapshot = await getDoc(docRef);
-      if (snapshot.exists()) {
-          return snapshot.data({ serverTimestamps: 'none' }) as T;
-      }
-      
-      return Promise.resolve(undefined);
+      return await this.toDocument(docRef) as T;
+  }
+
+  protected async toDocument<T>(docRef: DocumentReference<T, DocumentData>) {
+    const snapshot = await getDoc(docRef);
+    if (snapshot.exists()) {
+        return snapshot.data(snapshotOptions);
+    }
+    
+    return Promise.resolve(undefined);
   }
 
   public async setDocument<T extends Data>(data: T, options?: SetOptions): Promise<void> {
