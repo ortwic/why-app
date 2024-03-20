@@ -23,10 +23,10 @@
   "type": "module",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "ng": "ng",
+    "dev": "ng serve -c dev-spa",
     "start": "ng serve",
     "build": "ng build --aot",
-    "watch": "ng build --watch --configuration development",
+    "watch": "ng build --watch -c development",
     "host:beta": "firebase --project why-app-8a640 deploy --only hosting:beta",
     "host:prod": "firebase --project why-app-8a640 deploy --only hosting:prod",
     "test": "ng test",
