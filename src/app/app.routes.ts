@@ -1,14 +1,26 @@
 import { ActivatedRouteSnapshot, Routes } from '@angular/router';
 import { StartComponent } from './components/start/start.component';
-import { ErrorComponent } from './components/error/error.component';
+import { PageComponent } from './components/page/page.component';
 import { BlogComponent } from './components/blog/blog.component';
 import { BlogPostComponent } from './components/blog-post/blog-post.component';
+import { SettingsComponent } from './components/settings/settings.component';
+import { ImprintComponent } from './components/imprint/imprint.component';
+import { PrivacyComponent } from './components/privacy/privacy.component';
+import { ErrorComponent } from './components/error/error.component';
 
 export const routes: Routes = [
     { 
         path: '', 
         title: 'Start', 
         component: StartComponent
+    },
+    { 
+        path: 'page/:slug', 
+        title: 'Seite',
+        component: PageComponent,
+        resolve: {
+            slug: (route: ActivatedRouteSnapshot) => route.params['slug']
+        }
     },
     { 
         path: 'blog', 
@@ -27,6 +39,21 @@ export const routes: Routes = [
         path: 'post/:id', 
         title: 'Details', 
         component: BlogPostComponent,
+    },
+    {
+        path: 'settings',
+        title: 'Einstellungen',
+        component: SettingsComponent
+    },
+    {
+        path: 'imprint',
+        title: 'Impressum',
+        component: ImprintComponent
+    },
+    {
+        path: 'privacy',
+        title: 'Datenschutz',
+        component: PrivacyComponent
     },
     {
         path: '**',

@@ -24,7 +24,7 @@
   "scripts": {
     "preinstall": "npx only-allow pnpm",
     "dev": "ng serve -c dev-spa",
-    "start": "ng serve",
+    "start": "ng serve -c development",
     "build": "ng build --aot",
     "watch": "ng build --watch -c development",
     "host:beta": "firebase --project why-app-8a640 deploy --only hosting:beta",

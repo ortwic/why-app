@@ -5,11 +5,12 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 :root {   
   --primary: #93d1db;
+  // --primary: mat.get-color-from-palette($why-primary, A200);
   --accent: #ffec00;
+  // --accent: mat.get-color-from-palette($why-accent, A200);
   --bg1: #303030;
   --bg2: #383838;
   --bg3: #424242; // var(--mdc-elevated-card-container-color)
-  // --accent: mat.get-color-from-palette($why-accent, A200);
 }
 
 a {

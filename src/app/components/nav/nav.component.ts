@@ -1,13 +1,13 @@
-import { Component, inject } from '@angular/core';
+import { AfterViewInit, Component, ViewChild, inject } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AsyncPipe, CommonModule } from '@angular/common';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
-import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSidenavContainer, MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-import { Observable } from 'rxjs';
+import { Observable, of } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 
 @Component({
@@ -23,15 +23,50 @@ import { map, shareReplay } from 'rxjs/operators';
     MatListModule,
     MatIconModule,
     AsyncPipe,
-    RouterLink
+    RouterLink,
+    RouterLinkActive
   ]
 })
-export class NavComponent {
+export class NavComponent implements AfterViewInit {
   private breakpointObserver = inject(BreakpointObserver);
+
+  @ViewChild(MatSidenavContainer)
+  private sidenavContainer!: MatSidenavContainer;
 
   isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
     .pipe(
       map(result => result.matches),
       shareReplay()
     );
+  toolbarTop$: Observable<string> = of('0');
+
+  routes = [
+    { path: '/', title: 'Start', icon: 'home' },
+    { path: '/blog', title: 'Blog', icon: 'feed' },
+    { path: '/imprint', title: 'Impressum', icon: 'info' },
+    { path: '/privacy', title: 'Datenschutz', icon: 'security' },
+    { path: '/settings', title: 'Einstellungen', icon: 'settings' }
+  ];
+
+  ngAfterViewInit(): void {
+    let lastScrollTop = 0;
+
+    const onScroll = (event: Event) => {
+      const target = event.target as HTMLElement;
+      const toolbar = target.querySelector('.mat-toolbar') as HTMLElement;
+      
+      const top = target.scrollTop < lastScrollTop ? 0 
+        : target.scrollTop < toolbar.offsetHeight 
+        ? target.scrollTop : toolbar.offsetHeight
+      toolbar.style.top = `${-top}px`;
+
+      lastScrollTop = target.scrollTop > 0 ? target.scrollTop : 0;
+      return `${top}px`;
+    };
+    
+    this.toolbarTop$ = this.sidenavContainer.scrollable.elementScrolled().pipe(map(onScroll));
+      
+    // this.changeDetectorRef.detectChanges();
+    this.toolbarTop$.subscribe();
+  }
 }
