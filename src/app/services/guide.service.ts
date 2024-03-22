@@ -1,42 +1,40 @@
 import { Injectable } from '@angular/core';
 import { 
   getDoc,
-  CollectionReference, 
-  DocumentData, 
+  orderBy, 
   DocumentReference, 
-  FirestoreDataConverter, 
   QueryDocumentSnapshot, 
 } from '@angular/fire/firestore';
 import { FirestoreService, snapshotOptions } from './firestore.service';
+import { Guide } from '../models/guide.model';
+import { Page } from '../models/page.model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class GuideService extends FirestoreService {
+  readonly dataPromise = super.getDocuments<Guide>(orderBy('no'));
 
   constructor() {
     super('guide');
   }
-  
-  protected override getCollection<T extends DocumentData>(): CollectionReference<T> {
+
+  protected override fromFirestore(snapshot: QueryDocumentSnapshot) {
     const toDocument = async (docRef: DocumentReference) => {
       const doc = await getDoc(docRef);
       return doc.data(snapshotOptions);
     };
-    
-    const converter: FirestoreDataConverter<T, DocumentData> = {
-      toFirestore(modelObject: T): T {
-        return modelObject;
-      },
-      fromFirestore(snapshot: QueryDocumentSnapshot<T, DocumentData>): T {
-        const data = snapshot.data(snapshotOptions);
-        const pages = Promise.all(data['pages']?.map(toDocument));
-        return { 
-          ...data,
-          pages,
-        };
-      }
+
+    const data = snapshot.data(snapshotOptions);
+    const pageIds = data['pages'] ?? [];
+    const pages = Promise.all(pageIds.map(toDocument));
+    return { 
+      ...data,
+      pages,
     };
-    return super.getCollection<T>().withConverter(converter);
+  }
+
+  async getPages(index: number): Promise<Page[]> {
+    return this.dataPromise.then(guide => guide[index]?.pages ?? []);
   }
 }

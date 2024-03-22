@@ -15,11 +15,12 @@ export const routes: Routes = [
         component: StartComponent
     },
     { 
-        path: 'page/:slug', 
+        path: 'page/:unit/:page', 
         title: 'Seite',
         component: PageComponent,
         resolve: {
-            slug: (route: ActivatedRouteSnapshot) => route.params['slug']
+            unit: (route: ActivatedRouteSnapshot) => route.params['unit'],
+            page: (route: ActivatedRouteSnapshot) => route.params['page']
         }
     },
     { 

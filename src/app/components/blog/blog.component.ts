@@ -2,8 +2,7 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { orderBy, where } from '@angular/fire/firestore';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { BlogService } from '../../services/blog.service';
 import { BlogPost } from '../../models/blog.model';
 
@@ -16,21 +15,15 @@ import { BlogPost } from '../../models/blog.model';
 })
 export class BlogComponent {
   route = inject(ActivatedRoute);
-  readonly blogService = inject(BlogService);
+  readonly service = inject(BlogService);
+  readonly blogPosts$ = this.service.data$;
 
-  readonly blogPosts$ = this.loadBlogPosts();
-
-  private loadBlogPosts(): Observable<BlogPost[]> {
-    const constraints = [
-      orderBy('publish_date', 'desc'), 
-      where('status', '==', 'published')
-    ];
-    
+  constructor() {
     const tag = this.route.snapshot.params['tag'];
     if (tag) {
-      constraints.push(where('tags', 'array-contains', tag));
+      this.blogPosts$ = this.service.data$.pipe(
+        map(posts => posts.filter(post => post.tags?.includes(tag)))
+      );
     }
-
-    return this.blogService.getDocuments(...constraints);
   }
 }

@@ -1,7 +1,7 @@
 <h1>{{ greeting }}, {{ userName }}</h1>
 <h2 mat-subheader>Deine Reise</h2>
 <div role="progress">
-    <ng-container *ngFor="let unit of guide$ | async">
+    <ng-container *ngFor="let unit of units$ | async">
         <a href="#{{unit.no}}">
             <p class="value">0%</p>
             <span>Einheit {{ unit.no }}</span>
@@ -12,7 +12,7 @@
     </ng-container>
 </div>
 
-<div class="unit" *ngFor="let unit of guide$ | async">
+<div class="unit" *ngFor="let unit of units$ | async; let i = index">
     <div class="header" [id]="unit.no">
         <span mat-subheader>Einheit {{unit.no}}</span>
         <h3>{{unit.title}}</h3>
@@ -21,11 +21,11 @@
         <mat-divider />
     </p>
     <div class="card-container">
-        <mat-card class="card" *ngFor="let section of (unit.pages | async); let i = index">
+        <mat-card class="card" *ngFor="let section of (unit.pages | async); let j = index">
             <mat-card-header>
                 <mat-card-title>
                     <h3>
-                        <a [routerLink]="['/page', section.slug]">
+                        <a [routerLink]="['/page', i, j]">
                             {{section.title}}
                         </a>
                     </h3>
