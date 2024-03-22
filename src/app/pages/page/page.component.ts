@@ -1,24 +1,43 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
+import { MatButtonModule } from '@angular/material/button';
+import { combineLatest, from, of, switchMap } from 'rxjs';
+import { HeroSectionComponent } from '../../components/hero-section/hero-section.component';
 import { GuideService } from '../../services/guide.service';
+import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
 
 @Component({
   selector: 'app-page',
   standalone: true,
   imports: [
     CommonModule, 
-    RouterModule
+    RouterModule,
+    MatButtonModule,
+    HeroSectionComponent,
+    SafeUrlPipe,
   ],
   templateUrl: './page.component.html',
   styleUrl: './page.component.scss'
 })
 export class PageComponent {
   private route = inject(ActivatedRoute);
-  private unitIndex = this.route.snapshot.params['unit'];
-  private pageIndex = this.route.snapshot.params['page'];
+  readonly unitIndex = +this.route.snapshot.params['unit'];
 
-  readonly service = inject(GuideService);
-  readonly page = this.service.getPages(this.unitIndex)
-    .then(pages => pages[this.pageIndex]);
+  readonly guideService = inject(GuideService);
+  readonly currentPage$ = combineLatest([
+    from(this.guideService.getPages(this.unitIndex)),
+    this.route.params
+  ]).pipe(
+    switchMap(([pages, params]) => {
+      const pageIndex = +params['page'];
+      const prev = pageIndex > 0 ? pageIndex - 1 : undefined;
+      const next = pageIndex + 1 < pages.length ? pageIndex + 1 : undefined;
+      return of({
+        ...pages[pageIndex],
+        prevIndex: prev,
+        nextIndex: next
+      });
+    })
+  );
 }

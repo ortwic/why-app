@@ -1,18 +1,11 @@
-import { Content } from "./content.model";
+import { IFrameContent, ImagesContent, MarkdownContent, QuoteContent, SectionContent, SliderContent, StepperContent } from "./content.model";
 
 export interface Page {
     id: string;
     title: string;
     slug: string;
-    hero_section: {
-        headline: string;
-        subhead: string;
-        call_to_action: string;
-        call_to_action_link: string;
-        image_info: string;
-        image: string;
-    },
-    content: Content[];
+    hero_section: HeroSection,
+    content: PageContent[];
     sidebar: {
         title: string;
         content: string;
@@ -27,3 +20,19 @@ export interface Page {
     last_updated: Date;
     is_published: boolean;
 }
+
+export interface HeroSection {
+    headline: string;
+    subhead: string;
+    call_to_action: string;
+    call_to_action_link: string;
+    image_info: string;
+    image: string;
+}
+
+type PageContent = MarkdownContent 
+                 | QuoteContent 
+                 | IFrameContent 
+                 | SectionContent
+                 | SliderContent
+                 | StepperContent;

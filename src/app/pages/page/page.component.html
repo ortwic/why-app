@@ -1,18 +1,39 @@
-<ng-template #template let-page>
-    @if (page) {
-        <div class="hero-bg" [style.backgroundImage]="'url(' + page.hero_section.image + ')'">
-            <h1>{{page.title}}</h1>
-            <section class="hero-content">
-                <h2 class="hero-subhead">{{page.hero_section.subhead}}</h2>
-                <a [href]="page.hero_section.call_to_action_link" class="hero-cta">{{page.hero_section.call_to_action}}</a>
-            </section>
-            <div class="img-info">{{page.hero_section.image_info}}</div>
-        </div>
-
-        @for (item of page.content; track $index) {
-            <pre>{{item | json}}</pre>
-        }
-    }
+<ng-template #loading>
+    Lade Inhalt...
 </ng-template>
 
-<ng-container *ngTemplateOutlet="template; context: { $implicit: page | async }" />
+<ng-container *ngIf="currentPage$ | async as page; else loading">
+    <app-hero-section [hero-section]="page.hero_section"/>
+
+    <div class="content">    
+        @for (item of page.content; track $index) {
+            @if (item.type === 'iframe' && item.value) {
+                <iframe [src]="item.value.src | safeUrl" [title]="item.value.title"
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                    allowfullscreen width="560" height="315" frameborder="0"></iframe>
+            } @else if (item.type === 'text') {
+                <div innerHtml={{item.value}}></div>
+            } @else {
+                <pre>{{item | json}}</pre>
+            }
+        }
+    </div>
+
+    <footer>
+        @if (page.prevIndex !== undefined) {
+            <a mat-button [routerLink]="[ '/p', unitIndex, page.prevIndex ]">
+                Zurück
+            </a> 
+            &mdash;
+        }
+        @if (page.nextIndex !== undefined) {
+            <a mat-button color="primary" [routerLink]="[ '/p', unitIndex, page.nextIndex ]">
+                Weiter
+            </a>
+        } @else {
+            <a mat-button color="primary" routerLink="/">
+                Abschließen
+            </a>
+        }
+    </footer>
+</ng-container>
