@@ -1,0 +1,18 @@
+<ng-template #template let-page>
+    @if (page) {
+        <div class="hero-bg" [style.backgroundImage]="'url(' + page.hero_section.image + ')'">
+            <h1>{{page.title}}</h1>
+            <section class="hero-content">
+                <h2 class="hero-subhead">{{page.hero_section.subhead}}</h2>
+                <a [href]="page.hero_section.call_to_action_link" class="hero-cta">{{page.hero_section.call_to_action}}</a>
+            </section>
+            <div class="img-info">{{page.hero_section.image_info}}</div>
+        </div>
+
+        @for (item of page.content; track $index) {
+            <pre>{{item | json}}</pre>
+        }
+    }
+</ng-template>
+
+<ng-container *ngTemplateOutlet="template; context: { $implicit: page | async }" />

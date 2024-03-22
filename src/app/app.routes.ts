@@ -1,12 +1,12 @@
 import { ActivatedRouteSnapshot, Routes } from '@angular/router';
-import { StartComponent } from './components/start/start.component';
-import { PageComponent } from './components/page/page.component';
-import { BlogComponent } from './components/blog/blog.component';
-import { BlogPostComponent } from './components/blog-post/blog-post.component';
-import { SettingsComponent } from './components/settings/settings.component';
-import { ImprintComponent } from './components/imprint/imprint.component';
-import { PrivacyComponent } from './components/privacy/privacy.component';
-import { ErrorComponent } from './components/error/error.component';
+import { StartComponent } from './pages/start/start.component';
+import { PageComponent } from './pages/page/page.component';
+import { BlogComponent } from './pages/blog/blog.component';
+import { BlogPostComponent } from './pages/blog-post/blog-post.component';
+import { SettingsComponent } from './pages/settings/settings.component';
+import { ImprintComponent } from './pages/imprint/imprint.component';
+import { PrivacyComponent } from './pages/privacy/privacy.component';
+import { ErrorComponent } from './pages/error/error.component';
 
 export const routes: Routes = [
     { 
@@ -15,7 +15,7 @@ export const routes: Routes = [
         component: StartComponent
     },
     { 
-        path: 'page/:unit/:page', 
+        path: 'p/:unit/:page', 
         title: 'Seite',
         component: PageComponent,
         resolve: {
