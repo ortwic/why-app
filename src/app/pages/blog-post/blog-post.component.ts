@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { BlogService } from '../../services/blog.service';
 import { BlogPost } from '../../models/blog.model';
+import { MarkedPipe } from '../../pipes/marked.pipe';
 import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
 
 @Component({
   selector: 'app-blog-post',
   standalone: true,
-  imports: [CommonModule, SafeUrlPipe],
+  imports: [CommonModule, MarkedPipe, SafeUrlPipe],
   templateUrl: './blog-post.component.html',
   styles: ``
 })

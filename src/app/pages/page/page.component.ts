@@ -6,6 +6,7 @@ import { combineLatest, from, of, switchMap } from 'rxjs';
 import { HeroSectionComponent } from '../../components/hero-section/hero-section.component';
 import { GuideService } from '../../services/guide.service';
 import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
+import { MarkedPipe } from '../../pipes/marked.pipe';
 
 @Component({
   selector: 'app-page',
@@ -15,6 +16,7 @@ import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
     RouterModule,
     MatButtonModule,
     HeroSectionComponent,
+    MarkedPipe,
     SafeUrlPipe,
   ],
   templateUrl: './page.component.html',

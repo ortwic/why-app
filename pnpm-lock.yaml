@@ -50,6 +50,9 @@ dependencies:
   express:
     specifier: ^4.18.2
     version: 4.18.2
+  marked:
+    specifier: ^12.0.1
+    version: 12.0.1
   rxjs:
     specifier: ~7.8.0
     version: 7.8.0
@@ -6665,6 +6668,12 @@ packages:
     transitivePeerDependencies:
       - supports-color
     dev: true
+
+  /marked@12.0.1:
+    resolution: {integrity: sha512-Y1/V2yafOcOdWQCX0XpAKXzDakPOpn6U0YLxTJs3cww6VxOzZV1BTOOYWLvH3gX38cq+iLwljHHTnMtlDfg01Q==}
+    engines: {node: '>= 18'}
+    hasBin: true
+    dev: false
 
   /media-typer@0.3.0:
     resolution: {integrity: sha512-dq+qelQ9akHpcOl/gUVRTxVIOkAJ1wR3QAvb4RsVjS8oVoFjDGTc679wJYmUmknUF5HwMLOgb5O+a3KxfWapPQ==}
