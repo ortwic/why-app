@@ -2,7 +2,12 @@
 # https://github.com/firebase/firebase-tools
 
 name: Check if project builds
-'on': pull_request
+on: 
+  pull_request:
+  push:
+    branches:
+      - main
+      - develop
 jobs:
   build_and_preview:
     if: '${{ github.event.pull_request.head.repo.full_name == github.repository }}'
@@ -14,5 +19,5 @@ jobs:
         run: |
           npm i -g pnpm
           pnpm install
-          pnpm test:unit
+          pnpm test
           pnpm build
