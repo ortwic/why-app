@@ -8,6 +8,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   // --primary: mat.get-color-from-palette($why-primary, A200);
   --accent: #ffec00;
   // --accent: mat.get-color-from-palette($why-accent, A200);
+  --decent: #b3b3b3;
   --bg1: #303030;
   --bg2: #383838;
   --bg3: #424242; // var(--mdc-elevated-card-container-color)
@@ -16,7 +17,7 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 a {
   color: var(--primary);
   text-decoration: none;
-  transition: color 0.3s ease;
+  transition: all 0.3s ease;
 
   &:hover {
     color: white;

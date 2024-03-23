@@ -5,34 +5,41 @@
 <ng-container *ngIf="currentPage$ | async as page; else loading">
     <app-hero-section [hero-section]="page.hero_section"/>
 
-    <div class="content">    
-        @for (item of page.content; track $index) {
-            @if (item.type === 'iframe' && item.value) {
+    @for (item of page.content; track $index) {
+        @if (item.type === 'iframe' && item.value) {
+            <div class="content">
                 <iframe [src]="item.value.src | safeUrl" [title]="item.value.title"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                     allowfullscreen width="560" height="315" frameborder="0"></iframe>
-            } @else if (item.type === 'text') {
-                <div [innerHtml]="item.value | marked"></div>
-            } @else {
-                <pre>{{item | json}}</pre>
-            }
+            </div>
+        } @else if (item.type === 'text') {
+            <div class="content" [innerHtml]="item.value | marked"></div>
+        } @else if (item.type === 'slider') {
+            <app-image-slider [images]="item.value" height="50vh" />
+        } @else {
+            <pre class="content">{{item | json}}</pre>
         }
-    </div>
+    }
 
     <footer>
         @if (page.prevIndex !== undefined) {
-            <a mat-button [routerLink]="[ '/p', unitIndex, page.prevIndex ]">
-                Zurück
+            <a role="button" mat-button color="primary" [routerLink]="[ '/p', unitIndex, page.prevIndex ]">
+                <span class="prev">
+                    <mat-icon fontIcon="chevron_left" /> Zurück
+                </span>
             </a> 
-            &mdash;
         }
         @if (page.nextIndex !== undefined) {
-            <a mat-button color="primary" [routerLink]="[ '/p', unitIndex, page.nextIndex ]">
-                Weiter
+            <a role="button" mat-button color="primary" [routerLink]="[ '/p', unitIndex, page.nextIndex ]">
+                <span class="next">
+                    <mat-icon fontIcon="chevron_right" /> Weiter 
+                </span>
             </a>
         } @else {
-            <a mat-button color="primary" routerLink="/">
-                Abschließen
+            <a role="button" mat-button color="primary" routerLink="/">
+                <span class="next">            
+                    <mat-icon fontIcon="check_small" /> Abschließen&nbsp;
+                </span>
             </a>
         }
     </footer>

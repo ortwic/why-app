@@ -1,9 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { MatIconModule } from '@angular/material/icon';
 import { combineLatest, from, of, switchMap } from 'rxjs';
 import { HeroSectionComponent } from '../../components/hero-section/hero-section.component';
+import { ImageSliderComponent } from '../../components/image-slider/image-slider.component';
 import { GuideService } from '../../services/guide.service';
 import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
 import { MarkedPipe } from '../../pipes/marked.pipe';
@@ -15,7 +17,9 @@ import { MarkedPipe } from '../../pipes/marked.pipe';
     CommonModule, 
     RouterModule,
     MatButtonModule,
+    MatIconModule,
     HeroSectionComponent,
+    ImageSliderComponent,
     MarkedPipe,
     SafeUrlPipe,
   ],

@@ -36,10 +36,13 @@ export interface SectionContent {
 
 export interface SliderContent {
     type: 'slider';
-    value: Array<{
-        title: string;
-        image: string;
-    }>;
+    value: SliderImages[];
+}
+
+export interface SliderImages {
+    title: string;
+    file: string;
+    url: string;
 }
 
 export interface StepperContent {
