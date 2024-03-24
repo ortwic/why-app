@@ -1,4 +1,4 @@
-import { IFrameContent, ImagesContent, MarkdownContent, QuoteContent, SectionContent, SliderContent, StepperContent } from "./content.model";
+import { IFrameContent, MarkdownContent, QuoteContent, SectionContent, SliderContent, FormStepperContent } from "./content.model";
 
 export interface Page {
     id: string;
@@ -32,7 +32,7 @@ export interface HeroSection {
 
 type PageContent = MarkdownContent 
                  | QuoteContent 
+                 | FormStepperContent
                  | IFrameContent 
                  | SectionContent
-                 | SliderContent
-                 | StepperContent;
+                 | SliderContent;

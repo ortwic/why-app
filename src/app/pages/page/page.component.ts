@@ -4,6 +4,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { combineLatest, from, of, switchMap } from 'rxjs';
+import { FormStepperComponent } from '../../components/form-stepper/form-stepper.component';
 import { HeroSectionComponent } from '../../components/hero-section/hero-section.component';
 import { ImageSliderComponent } from '../../components/image-slider/image-slider.component';
 import { GuideService } from '../../services/guide.service';
@@ -18,6 +19,7 @@ import { MarkedPipe } from '../../pipes/marked.pipe';
     RouterModule,
     MatButtonModule,
     MatIconModule,
+    FormStepperComponent,
     HeroSectionComponent,
     ImageSliderComponent,
     MarkedPipe,

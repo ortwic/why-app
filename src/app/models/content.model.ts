@@ -45,22 +45,28 @@ export interface SliderImages {
     url: string;
 }
 
-export interface StepperContent {
-    type: 'content';
-    value: Array<SelectList | Textarea>;
+export interface FormStepperContent {
+    type: 'stepper';
+    value: FormContent;
 }
+
+export type FormContent = Array<SelectList | Textarea>;
 
 interface SelectList {
     type: 'select';
     value: {
+        id: string;
         caption: string;
         options: string[];
+        multiple: boolean;
+        multiline: boolean;
     };
 }
 
 interface Textarea {
     type: 'textarea';
     value: {
+        id: string;
         caption: string;
         placeholder: string;
     };

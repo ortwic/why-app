@@ -14,29 +14,36 @@
             </div>
         } @else if (item.type === 'text') {
             <div class="content" [innerHtml]="item.value | marked"></div>
+        } @else if (item.type === 'stepper') {
+            <div class="content">
+                <app-form-stepper [controls]="item.value" />
+            </div>
         } @else if (item.type === 'slider') {
             <app-image-slider [images]="item.value" height="50vh" />
         } @else {
-            <pre class="content">{{item | json}}</pre>
+            <pre class="content" title="{{item.type}}">{{item.value | json}}</pre>
         }
     }
 
     <footer>
         @if (page.prevIndex !== undefined) {
-            <a role="button" mat-button color="primary" [routerLink]="[ '/p', unitIndex, page.prevIndex ]">
+            <a role="button" mat-button color="primary" aria-label="Zurück"
+               [routerLink]="[ '/p', unitIndex, page.prevIndex ]">
                 <span class="prev">
-                    <mat-icon fontIcon="chevron_left" /> Zurück
+                    <mat-icon fontIcon="arrow_back" /> &nbsp;Zurück
                 </span>
             </a> 
         }
         @if (page.nextIndex !== undefined) {
-            <a role="button" mat-button color="primary" [routerLink]="[ '/p', unitIndex, page.nextIndex ]">
+            <a role="button" mat-button color="primary" aria-label="Weiter"
+               [routerLink]="[ '/p', unitIndex, page.nextIndex ]">
                 <span class="next">
-                    <mat-icon fontIcon="chevron_right" /> Weiter 
+                    <mat-icon fontIcon="arrow_forward" /> Weiter&nbsp;
                 </span>
             </a>
         } @else {
-            <a role="button" mat-button color="primary" routerLink="/">
+            <a role="button" mat-button color="primary" aria-label="Abschließen"
+               routerLink="/">
                 <span class="next">            
                     <mat-icon fontIcon="check_small" /> Abschließen&nbsp;
                 </span>

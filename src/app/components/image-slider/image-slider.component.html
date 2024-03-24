@@ -6,11 +6,11 @@
         </div>
     }
     @if(images.length > 1) {
-        <a mat-icon-button class="prev" role="button" (click)="slider.prev()">
+        <button mat-icon-button class="prev" aria-label="Zurück" (click)="slider.prev()">
             <mat-icon fontIcon="chevron_left" />
-        </a>
-        <a mat-icon-button class="next" role="button" (click)="slider.next()">
+        </button>
+        <button mat-icon-button class="next" aria-label="Weiter" (click)="slider.next()">
             <mat-icon fontIcon="chevron_right" />
-        </a>
+        </button>
     }
 </div>
