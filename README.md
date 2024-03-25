@@ -3,6 +3,44 @@
 # Why-App
 A philosophical tool for your existential journey.
 
+# Content Management
+
+## Creating Content
+
+Content is managed with [FireCMS](https://app.firecms.co/p/why-app-8a640).
+
+There are 3 collections for content:
+- Guide
+- Page
+- Blog
+
+Each guide can reference to n pages.
+
+## Formatting Content
+
+Markdown is supported where as it's extended to support img size, audio and embeded youtube videos. You can use it like this:
+
+### Example image
+```javascript
+marked.parseInline("![](http://example.com/media/1.jpg 'style=width:300px,title=test img')")
+```
+generates:  
+```<img src='http://example.com/media/1.jpg' style='width=300px' title='test img'></img>```  
+
+### Example audio
+```javascript
+marked.parseInline("![this is audio](1.wav 'type=wav,controls,autoplay,muted')")
+```
+generates:   
+```<audio alt='this is audio' controls><source src='1.wav' type='audio/wav'></audio>```  
+
+### Example 3
+```javascript
+marked.parseInline("![](PB4gId2mPNc 'type=youtube,width=560,height=315,allow=accelerometer;autoplay;clipboard-write,allowfullscreen')");
+```
+generates:  
+```<iframe width='560' height='315' src='https://www.youtube.com/embed/PB4gId2mPNc' title='YouTube video player' frameborder='0' allow='accelerometer;autoplay;clipboard-write;' allowfullscreen></iframe>```  
+
 # Getting Started
 
 ## Prerequisites
