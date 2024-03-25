@@ -47,10 +47,10 @@ export interface SliderImages {
 
 export interface FormStepperContent {
     type: 'stepper';
-    value: FormContent;
+    value: FormContent[];
 }
 
-export type FormContent = Array<SelectList | Textarea>;
+export type FormContent = SelectList | Textarea;
 
 interface SelectList {
     type: 'select';

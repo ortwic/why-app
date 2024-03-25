@@ -16,7 +16,11 @@
             <div class="content" [innerHtml]="item.value | marked"></div>
         } @else if (item.type === 'stepper') {
             <div class="content">
-                <app-form-stepper [controls]="item.value" />
+                <app-stepper [controls]="item.value" [template]="form">
+                    <ng-template #form let-item let-disabled="disabled">
+                        <app-input-section [item]="item" [disabled]="disabled" />
+                    </ng-template>
+                </app-stepper>
             </div>
         } @else if (item.type === 'slider') {
             <app-image-slider [images]="item.value" height="50vh" />

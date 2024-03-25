@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FormStepperComponent } from './form-stepper.component';
+import { StepperComponent } from './stepper.component';
 
-describe('FormStepperComponent', () => {
-  let component: FormStepperComponent;
-  let fixture: ComponentFixture<FormStepperComponent>;
+describe('StepperComponent', () => {
+  let component: StepperComponent<unknown>;
+  let fixture: ComponentFixture<StepperComponent<unknown>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FormStepperComponent]
+      imports: [StepperComponent]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(FormStepperComponent);
+    fixture = TestBed.createComponent(StepperComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

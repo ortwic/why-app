@@ -4,9 +4,10 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { combineLatest, from, of, switchMap } from 'rxjs';
-import { FormStepperComponent } from '../../components/form-stepper/form-stepper.component';
 import { HeroSectionComponent } from '../../components/hero-section/hero-section.component';
 import { ImageSliderComponent } from '../../components/image-slider/image-slider.component';
+import { InputSectionComponent } from '../../components/input-section/input-section.component';
+import { StepperComponent } from '../../components/stepper/stepper.component';
 import { GuideService } from '../../services/guide.service';
 import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
 import { MarkedPipe } from '../../pipes/marked.pipe';
@@ -19,9 +20,10 @@ import { MarkedPipe } from '../../pipes/marked.pipe';
     RouterModule,
     MatButtonModule,
     MatIconModule,
-    FormStepperComponent,
     HeroSectionComponent,
     ImageSliderComponent,
+    InputSectionComponent,
+    StepperComponent,
     MarkedPipe,
     SafeUrlPipe,
   ],

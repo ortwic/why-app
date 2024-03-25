@@ -1,30 +1,21 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { trigger, state, style, transition, animate } from '@angular/animations';
 import { MatButtonModule } from '@angular/material/button';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
-import { MatInputModule } from '@angular/material/input';
-import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { FormContent } from '../../models/content.model';
 
 @Component({
-  selector: 'app-form-stepper',
+  selector: 'app-stepper',
   standalone: true,
   imports: [
     CommonModule,
     MatButtonModule,
-    MatButtonToggleModule,
-    MatCardModule,
     MatIconModule,
-    MatInputModule,
-    MatFormFieldModule,
     MatProgressSpinnerModule,
   ],
-  templateUrl: './form-stepper.component.html',
-  styleUrl: './form-stepper.component.scss',
+  templateUrl: './stepper.component.html',
+  styleUrl: './stepper.component.scss',
   animations: [
     trigger('next', [
       state('collapsed', style({
@@ -40,9 +31,15 @@ import { FormContent } from '../../models/content.model';
     ])
  ]
 })
-export class FormStepperComponent {
-  @Input('controls') controls = [] as FormContent;
-  @Output('completed') completed = new EventEmitter();
+export class StepperComponent<T> {
+  @Input({ alias: 'controls', required: true }) 
+  controls!: T[];
+  
+  @Input({ alias: 'template', required: true }) 
+  template!: TemplateRef<unknown>;
+  
+  @Output('completed') 
+  completed = new EventEmitter();
   
   private step = 0;
   done = false;

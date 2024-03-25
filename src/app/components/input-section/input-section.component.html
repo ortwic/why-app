@@ -1,0 +1,31 @@
+<mat-card class="card">
+    <mat-card-header>
+        <mat-card-title class="title">
+            {{item.value.caption}}
+        </mat-card-title>
+    </mat-card-header>
+    @if(item.type === 'select') {
+        <mat-card-content class="content">
+            <mat-button-toggle-group class="select-group"
+                [ngClass]="{'wrap-options': item.value.multiline}"
+                [name]="item.value.id" 
+                [multiple]="item.value.multiple"
+                [disabled]="disabled">
+                @for(opt of item.value.options; track $index) {
+                    <mat-button-toggle [value]="opt">
+                        {{opt}}
+                    </mat-button-toggle>
+                }
+            </mat-button-toggle-group>
+        </mat-card-content>
+    } @else if (item.type === 'textarea') {
+        <mat-card-content class="content">
+            <mat-form-field class="field" appearance="outline">
+                <textarea matInput [name]="item.value.id" 
+                    [disabled]="disabled"
+                    [placeholder]="item.value.placeholder"
+                    ></textarea>
+            </mat-form-field>
+        </mat-card-content>
+    }
+</mat-card>

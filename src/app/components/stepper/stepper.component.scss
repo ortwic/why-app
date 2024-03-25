@@ -1,0 +1,25 @@
+
+section {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    gap: 1rem;
+
+    .footer {
+        position: relative;
+        width: 100%;
+        text-align: center;
+
+        [role=progressbar] {
+            left: calc(50% - 30px);
+        }
+
+        .next {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1;
+        }
+    }
+}

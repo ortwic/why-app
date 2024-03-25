@@ -1,0 +1,15 @@
+<section>
+    @for (item of controls; track $index) {
+        <div [@next]="show($index) ? 'expanded' : 'collapsed'">
+            <ng-container *ngTemplateOutlet="template; context: { $implicit: item, disabled: disabled($index) }">
+            </ng-container>
+        </div>
+    }
+    <div class="footer" [@next]="!done ? 'expanded' : 'collapsed'">
+        <mat-progress-spinner color="primary" diameter="60" mode="determinate" [value]="progress" />
+        <button mat-icon-button class="next" role="button" color="primary"
+            [title]="last ? 'Fertig' : 'Weiter'" (click)="next()">
+            <mat-icon [fontIcon]="last ? 'check' : 'arrow_downward'" />
+        </button>
+    </div>
+</section>
