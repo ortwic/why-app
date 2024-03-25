@@ -1,7 +1,7 @@
 <div class="keen-slider" #sliderRef>
     @for(img of images; track $index) {
         <div class="keen-slider__slide slide-container">
-            <img [src]="img.file || img.url" [alt]="img.title" [title]="img.title" />
+            <img [src]="img.url || img.file" [alt]="img.title" [title]="img.title" />
             <div class="caption">{{img.title}}</div>
         </div>
     }

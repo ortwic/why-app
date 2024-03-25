@@ -41,7 +41,14 @@ export const markedMedia = (resourceUrl: string) => {
                     let title = attr.title != null ? ` title='${attr.title}'` : '';
                     return `<img class='marked-image' src='${src}' alt='${text}'${style}${title}></img>`;
             }
-        },    
+        },
+        blockquote(text: string): string {
+            const quote = text.replace(/^<p>|<\/p>$/g, '').split('--');
+            if (quote.length == 2) {
+                return `<blockquote><p>${quote[0]}</p><cite>${quote[1]}</cite></blockquote>`;
+            }
+            return `<blockquote>${text}</blockquote>`;
+        }
     };
-    return { renderer };
+    return { renderer, sanitize: true };
 };
