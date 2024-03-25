@@ -2,9 +2,8 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { Observable, map } from 'rxjs';
+import { map } from 'rxjs';
 import { BlogService } from '../../services/blog.service';
-import { BlogPost } from '../../models/blog.model';
 
 @Component({
   selector: 'app-blog',
@@ -22,8 +21,9 @@ export class BlogComponent {
     const tag = this.route.snapshot.params['tag'];
     if (tag) {
       this.blogPosts$ = this.service.data$.pipe(
-        map(posts => posts.filter(post => post.tags?.includes(tag)))
+        map(posts => posts.filter(post => post.tags?.includes(tag))),
       );
+      document.title = 'Blog - ' + tag + ' | Why App';
     }
   }
 }

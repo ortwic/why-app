@@ -21,6 +21,11 @@ export class BlogPostComponent {
 
   private loadDocument(): Promise<BlogPost | undefined> {
     const id = this.route.snapshot.params['id'];
-    return this.blogService.getDocument(id);
+    return this.blogService.getDocument<BlogPost>(id).then(post => {
+      if (post) {
+        document.title = post.title + " | Why App";
+      }
+      return post;
+    });
   }
 }

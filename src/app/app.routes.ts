@@ -11,12 +11,11 @@ import { ErrorComponent } from './pages/error/error.component';
 export const routes: Routes = [
     { 
         path: '', 
-        title: 'Start', 
+        title: 'Start | Why App', 
         component: StartComponent
     },
     { 
-        path: 'p/:unit/:page', 
-        title: 'Seite',
+        path: 'p/:unit/:page',
         component: PageComponent,
         resolve: {
             unit: (route: ActivatedRouteSnapshot) => route.params['unit'],
@@ -24,13 +23,12 @@ export const routes: Routes = [
         }
     },
     { 
-        path: 'blog', 
-        title: 'Blog',
+        path: 'blog',
+        title: 'Blog | Why App',
         component: BlogComponent,
     },
     { 
-        path: 'blog/:tag', 
-        title: 'Blog',
+        path: 'blog/:tag',
         component: BlogComponent,
         resolve: {
             tag: (route: ActivatedRouteSnapshot) => route.params['tag']
@@ -38,27 +36,26 @@ export const routes: Routes = [
     },
     { 
         path: 'post/:id', 
-        title: 'Details', 
         component: BlogPostComponent,
     },
     {
         path: 'settings',
-        title: 'Einstellungen',
+        title: 'Einstellungen | Why App',
         component: SettingsComponent
     },
     {
         path: 'imprint',
-        title: 'Impressum',
+        title: 'Impressum | Why App',
         component: ImprintComponent
     },
     {
         path: 'privacy',
-        title: 'Datenschutz',
+        title: 'Datenschutz | Why App',
         component: PrivacyComponent
     },
     {
         path: '**',
-        title: 'Error',
+        title: 'Error | Why App',
         component: ErrorComponent
     }
 ];

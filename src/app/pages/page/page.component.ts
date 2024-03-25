@@ -3,7 +3,7 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { combineLatest, from, of, switchMap } from 'rxjs';
+import { combineLatest, from, of, switchMap, tap } from 'rxjs';
 import { HeroSectionComponent } from '../../components/hero-section/hero-section.component';
 import { ImageSliderComponent } from '../../components/image-slider/image-slider.component';
 import { InputSectionComponent } from '../../components/input-section/input-section.component';
@@ -13,41 +13,39 @@ import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
 import { MarkedPipe } from '../../pipes/marked.pipe';
 
 @Component({
-  selector: 'app-page',
-  standalone: true,
-  imports: [
-    CommonModule, 
-    RouterModule,
-    MatButtonModule,
-    MatIconModule,
-    HeroSectionComponent,
-    ImageSliderComponent,
-    InputSectionComponent,
-    StepperComponent,
-    MarkedPipe,
-    SafeUrlPipe,
-  ],
-  templateUrl: './page.component.html',
-  styleUrl: './page.component.scss'
+    selector: 'app-page',
+    standalone: true,
+    imports: [
+        CommonModule,
+        RouterModule,
+        MatButtonModule,
+        MatIconModule,
+        HeroSectionComponent,
+        ImageSliderComponent,
+        InputSectionComponent,
+        StepperComponent,
+        MarkedPipe,
+        SafeUrlPipe,
+    ],
+    templateUrl: './page.component.html',
+    styleUrl: './page.component.scss',
 })
 export class PageComponent {
-  private route = inject(ActivatedRoute);
-  readonly unitIndex = +this.route.snapshot.params['unit'];
+    private route = inject(ActivatedRoute);
+    readonly unitIndex = +this.route.snapshot.params['unit'];
 
-  readonly guideService = inject(GuideService);
-  readonly currentPage$ = combineLatest([
-    from(this.guideService.getPages(this.unitIndex)),
-    this.route.params
-  ]).pipe(
-    switchMap(([pages, params]) => {
-      const pageIndex = +params['page'];
-      const prev = pageIndex > 0 ? pageIndex - 1 : undefined;
-      const next = pageIndex + 1 < pages.length ? pageIndex + 1 : undefined;
-      return of({
-        ...pages[pageIndex],
-        prevIndex: prev,
-        nextIndex: next
-      });
-    })
-  );
+    readonly guideService = inject(GuideService);
+    readonly currentPage$ = combineLatest([from(this.guideService.getPages(this.unitIndex)), this.route.params]).pipe(
+        switchMap(([pages, params]) => {
+            const pageIndex = +params['page'];
+            const prev = pageIndex > 0 ? pageIndex - 1 : undefined;
+            const next = pageIndex + 1 < pages.length ? pageIndex + 1 : undefined;
+            return of({
+                ...pages[pageIndex],
+                prevIndex: prev,
+                nextIndex: next,
+            });
+        }),
+        tap((page) => document.title = page.title + " | Why App")
+    );
 }
