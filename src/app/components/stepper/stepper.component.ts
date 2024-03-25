@@ -6,53 +6,48 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { expandTrigger } from '../../animations.helper';
 
 @Component({
-  selector: 'app-stepper',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatButtonModule,
-    MatIconModule,
-    MatProgressSpinnerModule,
-  ],
-  templateUrl: './stepper.component.html',
-  styleUrl: './stepper.component.scss',
-  animations: [ expandTrigger('next') ]
+    selector: 'app-stepper',
+    standalone: true,
+    imports: [CommonModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule],
+    templateUrl: './stepper.component.html',
+    styleUrl: './stepper.component.scss',
+    animations: [expandTrigger('next')],
 })
 export class StepperComponent<T> {
-  @Input({ alias: 'controls', required: true }) 
-  controls!: T[];
-  
-  @Input({ alias: 'template', required: true }) 
-  template!: TemplateRef<unknown>;
-  
-  @Output('completed') 
-  completed = new EventEmitter();
-  
-  private step = 0;
-  done = false;
+    @Input({ alias: 'controls', required: true })
+    controls!: T[];
 
-  get last(): boolean {
-    return this.step >= this.controls.length - 1;
-  }
+    @Input({ alias: 'template', required: true })
+    template!: TemplateRef<unknown>;
 
-  get progress(): number {
-    return (this.step + 1) / this.controls.length * 100;
-  }
+    @Output('completed')
+    completed = new EventEmitter();
 
-  show(index: number): boolean {
-    return index <= this.step;
-  }
+    private step = 0;
+    done = false;
 
-  disabled(index: number): boolean {
-    return index !== this.step;
-  }
-
-  next(): void {
-    this.step++;
-
-    if (this.step === this.controls.length) {
-      this.done = true;
-      this.completed.emit();
+    get last(): boolean {
+        return this.step >= this.controls.length - 1;
     }
-  }
+
+    get progress(): number {
+        return ((this.step + 1) / this.controls.length) * 100;
+    }
+
+    show(index: number): 'expanded' | 'collapsed' {
+        return index <= this.step ? 'expanded' : 'collapsed';
+    }
+
+    disabled(index: number): boolean {
+        return index !== this.step;
+    }
+
+    next(): void {
+        this.step++;
+
+        if (this.step === this.controls.length) {
+            this.done = true;
+            this.completed.emit();
+        }
+    }
 }

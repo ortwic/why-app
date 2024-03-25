@@ -1,6 +1,6 @@
 <section>
     @for (item of controls; track $index) {
-        <div [@next]="show($index) ? 'expanded' : 'collapsed'">
+        <div [@next]="show($index)">
             <ng-container *ngTemplateOutlet="template; context: { $implicit: item, disabled: disabled($index) }">
             </ng-container>
         </div>

@@ -32,6 +32,6 @@
     }
 
     & textarea {
-        height: calc(var(--height) - 2rem);
+        height: calc(var(--height) - 2rem) !important;
     }
 }

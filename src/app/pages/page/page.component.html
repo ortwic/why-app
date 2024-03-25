@@ -4,26 +4,27 @@
     <app-hero-section [hero-section]="page.hero_section"/>
 
     @for (item of page.content; track $index) {
+        
         @if (item.type === 'iframe' && item.value) {
-            <div class="content">
+            <div class="content" [@next]="show($index)"]>
                 <iframe [src]="item.value.src | safeUrl" [title]="item.value.title"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                     allowfullscreen width="560" height="315" frameborder="0"></iframe>
             </div>
         } @else if (item.type === 'text') {
-            <div class="content" [innerHtml]="item.value | marked"></div>
+            <div class="content" [@next]="show($index)" [innerHtml]="item.value | marked"></div>
         } @else if (item.type === 'stepper') {
-            <div class="content">
-                <app-stepper [controls]="item.value" [template]="form">
+            <div class="content" [@next]="show($index)">
+                <app-stepper [controls]="item.value" [template]="form" (completed)="next()">
                     <ng-template #form let-item let-disabled="disabled">
                         <app-input-section [item]="item" [disabled]="disabled" />
                     </ng-template>
                 </app-stepper>
             </div>
         } @else if (item.type === 'slider') {
-            <app-image-slider [images]="item.value" height="50vh" />
+            <app-image-slider [@next]="show($index)" [images]="item.value" height="50vh" />
         } @else {
-            <pre class="content" title="{{item.type}}">{{item.value | json}}</pre>
+            <pre class="content" [@next]="show($index)" title="{{item.type}}">{{item.value | json}}</pre>
         }
     }
 
@@ -38,14 +39,14 @@
         }
         @if (page.nextIndex !== undefined) {
             <a role="button" mat-button color="primary" aria-label="Weiter"
-               [routerLink]="[ '/p', unitIndex, page.nextIndex ]">
+               [routerLink]="[ '/p', unitIndex, page.nextIndex ]" [disabled]="disabled">
                 <span class="next">
                     <mat-icon fontIcon="arrow_forward" /> Weiter&nbsp;
                 </span>
             </a>
         } @else {
             <a role="button" mat-button color="primary" aria-label="Abschließen"
-               routerLink="/">
+               routerLink="/" [disabled]="disabled">
                 <span class="next">            
                     <mat-icon fontIcon="check_small" /> Abschließen&nbsp;
                 </span>

@@ -30,9 +30,8 @@ export interface HeroSection {
     image: string;
 }
 
-type PageContent = MarkdownContent 
-                 | QuoteContent 
-                 | FormStepperContent
-                 | IFrameContent 
-                 | SectionContent
-                 | SliderContent;
+export type PageContent = MarkdownContent 
+                        | FormStepperContent
+                        | IFrameContent 
+                        | SectionContent
+                        | SliderContent;

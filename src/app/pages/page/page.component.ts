@@ -12,6 +12,7 @@ import { StepperComponent } from '../../components/stepper/stepper.component';
 import { GuideService } from '../../services/guide.service';
 import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
 import { MarkedPipe } from '../../pipes/marked.pipe';
+import { PageContent } from '../../models/page.model';
 import { expandTrigger } from '../../animations.helper';
 
 @Component({
@@ -38,6 +39,10 @@ export class PageComponent {
     private route = inject(ActivatedRoute);
     readonly unitIndex = +this.route.snapshot.params['unit'];
 
+    private step = 0;
+    done = false;
+    next!: () => void;
+
     readonly guideService = inject(GuideService);
     readonly currentPage$ = combineLatest([from(this.guideService.getPages(this.unitIndex)), this.route.params]).pipe(
         switchMap(([pages, params]) => {
@@ -50,6 +55,31 @@ export class PageComponent {
                 nextIndex: next,
             });
         }),
-        tap((page) => document.title = page.title + " | Why App")
+        tap(page => {
+            this.initBreakpoints(page.content);
+            document.title = page.title + " | Why App";
+        })
     );
+
+    private initBreakpoints(content: PageContent[]) {
+        const breakpoints = content.reduce((acc, item, index) => {
+            if (item.type === 'stepper') {
+                acc.push(index);
+            }
+            return acc;
+        }, [] as number[]);
+        this.next = () => {
+            this.step = breakpoints.shift() ?? content.length;
+            this.done = this.step === content.length;
+        }
+        this.next();
+    }
+    
+    show(index: number): 'expanded' | 'collapsed' {
+        return index <= this.step ? 'expanded' : 'collapsed';
+    }
+
+    get disabled() {
+        return !this.done;
+    }
 }
