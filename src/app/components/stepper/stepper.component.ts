@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { trigger, state, style, transition, animate } from '@angular/animations';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { expandTrigger } from '../../animations.helper';
 
 @Component({
   selector: 'app-stepper',
@@ -16,20 +16,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
   ],
   templateUrl: './stepper.component.html',
   styleUrl: './stepper.component.scss',
-  animations: [
-    trigger('next', [
-      state('collapsed', style({
-        height: '0',
-        overflow: 'hidden',
-        visibility: 'hidden'
-      })),
-      state('expanded', style({
-        height: '*',
-        visibility: 'visible'
-      })),
-      transition('collapsed <=> expanded', animate('225ms ease-in-out')),
-    ])
- ]
+  animations: [ expandTrigger('next') ]
 })
 export class StepperComponent<T> {
   @Input({ alias: 'controls', required: true }) 

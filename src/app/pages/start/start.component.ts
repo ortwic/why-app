@@ -4,6 +4,7 @@ import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { LoadingComponent } from '../../components/loading/loading.component';
 import { greetings, userNames } from '../../services/common.data';
 import { GuideService } from '../../services/guide.service';
 
@@ -15,7 +16,8 @@ import { GuideService } from '../../services/guide.service';
     RouterModule, 
     MatCardModule, 
     MatDividerModule,
-    MatIconModule
+    MatIconModule,
+    LoadingComponent
   ],
   templateUrl: './start.component.html',
   styleUrl: './start.component.scss' 

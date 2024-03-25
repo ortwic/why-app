@@ -4,6 +4,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { combineLatest, from, of, switchMap, tap } from 'rxjs';
+import { LoadingComponent } from '../../components/loading/loading.component';
 import { HeroSectionComponent } from '../../components/hero-section/hero-section.component';
 import { ImageSliderComponent } from '../../components/image-slider/image-slider.component';
 import { InputSectionComponent } from '../../components/input-section/input-section.component';
@@ -11,6 +12,7 @@ import { StepperComponent } from '../../components/stepper/stepper.component';
 import { GuideService } from '../../services/guide.service';
 import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
 import { MarkedPipe } from '../../pipes/marked.pipe';
+import { expandTrigger } from '../../animations.helper';
 
 @Component({
     selector: 'app-page',
@@ -20,6 +22,7 @@ import { MarkedPipe } from '../../pipes/marked.pipe';
         RouterModule,
         MatButtonModule,
         MatIconModule,
+        LoadingComponent,
         HeroSectionComponent,
         ImageSliderComponent,
         InputSectionComponent,
@@ -29,6 +32,7 @@ import { MarkedPipe } from '../../pipes/marked.pipe';
     ],
     templateUrl: './page.component.html',
     styleUrl: './page.component.scss',
+    animations: [ expandTrigger('next') ],
 })
 export class PageComponent {
     private route = inject(ActivatedRoute);

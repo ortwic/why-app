@@ -1,6 +1,4 @@
-<ng-template #loading>
-    Lade Inhalt...
-</ng-template>
+<ng-template #loading><app-loading /></ng-template>
 
 <ng-container *ngIf="currentPage$ | async as page; else loading">
     <app-hero-section [hero-section]="page.hero_section"/>
@@ -29,7 +27,7 @@
         }
     }
 
-    <footer>
+    <footer class="centered">
         @if (page.prevIndex !== undefined) {
             <a role="button" mat-button color="primary" aria-label="Zurück"
                [routerLink]="[ '/p', unitIndex, page.prevIndex ]">

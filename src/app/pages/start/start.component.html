@@ -1,57 +1,61 @@
-<h1>{{ greeting }}, {{ userName }}</h1>
-<h2 mat-subheader>Deine Reise</h2>
-<div role="progress">
-    <ng-container *ngFor="let unit of units$ | async">
-        <a href="#{{unit.no}}">
-            <p class="value">0%</p>
-            <span>Einheit {{ unit.no }}</span>
-        </a>
-        <p>
-            <mat-divider vertical="true" />
-        </p>
-    </ng-container>
-</div>
+<ng-template #loading><app-loading /></ng-template>
 
-<div class="unit" *ngFor="let unit of units$ | async; let i = index">
-    <div class="header" [id]="unit.no">
-        <span mat-subheader>Einheit {{unit.no}}</span>
-        <h3>{{unit.title}}</h3>
+<ng-container *ngIf="units$ | async as units; else loading">
+    <h1>{{ greeting }}, {{ userName }}</h1>
+    <h2 mat-subheader>Deine Reise</h2>
+    <div role="progress">
+        <ng-container *ngFor="let unit of units$ | async">
+            <a href="#{{unit.no}}">
+                <p class="value">0%</p>
+                <span>Einheit {{ unit.no }}</span>
+            </a>
+            <p>
+                <mat-divider vertical="true" />
+            </p>
+        </ng-container>
     </div>
-    <p>
-        <mat-divider />
-    </p>
-    <div class="card-container">
-        <mat-card class="card" *ngFor="let section of (unit.pages | async); let j = index">
-            <mat-card-header>
-                <mat-card-title>
-                    <h3>
-                        <a [routerLink]="['/p', i, j]">
-                            {{section.title}}
-                        </a>
-                    </h3>
-                </mat-card-title>
-                @if (section.hero_section) {
-                    <mat-card-subtitle>
-                        {{section.hero_section.subhead}}
-                    </mat-card-subtitle>
-                }
-            </mat-card-header>
-            <mat-card-content>
-                <p>
-                    @if (section.hero_section && section.hero_section.image) {
-                        <img class="thumbnail" mat-card-image [src]="section.hero_section.image" [alt]="section.hero_section.image_info" />
-                    } @else {
-                        <mat-divider />
+
+    <div class="unit" *ngFor="let unit of units$ | async; let i = index">
+        <div class="header" [id]="unit.no">
+            <span mat-subheader>Einheit {{unit.no}}</span>
+            <h3>{{unit.title}}</h3>
+        </div>
+        <p>
+            <mat-divider />
+        </p>
+        <div class="card-container">
+            <mat-card class="card" *ngFor="let section of (unit.pages | async); let j = index">
+                <mat-card-header>
+                    <mat-card-title>
+                        <h3>
+                            <a [routerLink]="['/p', i, j]">
+                                {{section.title}}
+                            </a>
+                        </h3>
+                    </mat-card-title>
+                    @if (section.hero_section) {
+                        <mat-card-subtitle>
+                            {{section.hero_section.subhead}}
+                        </mat-card-subtitle>
                     }
-                </p>
-            </mat-card-content>
-            <mat-card-footer class="footer">
-                @if (done(i)) {
-                    <mat-icon fontIcon="check_box"/> Erledigt
-                } @else {
-                    <mat-icon fontIcon="check_box_outline_blank"/> Offen
-                }
-            </mat-card-footer>
-        </mat-card>
+                </mat-card-header>
+                <mat-card-content>
+                    <p>
+                        @if (section.hero_section && section.hero_section.image) {
+                            <img class="thumbnail" mat-card-image [src]="section.hero_section.image" [alt]="section.hero_section.image_info" />
+                        } @else {
+                            <mat-divider />
+                        }
+                    </p>
+                </mat-card-content>
+                <mat-card-footer class="footer">
+                    @if (done(i)) {
+                        <mat-icon fontIcon="check_box"/> Erledigt
+                    } @else {
+                        <mat-icon fontIcon="check_box_outline_blank"/> Offen
+                    }
+                </mat-card-footer>
+            </mat-card>
+        </div>
     </div>
-</div>
+</ng-container>
