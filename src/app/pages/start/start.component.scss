@@ -1,38 +1,55 @@
-div[role=progress] {
-    margin-bottom: 4rem;
-    display: flex;
-    flex-direction: row;
-    justify-content: start;
-    align-items: center;
-    flex-wrap: nowrap;
-    gap: 1rem;
-    overflow-x: auto;
+header {
+    margin-bottom: 4rem;    
+    
+    [mat-subheader] {
+        color: var(--mat-card-subtitle-text-color);;
+        font-weight: 500;
+    }
 
-    & > a {
+    div[role=progress] {
+        margin-bottom: .4rem;
         display: flex;
-        flex-direction: column;
-        justify-content: flex-end;
-        border-radius: var(--mdc-elevated-card-container-shape);
-        background-color: var(--bg2);
-        text-align: center;
-        white-space: nowrap;
-        height: 64px;
-        padding: 24px;
-        transition: all .3s ease-in-out;
-
-        &:hover {
-            background-color: var(--bg3);
-        }
-
-        p.value {
-            font-size: large;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: 1rem;
+        overflow-x: auto;
+    
+        & > a {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            border-radius: var(--mdc-elevated-card-container-shape);
+            background-color: var(--bg2);
+            text-align: center;
+            white-space: nowrap;
+            height: 64px;
+            padding: 24px;
+            transition: all .3s ease-in-out;
+    
+            &:hover {
+                background-color: var(--bg3);
+            }
+    
+            p.value {
+                font-size: large;
+            }
         }
     }
 }
 
-[mat-subheader] {
-    color: var(--mat-card-subtitle-text-color);;
-    font-weight: 500;
+small {
+    display: flex;
+    justify-content: end;
+    align-items: last baseline;
+    gap: 4px;
+    
+    .mat-icon {
+        font-size: 12px;
+        height: 12px;
+        width: 12px;
+    }
 }
 
 .unit {
@@ -61,10 +78,28 @@ div[role=progress] {
             flex: 1 0 auto;
             max-width: 400px;
 
-            img {
-                width: 100%;
-                height: 200px;
-                object-fit: cover;
+            .card-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .card-title {
+                    flex-grow: 1;
+                }
+
+                .card-progress {
+                    margin: 0 16px;
+                }
+            }
+
+            .card-content {
+                padding: 0;
+
+                img {
+                    width: 100%;
+                    height: 200px;
+                    object-fit: cover;
+                }
             }
         
             .footer {

@@ -4,7 +4,7 @@ import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { combineLatest, from, of, switchMap, tap } from 'rxjs';
-import { LoadingComponent } from '../../components/loading/loading.component';
+import { LoadingComponent } from '../../components/ui/loading/loading.component';
 import { HeroSectionComponent } from '../../components/hero-section/hero-section.component';
 import { ImageSliderComponent } from '../../components/image-slider/image-slider.component';
 import { InputSectionComponent } from '../../components/input-section/input-section.component';

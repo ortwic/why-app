@@ -2,13 +2,13 @@ import { Component, EventEmitter, Input, Output, TemplateRef } from '@angular/co
 import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { expandTrigger } from '../../animations.helper';
+import { ProgressSpinnerComponent } from '../ui/progress-spinner/progress-spinner.component';
 
 @Component({
     selector: 'app-stepper',
     standalone: true,
-    imports: [CommonModule, MatButtonModule, MatIconModule, MatProgressSpinnerModule],
+    imports: [CommonModule, MatButtonModule, MatIconModule, ProgressSpinnerComponent],
     templateUrl: './stepper.component.html',
     styleUrl: './stepper.component.scss',
     animations: [expandTrigger('next')],

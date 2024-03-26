@@ -4,7 +4,8 @@ import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { LoadingComponent } from '../../components/loading/loading.component';
+import { LoadingComponent } from '../../components/ui/loading/loading.component';
+import { ProgressSpinnerComponent } from '../../components/ui/progress-spinner/progress-spinner.component';
 import { greetings, userNames } from '../../services/common.data';
 import { GuideService } from '../../services/guide.service';
 
@@ -17,10 +18,11 @@ import { GuideService } from '../../services/guide.service';
     MatCardModule, 
     MatDividerModule,
     MatIconModule,
-    LoadingComponent
+    LoadingComponent,
+    ProgressSpinnerComponent
   ],
   templateUrl: './start.component.html',
-  styleUrl: './start.component.scss' 
+  styleUrl: './start.component.scss'
 })
 export class StartComponent {
   readonly service = inject(GuideService);
