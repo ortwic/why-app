@@ -1,8 +1,8 @@
 <section>
-    @for (item of controls; track $index) {
+    @for (item of definitions; track $index) {
         <div [@next]="show($index)">
-            <ng-container *ngTemplateOutlet="template; context: { $implicit: item, disabled: disabled($index) }">
-            </ng-container>
+            <app-input-section [item]="item" [name]="item.value.id" [disabled]="disabled($index)"
+                [ngModel]="data[item.value.id]" (ngModelChange)="update($event, item.value.id)" />
         </div>
     }
     <span class="footer">

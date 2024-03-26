@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -8,7 +9,7 @@ import { LoadingComponent } from '../../components/ui/loading/loading.component'
 import { HeroSectionComponent } from '../../components/hero-section/hero-section.component';
 import { ImageSliderComponent } from '../../components/image-slider/image-slider.component';
 import { InputSectionComponent } from '../../components/input-section/input-section.component';
-import { StepperComponent } from '../../components/stepper/stepper.component';
+import { ContinueEventArgs, InputStepperComponent } from '../../components/input-stepper/input-stepper.component';
 import { GuideService } from '../../services/guide.service';
 import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
 import { MarkedPipe } from '../../pipes/marked.pipe';
@@ -20,6 +21,7 @@ import { expandTrigger } from '../../animations.helper';
     standalone: true,
     imports: [
         CommonModule,
+        FormsModule,
         RouterModule,
         MatButtonModule,
         MatIconModule,
@@ -27,7 +29,7 @@ import { expandTrigger } from '../../animations.helper';
         HeroSectionComponent,
         ImageSliderComponent,
         InputSectionComponent,
-        StepperComponent,
+        InputStepperComponent,
         MarkedPipe,
         SafeUrlPipe,
     ],
@@ -41,7 +43,7 @@ export class PageComponent {
 
     private step = 0;
     done = false;
-    next!: () => void;
+    continue!: (args: ContinueEventArgs) => void;
 
     readonly guideService = inject(GuideService);
     readonly currentPage$ = combineLatest([from(this.guideService.getPages(this.unitIndex)), this.route.params]).pipe(
@@ -62,17 +64,22 @@ export class PageComponent {
     );
 
     private initBreakpoints(content: PageContent[]) {
+        const next = () => this.step = breakpoints.shift() ?? content.length;
         const breakpoints = content.reduce((acc, item, index) => {
             if (item.type === 'stepper') {
                 acc.push(index);
             }
             return acc;
         }, [] as number[]);
-        this.next = () => {
-            this.step = breakpoints.shift() ?? content.length;
-            this.done = this.step === content.length;
+
+        next();
+        this.continue = (args) => {
+            console.log(args.data);
+            if (args.completed) {
+                next();
+                this.done = this.step === content.length;
+            }
         }
-        this.next();
     }
     
     show(index: number): 'expanded' | 'collapsed' {

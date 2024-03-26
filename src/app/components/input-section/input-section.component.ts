@@ -1,30 +1,59 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output, forwardRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatCardModule } from '@angular/material/card';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { FormContent } from '../../models/content.model';
+import { InputDefinition, InputValue } from '../../models/content.model';
 
 @Component({
-  selector: 'app-input-section',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatButtonToggleModule,
-    MatCardModule,
-    MatIconModule,
-    MatInputModule,
-    MatFormFieldModule,
-  ],
-  templateUrl: './input-section.component.html',
-  styleUrl: './input-section.component.scss'
+    selector: 'app-input-section',
+    standalone: true,
+    imports: [
+        CommonModule, 
+        FormsModule, 
+        MatButtonToggleModule, 
+        MatCardModule, 
+        MatIconModule, 
+        MatInputModule, 
+        MatFormFieldModule
+    ],
+    templateUrl: './input-section.component.html',
+    styleUrl: './input-section.component.scss',
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => InputSectionComponent),
+            multi: true
+        }
+    ]
 })
-export class InputSectionComponent {
-  @Input({ alias: 'item', required: true }) 
-  item!: FormContent;
-  
-  @Input('disabled') 
-  disabled = false;
+export class InputSectionComponent implements ControlValueAccessor {
+    @Input({ required: true }) item!: InputDefinition;
+    @Input() disabled = false;
+    @Input('ngModel') value!: InputValue;
+    @Output('ngModelChange') change = new EventEmitter();
+    
+    writeValue(value: InputValue): void {
+        this.value = value;
+    }
+
+    registerOnChange(fn: (v: InputValue) => void): void {
+        this.change.subscribe(fn);
+    }
+
+    registerOnTouched(fn: (v: InputValue) => void): void {
+        this.change.subscribe(fn);
+    }
+
+    setDisabledState?(isDisabled: boolean): void {
+        this.disabled = isDisabled;
+    }
+
+    updateValue(value: InputValue): void {
+        this.value = value;
+        this.change.emit(value);
+    }
 }

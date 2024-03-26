@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { InputSectionComponent } from './input-section.component';
-import { FormContent } from '../../models/content.model';
+import { InputDefinition } from '../../models/content.model';
 
 describe('InputSectionComponent', () => {
   let component: InputSectionComponent;
@@ -20,7 +20,7 @@ describe('InputSectionComponent', () => {
     component.item = {
       type: 'textarea',
       value: {}
-    } as FormContent;
+    } as InputDefinition;
   });
 
   it('should create', () => {

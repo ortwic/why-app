@@ -45,12 +45,13 @@ export interface SliderImages {
     url: string;
 }
 
-export interface FormStepperContent {
+export interface FormContent {
     type: 'stepper';
-    value: FormContent[];
+    value: InputDefinition[];
 }
 
-export type FormContent = SelectList | Textarea;
+export type InputDefinition = SelectList | Textarea;
+export type InputValue = string[] | string;
 
 interface SelectList {
     type: 'select';

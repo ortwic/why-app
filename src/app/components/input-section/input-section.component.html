@@ -10,7 +10,9 @@
                 [ngClass]="{'wrap-options': item.value.multiline}"
                 [name]="item.value.id" 
                 [multiple]="item.value.multiple"
-                [disabled]="disabled">
+                [disabled]="disabled"
+                [ngModel]="value"
+                (ngModelChange)="updateValue($event)">
                 @for(opt of item.value.options; track $index) {
                     <mat-button-toggle [value]="opt">
                         {{opt}}
@@ -21,9 +23,12 @@
     } @else if (item.type === 'textarea') {
         <mat-card-content class="content">
             <mat-form-field class="field" appearance="outline">
-                <textarea matInput [name]="item.value.id" 
+                <textarea matInput
+                    [name]="item.value.id" 
                     [disabled]="disabled"
                     [placeholder]="item.value.placeholder"
+                    [ngModel]="value"
+                    (ngModelChange)="updateValue($event)"
                     ></textarea>
             </mat-form-field>
         </mat-card-content>
