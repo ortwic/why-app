@@ -1,4 +1,4 @@
-import { Injectable, inject } from '@angular/core';
+import { Injectable, inject, isDevMode } from '@angular/core';
 import {
     Firestore, 
     collection,
@@ -15,9 +15,11 @@ import {
     CollectionReference,
     DocumentData,
     DocumentReference,
+    Query,
     QueryConstraint,
     QueryDocumentSnapshot,
     SnapshotOptions,
+    onSnapshot,
 } from '@angular/fire/firestore';
 import { startWith } from 'rxjs/operators';
 import type { Observable } from 'rxjs';
@@ -47,28 +49,40 @@ export abstract class FirestoreService {
     constructor(private path: string) { }
     
     public getDocumentStream<T extends DocumentData>(...constraints: QueryConstraint[]): Observable<T[]> {
-        const items = this.getCollection<T>();
-
-        const q = query<T, DocumentData>(items, ...constraints);
-        return collectionData<T>(q, { idField: 'id' }).pipe(startWith([]));
+        const query = this.createQuery<T>(...constraints);
+        return collectionData<T>(query, { idField: 'id' }).pipe(startWith([]));
     }
 
     public async getDocuments<T extends DocumentData>(...constraints: QueryConstraint[]): Promise<T[]> {
-        const items = this.getCollection<T>();
-
-        const q = query<T, DocumentData>(items, ...constraints);
-        return getDocs<T, DocumentData>(q).then((snapshot) => {
+        const query = this.createQuery<T>(...constraints);
+        return getDocs<T, DocumentData>(query).then((snapshot) => {
             const result: T[] = [];
             snapshot.forEach((doc) => result.push(doc.data(snapshotOptions)));
             return result;
         });
     }
 
-    private getCollection<T extends DocumentData>(): CollectionReference<T, DocumentData> {
-        return collection(this.store, this.path).withConverter({
+    private createQuery<T extends DocumentData>(...constraints: QueryConstraint[]): Query<T, DocumentData> {
+        const items = collection(this.store, this.path).withConverter({
             toFirestore: this.toFirestore,
             fromFirestore: this.fromFirestore
         }) as CollectionReference<T>;
+        
+        const q = query<T, DocumentData>(items, ...constraints);
+
+        if(isDevMode()) {
+            onSnapshot(q, { includeMetadataChanges: true }, (snapshot) => {
+                const source = snapshot.metadata.fromCache ? "local cache" : "server";
+                console.info("Data queried from", source);
+                console.debug(snapshot.docChanges()
+                    .filter((change) => change.type === "added")
+                    .map((change) => (change.doc.data()))
+                    .map((data) => data['title'] ?? data['id'] ?? data)
+                );
+            });
+        }
+
+        return q;
     }
 
     protected toFirestore<T>(modelObject: T) {
