@@ -11,10 +11,12 @@ import { ImageSliderComponent } from '../../components/image-slider/image-slider
 import { InputSectionComponent } from '../../components/input-section/input-section.component';
 import { ContinueEventArgs, InputStepperComponent } from '../../components/input-stepper/input-stepper.component';
 import { GuideService } from '../../services/guide.service';
+import { UserDataService, pageDoneKey } from '../../services/user-data.service';
 import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
 import { MarkedPipe } from '../../pipes/marked.pipe';
 import { PageContent } from '../../models/page.model';
 import { expandTrigger } from '../../animations.helper';
+import { InputValue } from '../../models/content.model';
 
 @Component({
     selector: 'app-page',
@@ -45,25 +47,34 @@ export class PageComponent {
     done = false;
     continue!: (args: ContinueEventArgs) => void;
 
+    readonly userDataService = inject(UserDataService);
+    readonly userData = this.userDataService.getEntry(this.unitIndex);
+
     readonly guideService = inject(GuideService);
-    readonly currentPage$ = combineLatest([from(this.guideService.getPages(this.unitIndex)), this.route.params]).pipe(
+    readonly currentPage$ = combineLatest([
+        from(this.guideService.getPages(this.unitIndex)), 
+        this.route.params
+    ]).pipe(
         switchMap(([pages, params]) => {
             const pageIndex = +params['page'];
+            const page = pages[pageIndex];
+            const data = this.userData[page.slug] ?? {};
             const prev = pageIndex > 0 ? pageIndex - 1 : undefined;
             const next = pageIndex + 1 < pages.length ? pageIndex + 1 : undefined;
             return of({
-                ...pages[pageIndex],
+                ...page,
+                data,
                 prevIndex: prev,
                 nextIndex: next,
             });
         }),
         tap(page => {
-            this.initBreakpoints(page.content);
+            this.initBreakpoints(page.content, page.slug);
             document.title = page.title + " | Why App";
         })
     );
 
-    private initBreakpoints(content: PageContent[]) {
+    private initBreakpoints(content: PageContent[], pageId: string) {
         const next = () => this.step = breakpoints.shift() ?? content.length;
         const breakpoints = content.reduce((acc, item, index) => {
             if (item.type === 'stepper') {
@@ -74,7 +85,9 @@ export class PageComponent {
 
         next();
         this.continue = (args) => {
-            console.log(args.data);
+            this.userDataService.save(this.unitIndex, {
+                [pageId]: args.data 
+            });
             if (args.completed) {
                 next();
                 this.done = this.step === content.length;
@@ -84,6 +97,16 @@ export class PageComponent {
     
     show(index: number): 'expanded' | 'collapsed' {
         return index <= this.step ? 'expanded' : 'collapsed';
+    }
+
+    complete(data: Record<string, InputValue>) {
+        this.continue({ 
+            completed: true, 
+            data: {
+                ...data,
+                [pageDoneKey]: true
+            } 
+        });
     }
 
     get disabled() {

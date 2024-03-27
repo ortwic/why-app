@@ -51,7 +51,7 @@ export interface FormContent {
 }
 
 export type InputDefinition = SelectList | Textarea;
-export type InputValue = string[] | string;
+export type InputValue = string[] | string | boolean | undefined;
 
 interface SelectList {
     type: 'select';

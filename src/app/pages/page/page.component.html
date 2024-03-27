@@ -15,7 +15,7 @@
             <div class="content" [@next]="show($index)" [innerHtml]="item.value | marked"></div>
         } @else if (item.type === 'stepper') {
             <form class="content" [@next]="show($index)">
-                <app-input-stepper [definitions]="item.value" (continue)="continue($event)" />
+                <app-input-stepper [data]="page.data" [definitions]="item.value" (continue)="continue($event)" />
             </form>
         } @else if (item.type === 'slider') {
             <app-image-slider [@next]="show($index)" [images]="item.value" height="50vh" />
@@ -35,14 +35,15 @@
         }
         @if (page.nextIndex !== undefined) {
             <a role="button" mat-button color="primary" aria-label="Weiter"
-               [routerLink]="[ '/p', unitIndex, page.nextIndex ]" [disabled]="disabled">
+               [routerLink]="[ '/p', unitIndex, page.nextIndex ]" 
+               (click)="complete(page.data)" [disabled]="disabled">
                 <span class="next">
                     <mat-icon fontIcon="arrow_forward" /> Weiter&nbsp;
                 </span>
             </a>
         } @else {
             <a role="button" mat-button color="primary" aria-label="Abschließen"
-               routerLink="/" [disabled]="disabled">
+               routerLink="/" [disabled]="disabled" (click)="complete(page.data)">
                 <span class="next">            
                     <mat-icon fontIcon="check_small" /> Abschließen&nbsp;
                 </span>

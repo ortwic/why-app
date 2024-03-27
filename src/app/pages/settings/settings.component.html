@@ -1,4 +1,11 @@
 <div class="settings">
-    <a mat-raised-button disabled="true">Daten exportieren</a>
-    <a mat-raised-button disabled="true">Daten zurücksetzen</a>
+    <div class="info">
+        <mat-icon fontIcon="info" color="primary" />
+        <p>
+            Alle eingegebenen Daten aus den Formularen werden lokal im Browser gespeichert. 
+            Hier kannst du sie exportieren oder löschen.
+        </p>
+    </div>
+    <a mat-raised-button (click)="download()">Benutzerdaten exportieren</a>
+    <a mat-raised-button (click)="clear()">Benutzerdaten zurücksetzen</a>
 </div>

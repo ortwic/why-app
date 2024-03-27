@@ -57,6 +57,12 @@ export class InputStepperComponent {
     }
 
     next(): void {
+        const currentId = this.definitions[this.step].value.id;
+        if (!this.data[currentId]) {
+            // no data entered hence no update fired
+            this.data[currentId] = undefined;
+        }
+
         this.step++;
         this.done = this.step === this.definitions.length;
         this.continue.emit({

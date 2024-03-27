@@ -29,7 +29,7 @@
     "watch": "ng build --watch -c development",
     "host:beta": "firebase --project why-app-8a640 deploy --only hosting:beta",
     "host:prod": "firebase --project why-app-8a640 deploy --only hosting:prod",
-    "test": "ng test",
+    "test": "ng test --browsers=ChromeHeadless",
     "serve:ssr:why-app": "node dist/why-app/server/server.mjs"
   },
   "dependencies": {
