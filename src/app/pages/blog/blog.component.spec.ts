@@ -1,6 +1,13 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { ActivatedRoute } from '@angular/router';
+import { of } from 'rxjs';
 
 import { BlogComponent } from './blog.component';
+import { BlogService } from '../../services/blog.service';
+
+const params = {
+  tag: 'foo'
+};
 
 describe('BlogComponent', () => {
   let component: BlogComponent;
@@ -8,7 +15,22 @@ describe('BlogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BlogComponent]
+      imports: [BlogComponent],
+      providers: [
+        { 
+          provide: ActivatedRoute, 
+          useValue: { 
+            params: of(params),
+            snapshot: { params }
+          } 
+        },
+        {
+          provide: BlogService,
+          useValue: { 
+            data$: of([])
+          }
+        }
+      ]
     })
     .compileComponents();
     

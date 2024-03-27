@@ -11,6 +11,9 @@ function createMockStorage() {
     getItem(key: string) {
       return key in storage ? storage[key] : null;
     },
+    clear() {
+      storage = {};
+    },
     removeItem(key: string) {
       delete storage[key];
     },
@@ -22,19 +25,18 @@ function createMockStorage() {
 
 describe('UserDataService', () => {
   let service: UserDataService;
-  const mockLocalStorage = createMockStorage();
   const initialData = { 0: { name: 'John Doe' } };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
       providers: [
         UserDataService,
-        // { provide: 'localStorage', useValue: mockLocalStorage }
+        { provide: 'localStorage', useValue: createMockStorage() }
       ]
     });
     
     service = TestBed.inject(UserDataService<{}>);
-    // mockLocalStorage.setItem(localKey, JSON.stringify(initialData));
+    localStorage.clear();
     localStorage.setItem(localKey, JSON.stringify(initialData));
   });
 

@@ -1,6 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { StartComponent } from './start.component';
+import { GuideService } from '../../services/guide.service';
+import { Guide } from '../../models/guide.model';
 
 describe('StartComponent', () => {
   let component: StartComponent;
@@ -8,7 +10,15 @@ describe('StartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StartComponent]
+      imports: [StartComponent],
+      providers: [
+        {
+          provide: GuideService,
+          useValue: { 
+            dataPromise: Promise.resolve([] as Guide[]) 
+          }
+        }
+      ]
     })
     .compileComponents();
     
