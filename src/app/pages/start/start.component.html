@@ -7,10 +7,10 @@
         <div role="progress">
             @for(unit of units; track $index) {
                 <a href="#{{unit.no}}">
-                    <app-progress-spinner [value]="0">
-                        0%
+                    <app-progress-spinner [size]="50" [value]="unitProgressPercent($index)">
+                        <small>{{unitProgressPercent($index)}}%</small>
                     </app-progress-spinner>
-                    <span>Einheit {{ unit.no }}</span>
+                    <div>Einheit {{ unit.no }}</div>
                 </a>
                 <p>
                     <mat-divider vertical="true" />
@@ -50,8 +50,8 @@
                             }
                         </div>
                         <div class="card-progress">
-                            <app-progress-spinner [value]="0">
-                                0%
+                            <app-progress-spinner [size]="50" [value]="pageProgressPercent($index, section.slug)">
+                                <small>{{pageProgressPercent($index, section.slug)}}%</small>
                             </app-progress-spinner>
                         </div>
                     </mat-card-header>
@@ -65,7 +65,7 @@
                         </p>
                     </mat-card-content>
                     <mat-card-footer class="footer">
-                        @if (done($index)) {
+                        @if (pageProgressPercent($index, section.slug) > 99) {
                             <mat-icon fontIcon="check_box"/> Erledigt
                         } @else {
                             <mat-icon fontIcon="check_box_outline_blank"/> Offen
