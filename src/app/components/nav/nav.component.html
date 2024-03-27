@@ -15,7 +15,7 @@
     </mat-toolbar>
     <mat-nav-list>
       <ul>
-        @for (item of routes; track item.path) {
+        @for (item of sidenavRoutes; track item.path) {
           <li>
             <a mat-list-item [routerLink]="item.path">
               <mat-icon color="accent" fontIcon="{{item.icon}}"></mat-icon>
@@ -45,7 +45,7 @@
 
     <footer>
       <ul class="inline">
-      @for (item of routes; track item.path; let last = $last) {
+      @for (item of footerRoutes; track item.path; let last = $last) {
         <li [class.pipe]="!last" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
           <a [routerLink]="item.path">
             {{item.title}}

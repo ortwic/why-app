@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UserProgressService } from './user-progress.service';
+import { CommonService } from './common.service';
 
-xdescribe('UserProgressService', () => {
-  let service: UserProgressService;
+xdescribe('CommonService', () => {
+  let service: CommonService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(UserProgressService);
+    service = TestBed.inject(CommonService);
   });
 
   it('should be created', () => {

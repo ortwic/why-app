@@ -9,64 +9,72 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { Observable, of } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
+import { CommonService } from '../../services/common.service';
+import { NavigationItem } from '../../models/nav.model';
 
 @Component({
-  selector: 'app-nav',
-  templateUrl: './nav.component.html',
-  styleUrl: './nav.component.scss',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatToolbarModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatListModule,
-    MatIconModule,
-    AsyncPipe,
-    RouterLink,
-    RouterLinkActive
-  ]
+    selector: 'app-nav',
+    templateUrl: './nav.component.html',
+    styleUrl: './nav.component.scss',
+    standalone: true,
+    imports: [
+        CommonModule,
+        MatToolbarModule,
+        MatButtonModule,
+        MatSidenavModule,
+        MatListModule,
+        MatIconModule,
+        AsyncPipe,
+        RouterLink,
+        RouterLinkActive,
+    ],
 })
 export class NavComponent implements AfterViewInit {
-  private breakpointObserver = inject(BreakpointObserver);
+    private breakpointObserver = inject(BreakpointObserver);
+    private commonService = inject(CommonService);
+    private routes: NavigationItem[] = [];
 
-  @ViewChild(MatSidenavContainer)
-  private sidenavContainer!: MatSidenavContainer;
+    @ViewChild(MatSidenavContainer)
+    private sidenavContainer!: MatSidenavContainer;
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches),
-      shareReplay()
+    isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
+        map((result) => result.matches),
+        shareReplay()
     );
-  toolbarTop$: Observable<string> = of('0');
-
-  routes = [
-    { path: '/', title: 'Start', icon: 'home' },
-    { path: '/blog', title: 'Blog', icon: 'feed' },
-    { path: '/imprint', title: 'Impressum', icon: 'info' },
-    { path: '/privacy', title: 'Datenschutz', icon: 'security' },
-    { path: '/settings', title: 'Einstellungen', icon: 'settings' }
-  ];
-
-  ngAfterViewInit(): void {
-    let lastScrollTop = 0;
-
-    const onScroll = (event: Event) => {
-      const target = event.target as HTMLElement;
-      const toolbar = target.querySelector('.mat-toolbar') as HTMLElement;
-      
-      const top = target.scrollTop < lastScrollTop ? 0 
-        : target.scrollTop < toolbar.offsetHeight 
-        ? target.scrollTop : toolbar.offsetHeight
-      toolbar.style.top = `${-top}px`;
-
-      lastScrollTop = target.scrollTop > 0 ? target.scrollTop : 0;
-      return `${top}px`;
-    };
+    toolbarTop$: Observable<string> = of('0');
     
-    this.toolbarTop$ = this.sidenavContainer.scrollable.elementScrolled().pipe(map(onScroll));
+    async ngOnInit() {
+        this.routes = await this.commonService.getNavigation();
+    }
+
+    ngAfterViewInit(): void {
+        let lastScrollTop = 0;
+
+        const onScroll = (event: Event) => {
+            const target = event.target as HTMLElement;
+            const toolbar = target.querySelector('.mat-toolbar') as HTMLElement;
+
       
-    // this.changeDetectorRef.detectChanges();
-    this.toolbarTop$.subscribe();
-  }
+            const top = target.scrollTop < lastScrollTop ? 0 
+                      : target.scrollTop < toolbar.offsetHeight 
+                      ? target.scrollTop : toolbar.offsetHeight
+            toolbar.style.top = `${-top}px`;
+
+            lastScrollTop = target.scrollTop > 0 ? target.scrollTop : 0;
+            return `${top}px`;
+        };
+
+        this.toolbarTop$ = this.sidenavContainer.scrollable.elementScrolled().pipe(map(onScroll));
+
+        // this.changeDetectorRef.detectChanges();
+        this.toolbarTop$.subscribe();
+    }
+
+    get sidenavRoutes(): NavigationItem[] {
+        return this.routes.filter(route => route.sidenav);
+    }
+
+    get footerRoutes(): NavigationItem[] {
+        return this.routes.filter(route => route.sidenav);
+    }
 }

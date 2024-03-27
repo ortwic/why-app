@@ -3,6 +3,7 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 
 import { NavComponent } from './nav.component';
+import { CommonService } from '../../services/common.service';
 
 describe('NavComponent', () => {
   let component: NavComponent;
@@ -15,6 +16,18 @@ describe('NavComponent', () => {
         { 
           provide: ActivatedRoute, 
           useValue: {} 
+        },
+        {
+          provide: CommonService,
+          useValue: { 
+            getNavigation: () => Promise.resolve([
+              { path: '/', title: 'Start', icon: 'home' },
+              { path: '/blog', title: 'Blog', icon: 'feed' },
+              { path: '/imprint', title: 'Impressum', icon: 'info' },
+              { path: '/privacy', title: 'Datenschutz', icon: 'security' },
+              { path: '/settings', title: 'Einstellungen', icon: 'settings' }          
+            ])
+          }
         }
       ]
     }).compileComponents();

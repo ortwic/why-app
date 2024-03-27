@@ -40,10 +40,7 @@ export const snapshotOptions: SnapshotOptions = {
 
 type Data = { id: string };
 
-@Injectable({
-  providedIn: 'root'
-})
-export abstract class FirestoreService {
+export class FirestoreService {
     readonly store = inject(Firestore);
 
     constructor(private path: string) { }
