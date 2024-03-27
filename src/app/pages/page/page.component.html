@@ -36,14 +36,14 @@
         @if (page.nextIndex !== undefined) {
             <a role="button" mat-button color="primary" aria-label="Weiter"
                [routerLink]="[ '/p', unitIndex, page.nextIndex ]" 
-               (click)="complete(page.data)" [disabled]="disabled">
+               (click)="complete(page.data)" [disabled]="page.nextDisabled()">
                 <span class="next">
                     <mat-icon fontIcon="arrow_forward" /> Weiter&nbsp;
                 </span>
             </a>
         } @else {
             <a role="button" mat-button color="primary" aria-label="Abschließen"
-               routerLink="/" [disabled]="disabled" (click)="complete(page.data)">
+               routerLink="/" [disabled]="page.nextDisabled()" (click)="complete(page.data)">
                 <span class="next">            
                     <mat-icon fontIcon="check_small" /> Abschließen&nbsp;
                 </span>

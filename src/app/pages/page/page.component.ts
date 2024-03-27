@@ -44,7 +44,6 @@ export class PageComponent {
     readonly unitIndex = +this.route.snapshot.params['unit'];
 
     private step = 0;
-    done = false;
     continue!: (args: ContinueEventArgs) => void;
 
     readonly userDataService = inject(UserDataService);
@@ -66,12 +65,11 @@ export class PageComponent {
                 data,
                 prevIndex: prev,
                 nextIndex: next,
+                nextDisabled: () => this.step !== page.content.length
             });
         }),
-        tap(page => {
-            this.initBreakpoints(page.content, page.slug);
-            document.title = page.title + " | Why App";
-        })
+        tap(page => this.continue = this.initBreakpoints(page.content, page.slug)),
+        tap(page => document.title = page.title + " | Why App")
     );
 
     private initBreakpoints(content: PageContent[], pageId: string) {
@@ -84,15 +82,14 @@ export class PageComponent {
         }, [] as number[]);
 
         next();
-        this.continue = (args) => {
+        return (args: ContinueEventArgs) => {
             this.userDataService.save(this.unitIndex, {
                 [pageId]: args.data 
             });
             if (args.completed) {
                 next();
-                this.done = this.step === content.length;
             }
-        }
+        };
     }
     
     show(index: number): 'expanded' | 'collapsed' {
@@ -107,9 +104,5 @@ export class PageComponent {
                 [pageDoneKey]: true
             } 
         });
-    }
-
-    get disabled() {
-        return !this.done;
     }
 }

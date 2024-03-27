@@ -35,12 +35,14 @@ export class UserDataService<T = unknown> {
     }
 
     save(id: number | string, data: Record<string, T>) {
-        const obj = { 
-            ...this.userData(),
-            [id]: data 
-        };
-        this.userData.set(obj);
-        localStorage.setItem(localKey, JSON.stringify(obj));
+        this.userData.update(obj => ({ 
+            ...obj, 
+            [id]: {
+                ...obj[id],
+                ...data
+            }
+        }));
+        localStorage.setItem(localKey, JSON.stringify(this.userData()));
     }
 
     clear() {

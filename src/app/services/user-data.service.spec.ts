@@ -2,42 +2,22 @@ import { TestBed } from '@angular/core/testing';
 
 import { UserDataService, localKey } from './user-data.service';
 
-function createMockStorage() {
-  let storage: Record<string, string> = {};
-  return {
-    setItem(key: string, value: string) {
-      storage[key] = value || '';
-    },
-    getItem(key: string) {
-      return key in storage ? storage[key] : null;
-    },
-    clear() {
-      storage = {};
-    },
-    removeItem(key: string) {
-      delete storage[key];
-    },
-    get length() {
-      return Object.keys(storage).length;
-    },
-  } as unknown as Storage;
-}
-
 describe('UserDataService', () => {
   let service: UserDataService;
-  const initialData = { 0: { name: 'John Doe' } };
+  let localStore: Record<string, string> = {};
+  const initialData: Record<string, unknown> = { name: 'John Doe' };
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [
-        UserDataService,
-        { provide: 'localStorage', useValue: createMockStorage() }
-      ]
+      providers: [UserDataService]
     });
     
+    spyOn(window.localStorage, 'getItem').and.callFake((key) => key in localStore ? localStore[key] : null);
+    spyOn(window.localStorage, 'setItem').and.callFake((key, value) => (localStore[key] = value + ''));
+    spyOn(window.localStorage, 'clear').and.callFake(() => (localStore = {}));
+    window.localStorage.setItem(localKey, JSON.stringify({ 0: initialData }));
+
     service = TestBed.inject(UserDataService<{}>);
-    localStorage.clear();
-    localStorage.setItem(localKey, JSON.stringify(initialData));
   });
 
   it('should be created', () => {
@@ -45,33 +25,45 @@ describe('UserDataService', () => {
   });
 
   it('should contain initial data', () => {
-    expect(service.userData()).toEqual(initialData);
+    expect(service.userData()).toEqual({ 0: initialData });
   });
 
   it('should get initial entry', () => {
-    expect(service.getEntry(0)).toEqual(initialData[0]);
+    expect(service.getEntry(0)).toEqual(initialData);
   });
 
-  it('should add new data without overwriting existing data', () => {
+  it('should append new entry', () => {
     // Arrange
-    const newData = { 1: { name: 'Jane Doe' } };
+    const newData = { name: 'Jane Doe' };
 
     // Act
-    service.save(1, newData[1]);
+    service.save(1, newData);
 
     // Assert
-    expect(service.getEntry(1)).toEqual(newData[1]);
-    expect(service.getEntry(0)).toEqual(initialData[0]);
+    expect(service.getEntry(1)).toEqual(newData);
+    expect(service.getEntry(0)).toEqual(initialData);
   });
 
-  it('should overwrite data if the same id is used', () => {
+  it('should append new property', () => {
     // Arrange
-    const updatedData = { 1: { name: 'Jane Doe' } };
+    const newData = { color: 'purple' };
 
     // Act
-    service.save(1, updatedData[1]);
+    service.save(0, newData);
 
     // Assert
-    expect(service.getEntry(1)).toEqual(updatedData[1]);
+    expect(service.getEntry(0)['color']).toEqual(newData['color']);
+    expect(service.getEntry(0)['name']).toEqual(initialData['name']);
+  });
+
+  it('should update existing entry', () => {
+    // Arrange
+    const updatedData = { name: 'Jane Doe' };
+
+    // Act
+    service.save(0, updatedData);
+
+    // Assert
+    expect(service.getEntry(0)).toEqual(updatedData);
   });
 });
