@@ -26,7 +26,8 @@ describe('NavComponent', () => {
               { path: '/imprint', title: 'Impressum', icon: 'info' },
               { path: '/privacy', title: 'Datenschutz', icon: 'security' },
               { path: '/settings', title: 'Einstellungen', icon: 'settings' }          
-            ])
+            ]),
+            getResources: () => Promise.resolve({}) 
           }
         }
       ]

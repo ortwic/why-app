@@ -1,16 +1,14 @@
-<ng-template #loading><app-loading /></ng-template>
-
-<ng-container *ngIf="units$ | async as units; else loading">
+<app-loading [loading]="loading">
     <header>
         <h1>{{ greeting }}, {{ userName }}</h1>
-        <h2 mat-subheader>Deine Reise</h2>
+        <h2 mat-subheader>{{resource('intro')}}</h2>
         <div role="progress">
             @for(unit of units; track $index) {
                 <a href="#{{unit.no}}">
                     <app-progress-spinner [size]="50" [value]="unitProgressPercent($index)">
                         <small>{{unitProgressPercent($index)}}%</small>
                     </app-progress-spinner>
-                    <div>Einheit {{ unit.no }}</div>
+                    <div>{{resource('unit')}} {{ unit.no }}</div>
                 </a>
                 <p>
                     <mat-divider vertical="true" />
@@ -19,7 +17,7 @@
         </div>
         <small>
             <mat-icon class="small" color="primary" fontIcon="settings"></mat-icon>
-            <a role="button" [routerLink]="['/settings']">Daten verwalten</a>
+            <a role="button" [routerLink]="['/settings']">{{resource('settings')}}</a>
         </small>
     </header>
 
@@ -75,4 +73,4 @@
             </div>
         </div>
     }
-</ng-container>
+</app-loading>

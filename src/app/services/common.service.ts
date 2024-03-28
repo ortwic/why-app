@@ -3,20 +3,22 @@ import { FirestoreService } from './firestore.service';
 import { orderBy } from '@angular/fire/firestore';
 import { NavigationItem } from '../models/nav.model';
 
+type ResourceContainer = { resources: Record<string, unknown> };
+
 @Injectable({
-  providedIn: 'root'
+    providedIn: 'root',
 })
 export class CommonService {
-  private readonly navStore = new FirestoreService('navigation');
-  private readonly resStore = new FirestoreService('resources');
+    private readonly navStore = new FirestoreService('navigation');
+    private readonly resStore = new FirestoreService('common');
 
-  constructor() { }
+    constructor() {}
 
-  async getNavigation(): Promise<NavigationItem[]> {
-    return this.navStore.getDocuments<NavigationItem>(orderBy('order'));
-  }
+    async getNavigation(): Promise<NavigationItem[]> {
+        return this.navStore.getDocuments<NavigationItem>(orderBy('order'));
+    }
 
-  async getResources(): Promise<NavigationItem[]> {
-    return this.resStore.getDocuments<NavigationItem>();
-  }
+    async getResources(id: string): Promise<Record<string, unknown>> {
+        return this.resStore.getDocument<ResourceContainer>(id).then((data) => (data && data.resources) || {});
+    }
 }

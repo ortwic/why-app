@@ -26,25 +26,30 @@ import { NavigationItem } from '../../models/nav.model';
         MatIconModule,
         AsyncPipe,
         RouterLink,
-        RouterLinkActive,
+        RouterLinkActive
     ],
 })
 export class NavComponent implements AfterViewInit {
-    private breakpointObserver = inject(BreakpointObserver);
-    private commonService = inject(CommonService);
-    private routes: NavigationItem[] = [];
+    private readonly _commonService = inject(CommonService);
+    private readonly _breakpointObserver = inject(BreakpointObserver);
 
     @ViewChild(MatSidenavContainer)
-    private sidenavContainer!: MatSidenavContainer;
+    private _sidenavContainer!: MatSidenavContainer;
+    private _routes: NavigationItem[] = [];
+    header!: string;
+    subheader!: string;
 
-    isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
+    isHandset$: Observable<boolean> = this._breakpointObserver.observe(Breakpoints.Handset).pipe(
         map((result) => result.matches),
         shareReplay()
     );
     toolbarTop$: Observable<string> = of('0');
     
     async ngOnInit() {
-        this.routes = await this.commonService.getNavigation();
+        this._routes = await this._commonService.getNavigation();
+        const resources = await this._commonService.getResources('nav');
+        this.header = resources['header'] as string;
+        this.subheader = resources['subheader'] as string;
     }
 
     ngAfterViewInit(): void {
@@ -64,17 +69,17 @@ export class NavComponent implements AfterViewInit {
             return `${top}px`;
         };
 
-        this.toolbarTop$ = this.sidenavContainer.scrollable.elementScrolled().pipe(map(onScroll));
+        this.toolbarTop$ = this._sidenavContainer.scrollable.elementScrolled().pipe(map(onScroll));
 
         // this.changeDetectorRef.detectChanges();
         this.toolbarTop$.subscribe();
     }
 
     get sidenavRoutes(): NavigationItem[] {
-        return this.routes.filter(route => route.sidenav);
+        return this._routes.filter(route => route.sidenav);
     }
 
     get footerRoutes(): NavigationItem[] {
-        return this.routes.filter(route => route.sidenav);
+        return this._routes.filter(route => route.sidenav);
     }
 }

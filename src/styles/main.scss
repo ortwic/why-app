@@ -12,6 +12,9 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
   --bg1: #303030;
   --bg2: #383838;
   --bg3: #424242; // var(--mdc-elevated-card-container-color)
+
+  color: white;
+  background-color: var(--bg1);
 }
 
 a {

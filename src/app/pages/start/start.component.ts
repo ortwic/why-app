@@ -6,9 +6,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { LoadingComponent } from '../../components/ui/loading/loading.component';
 import { ProgressSpinnerComponent } from '../../components/ui/progress-spinner/progress-spinner.component';
-import { greetings, userNames } from '../../services/common.data';
+import { CommonService } from '../../services/common.service';
 import { GuideService } from '../../services/guide.service';
 import { Progress, UserProgressService } from '../../services/user-progress.service';
+import { Guide } from '../../models/guide.model';
 
 @Component({
     selector: 'app-start',
@@ -26,44 +27,70 @@ import { Progress, UserProgressService } from '../../services/user-progress.serv
     styleUrl: './start.component.scss',
 })
 export class StartComponent {
-    private readonly service = inject(GuideService);
-    private readonly progressService = inject(UserProgressService);
-    private progress!: Progress[];
-    readonly units$ = this.service.dataPromise;
-    readonly userName: string;
-
-    constructor() {
-        const randomIndex = Math.floor(Math.random() * userNames.length);
-        this.userName = userNames[randomIndex];
-    }
+    private readonly _commonService = inject(CommonService);
+    private readonly _guideService = inject(GuideService);
+    private readonly _progressService = inject(UserProgressService);
+    
+    private _resources: Record<string, unknown> = {};
+    private _units!: Guide[];
+    private _progress!: Progress[];    
+    private _greeting!: string;
+    private _userName!: string;
+    loading = true;
 
     async ngOnInit() {
-        this.progress = await this.progressService.progressTree;
+        this._units = await this._guideService.dataPromise;
+        this._progress = await this._progressService.progressTree;
+        
+        this._resources = await this._commonService.getResources('start');
+        this.setUserName(this._resources['user-names'] as string[]);
+        this.setGreeting(this._resources['greetings'] as Record<number, string>);
+
+        this.loading = false;
     }
 
-    get greeting() {
+    private setUserName(userNames: string[]) {
+        const randomIndex = Math.floor(Math.random() * userNames.length);
+        this._userName = userNames[randomIndex];        
+    }
+    
+    private setGreeting(greetings: Record<number, string>) {
         const currentHour = new Date().getHours();
 
         if (currentHour >= 5 && currentHour < 12) {
-            return greetings[5];
+            this._greeting = greetings[5];
+        } else if (currentHour >= 12 && currentHour < 18) {
+            this._greeting = greetings[12];
+        } else if (currentHour >= 18 && currentHour < 21) {
+            this._greeting = greetings[18];
+        } else if (currentHour >= 21 && currentHour < 24) {
+            this._greeting = greetings[21];
+        } else {
+            this._greeting = greetings[0];
         }
-        if (currentHour >= 12 && currentHour < 18) {
-            return greetings[12];
-        }
-        if (currentHour >= 18 && currentHour < 21) {
-            return greetings[18];
-        }
-        if (currentHour >= 21 && currentHour < 24) {
-            return greetings[21];
-        }
-        return greetings[0];
+    }
+
+    get units(): Guide[] {
+        return this._units;
+    }
+
+    get userName(): string {
+        return this._userName;
+    }
+
+    get greeting() {
+        return this._greeting;
+    }
+
+    resource(key: string) {
+        return this._resources[key];
     }
 
     unitProgressPercent(unitIndex: number) {
-        return this.progress ? this.progress[unitIndex].percent : 0;
+        return this._progress ? this._progress[unitIndex].percent : 0;
     }
 
     pageProgressPercent(unitIndex: number, pageId: string) {
-        return this.progress ? (<Progress>this.progress[unitIndex][pageId]).percent : 0;
+        return this._progress ? (<Progress>this._progress[unitIndex][pageId]).percent : 0;
     }
 }

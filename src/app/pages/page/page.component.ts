@@ -40,24 +40,24 @@ import { InputValue } from '../../models/content.model';
     animations: [ expandTrigger('next') ],
 })
 export class PageComponent {
-    private route = inject(ActivatedRoute);
-    readonly unitIndex = +this.route.snapshot.params['unit'];
+    private readonly _route = inject(ActivatedRoute);
+    readonly unitIndex = +this._route.snapshot.params['unit'];
 
-    private step = 0;
+    private _step = 0;
     continue!: (args: ContinueEventArgs) => void;
 
-    readonly userDataService = inject(UserDataService);
-    readonly userData = this.userDataService.getEntry(this.unitIndex);
+    private readonly _userDataService = inject(UserDataService);
+    private readonly _userData = this._userDataService.getEntry(this.unitIndex);
 
-    readonly guideService = inject(GuideService);
+    private readonly _guideService = inject(GuideService);
     readonly currentPage$ = combineLatest([
-        from(this.guideService.getPages(this.unitIndex)), 
-        this.route.params
+        from(this._guideService.getPages(this.unitIndex)), 
+        this._route.params
     ]).pipe(
         switchMap(([pages, params]) => {
             const pageIndex = +params['page'];
             const page = pages[pageIndex];
-            const data = this.userData[page.slug] ?? {};
+            const data = this._userData[page.slug] ?? {};
             const prev = pageIndex > 0 ? pageIndex - 1 : undefined;
             const next = pageIndex + 1 < pages.length ? pageIndex + 1 : undefined;
             return of({
@@ -65,7 +65,7 @@ export class PageComponent {
                 data,
                 prevIndex: prev,
                 nextIndex: next,
-                nextDisabled: () => this.step !== page.content.length
+                nextDisabled: () => this._step !== page.content.length
             });
         }),
         tap(page => this.continue = this.initBreakpoints(page.content, page.slug)),
@@ -73,7 +73,7 @@ export class PageComponent {
     );
 
     private initBreakpoints(content: PageContent[], pageId: string) {
-        const next = () => this.step = breakpoints.shift() ?? content.length;
+        const next = () => this._step = breakpoints.shift() ?? content.length;
         const breakpoints = content.reduce((acc, item, index) => {
             if (item.type === 'stepper') {
                 acc.push(index);
@@ -83,7 +83,7 @@ export class PageComponent {
 
         next();
         return (args: ContinueEventArgs) => {
-            this.userDataService.save(this.unitIndex, {
+            this._userDataService.save(this.unitIndex, {
                 [pageId]: args.data 
             });
             if (args.completed) {
@@ -93,7 +93,7 @@ export class PageComponent {
     }
     
     show(index: number): 'expanded' | 'collapsed' {
-        return index <= this.step ? 'expanded' : 'collapsed';
+        return index <= this._step ? 'expanded' : 'collapsed';
     }
 
     complete(data: Record<string, InputValue>) {

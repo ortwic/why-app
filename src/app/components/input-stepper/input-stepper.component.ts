@@ -34,22 +34,22 @@ export class InputStepperComponent {
     @Output() continue = new EventEmitter<ContinueEventArgs>();
 
     done = false;
-    private step = 0;
+    private _step = 0;
 
     get last(): boolean {
-        return this.step >= this.definitions.length - 1;
+        return this._step >= this.definitions.length - 1;
     }
 
     get progress(): number {
-        return ((this.step + 1) / this.definitions.length) * 100;
+        return ((this._step + 1) / this.definitions.length) * 100;
     }
 
     show(index: number): 'expanded' | 'collapsed' {
-        return index <= this.step ? 'expanded' : 'collapsed';
+        return index <= this._step ? 'expanded' : 'collapsed';
     }
 
     disabled(index: number): boolean {
-        return index !== this.step;
+        return index !== this._step;
     }
 
     update(value: InputValue, id: string) {
@@ -57,14 +57,14 @@ export class InputStepperComponent {
     }
 
     next(): void {
-        const currentId = this.definitions[this.step].value.id;
+        const currentId = this.definitions[this._step].value.id;
         if (!this.data[currentId]) {
             // no data entered hence no update fired
             this.data[currentId] = undefined;
         }
 
-        this.step++;
-        this.done = this.step === this.definitions.length;
+        this._step++;
+        this.done = this._step === this.definitions.length;
         this.continue.emit({
             completed: this.done,
             data: { ...this.data }

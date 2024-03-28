@@ -1,8 +1,3 @@
-<ng-template #title>
-  <img src="assets/icons/logo.svg" alt="Why" width="24"/> 
-  <strong>&nbsp; Why</strong>
-</ng-template>
-
 <mat-sidenav-container class="sidenav-container">
   <mat-sidenav #drawer 
       class="sidenav blur" 
@@ -11,7 +6,8 @@
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
     <mat-toolbar class="blur" *ngIf="(isHandset$ | async)">
-      <ng-container *ngTemplateOutlet="title"></ng-container>
+      <img src="assets/icons/logo.svg" alt="{{header}}" width="24"/> 
+      <strong>&nbsp; {{header}}</strong>
     </mat-toolbar>
     <mat-nav-list>
       <ul>
@@ -36,8 +32,11 @@
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
       }
-      <ng-container *ngTemplateOutlet="title"></ng-container>
-      <span>&nbsp;&mdash; A philosophical tool for your existential journey.</span>
+      <ng-container *ngIf="header && subheader">  
+        <img src="assets/icons/logo.svg" alt="{{header}}" width="24"/> 
+        <strong>&nbsp; {{header}}</strong>
+        <span>&nbsp;&mdash; {{subheader}}</span>
+      </ng-container>
       <span class="spacer"></span>
     </mat-toolbar>
 

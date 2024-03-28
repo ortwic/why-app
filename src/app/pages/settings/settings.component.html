@@ -1,11 +1,14 @@
-<div class="settings">
-    <div class="info">
-        <mat-icon fontIcon="info" color="primary" />
-        <p>
-            Alle eingegebenen Daten aus den Formularen werden lokal im Browser gespeichert. 
-            Hier kannst du sie exportieren oder löschen.
-        </p>
+<app-loading [loading]="loading">
+    <div class="settings">
+        <div class="info">
+            <mat-icon fontIcon="info" color="primary" />
+            <p>{{resource('user-data-info')}}</p>
+        </div>
+        <a mat-raised-button (click)="download()">
+            <p>{{resource('user-data-export')}}</p>
+        </a>
+        <a mat-raised-button (click)="clear()">
+            <p>{{resource('user-data-reset')}}</p>
+        </a>
     </div>
-    <a mat-raised-button (click)="download()">Benutzerdaten exportieren</a>
-    <a mat-raised-button (click)="clear()">Benutzerdaten zurücksetzen</a>
-</div>
+</app-loading>

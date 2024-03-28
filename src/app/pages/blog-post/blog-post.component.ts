@@ -7,25 +7,25 @@ import { MarkedPipe } from '../../pipes/marked.pipe';
 import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
 
 @Component({
-  selector: 'app-blog-post',
-  standalone: true,
-  imports: [CommonModule, MarkedPipe, SafeUrlPipe],
-  templateUrl: './blog-post.component.html',
-  styles: ``
+    selector: 'app-blog-post',
+    standalone: true,
+    imports: [CommonModule, MarkedPipe, SafeUrlPipe],
+    templateUrl: './blog-post.component.html',
+    styles: ``,
 })
 export class BlogPostComponent {
-  route = inject(ActivatedRoute);
-  blogService = inject(BlogService);
-  
-  document = this.loadDocument();
+    readonly route = inject(ActivatedRoute);
+    readonly blogService = inject(BlogService);
 
-  private loadDocument(): Promise<BlogPost | undefined> {
-    const id = this.route.snapshot.params['id'];
-    return this.blogService.getDocument<BlogPost>(id).then(post => {
-      if (post) {
-        document.title = post.title + " | Why App";
-      }
-      return post;
-    });
-  }
+    readonly document = this.loadDocument();
+
+    private async loadDocument(): Promise<BlogPost | undefined> {
+        const id = this.route.snapshot.params['id'];
+        return this.blogService.getDocument<BlogPost>(id).then((post) => {
+            if (post) {
+                document.title = post.title + ' | Why App';
+            }
+            return post;
+        });
+    }
 }
