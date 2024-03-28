@@ -7,7 +7,7 @@ export interface BlogPost {
     images: PostImage[];
     content: BlogContent[];
     tags: string[];
-    status: 'published' | 'draft';
+    status: 'published' | 'beta' | 'draft';
     publish_date: Date;
     created_on: Date;
 }

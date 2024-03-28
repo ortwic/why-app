@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, inject, isDevMode } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -11,7 +11,7 @@ import { ImageSliderComponent } from '../../components/image-slider/image-slider
 import { InputSectionComponent } from '../../components/input-section/input-section.component';
 import { ContinueEventArgs, InputStepperComponent } from '../../components/input-stepper/input-stepper.component';
 import { GuideService } from '../../services/guide.service';
-import { UserDataService, pageDoneKey } from '../../services/user-data.service';
+import { UserDataService, pageReadTime } from '../../services/user-data.service';
 import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
 import { MarkedPipe } from '../../pipes/marked.pipe';
 import { PageContent } from '../../models/page.model';
@@ -40,8 +40,10 @@ import { InputValue } from '../../models/content.model';
     animations: [ expandTrigger('next') ],
 })
 export class PageComponent {
-    private readonly _route = inject(ActivatedRoute);
+    private _route = inject(ActivatedRoute);
     readonly unitIndex = +this._route.snapshot.params['unit'];
+    private _startTime!: number;
+    private _minReadTime!: number;
 
     private _step = 0;
     continue!: (args: ContinueEventArgs) => void;
@@ -69,7 +71,11 @@ export class PageComponent {
             });
         }),
         tap(page => this.continue = this.initBreakpoints(page.content, page.slug)),
-        tap(page => document.title = page.title + " | Why App")
+        tap(page => document.title = page.title + " | Why App"),
+        tap(page => {
+            this._startTime = Date.now();
+            this._minReadTime = !isDevMode() ? page.min_read_time : .1;
+        })
     );
 
     private initBreakpoints(content: PageContent[], pageId: string) {
@@ -97,12 +103,15 @@ export class PageComponent {
     }
 
     complete(data: Record<string, InputValue>) {
-        this.continue({ 
-            completed: true, 
-            data: {
-                ...data,
-                [pageDoneKey]: true
-            } 
-        });
+        const elapsedTime = Date.now() - this._startTime;        
+        if (elapsedTime > this._minReadTime * 60 * 1000) {
+            this.continue({ 
+                completed: true, 
+                data: {
+                    ...data,
+                    [pageReadTime]: elapsedTime
+                } 
+            });
+        }
     }
 }

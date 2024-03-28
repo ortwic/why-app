@@ -1,7 +1,7 @@
 import { Injectable, Signal, computed, signal } from '@angular/core';
 
 export const localKey = 'user-data';
-export const pageDoneKey = '__page-done';
+export const pageReadTime = '__page-read-in';
 
 function startDownload(url: string, filename: string) {
     const link = document.createElement('a');

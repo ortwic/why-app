@@ -6,11 +6,11 @@ export interface Page {
     slug: string;
     hero_section: HeroSection,
     content: PageContent[];
-    sidebar: {
+    sidebar?: {
         title: string;
         content: string;
     },
-    seo_metadata: {
+    seo_metadata?: {
         meta_title: string;
         meta_description: string;
         focus_keywords: string;
@@ -18,7 +18,8 @@ export interface Page {
     footer_override: string;
     publish_date: Date;
     last_updated: Date;
-    is_published: boolean;
+    status: 'published' | 'beta' | 'draft';
+    min_read_time: number;
 }
 
 export interface HeroSection {
