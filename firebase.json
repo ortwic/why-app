@@ -6,7 +6,7 @@
   "hosting": [
     {
       "target": "prod",
-      "public": "public",
+      "public": "dist/browser",
       "ignore": [
         "firebase.json",
         "**/.*",
@@ -17,11 +17,14 @@
           "source": "**",
           "destination": "/index.html"
         }
-      ]
+      ],
+      "frameworksBackend": {
+        "region": "europe-west1"
+      }
     },
     {
       "target": "beta",
-      "public": "public",
+      "public": "dist/browser",
       "ignore": [
         "firebase.json",
         "**/.*",
@@ -32,7 +35,10 @@
           "source": "**",
           "destination": "/index.html"
         }
-      ]
+      ],
+      "frameworksBackend": {
+        "region": "europe-west1"
+      }
     }
   ],
   "storage": {

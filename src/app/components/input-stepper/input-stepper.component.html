@@ -1,0 +1,16 @@
+<section>
+    @for (item of definitions; track $index) {
+        <div [@next]="show($index)">
+            <app-input-section [item]="item" [name]="item.value.id" [disabled]="disabled($index)"
+                [ngModel]="data[item.value.id]" (ngModelChange)="update($event, item.value.id)" />
+        </div>
+    }
+    <span class="footer">
+        <app-progress-spinner [@next]="!done ? 'expanded' : 'collapsed'" [value]="progress" [size]="60">
+            <button mat-icon-button class="next" color="primary"
+                [title]="last ? 'Fertig' : 'Weiter'" (click)="next();">
+                <mat-icon [fontIcon]="last ? 'check' : 'arrow_downward'" />
+            </button>
+        </app-progress-spinner>
+    </span>
+</section>

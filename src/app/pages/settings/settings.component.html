@@ -1,0 +1,14 @@
+<app-loading [loading]="loading">
+    <div class="settings">
+        <div class="info">
+            <mat-icon fontIcon="info" color="primary" />
+            <p>{{resource('user-data-info')}}</p>
+        </div>
+        <a mat-raised-button (click)="download()">
+            <p>{{resource('user-data-export')}}</p>
+        </a>
+        <a mat-raised-button (click)="clear()">
+            <p>{{resource('user-data-reset')}}</p>
+        </a>
+    </div>
+</app-loading>

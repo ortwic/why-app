@@ -1,0 +1,17 @@
+.settings {
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: start;
+    gap: 1rem;
+
+    .info {
+        display: flex;
+        align-items: center;
+        gap: .5rem;
+
+        .mat-icon {
+            min-width: 1em;
+        }
+    }
+}
