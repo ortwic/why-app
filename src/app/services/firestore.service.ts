@@ -1,4 +1,4 @@
-import { Injectable, inject, isDevMode } from '@angular/core';
+import { inject, isDevMode } from '@angular/core';
 import {
     Firestore, 
     collection,
@@ -54,7 +54,10 @@ export class FirestoreService {
         const query = this.createQuery<T>(...constraints);
         return getDocs<T, DocumentData>(query).then((snapshot) => {
             const result: T[] = [];
-            snapshot.forEach((doc) => result.push(doc.data(snapshotOptions)));
+            snapshot.forEach((doc) => result.push({
+                id: doc.id,
+                ...doc.data(snapshotOptions)
+            }));
             return result;
         });
     }

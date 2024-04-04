@@ -23,7 +23,7 @@
   "type": "module",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "dev": "ng serve -c dev-spa",
+    "dev": "ng serve -c development",
     "start": "ng serve -c development",
     "build": "ng build --aot --verbose",
     "watch": "ng build --watch -c development",

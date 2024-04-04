@@ -40,11 +40,8 @@
               "src/styles/main.scss"
             ],
             "scripts": [],
-            "server": "src/main.server.ts",
-            "prerender": true,
-            "ssr": {
-              "entry": "server.ts"
-            }
+            "prerender": false,
+            "ssr": false
           },
           "configurations": {
             "production": {
@@ -67,13 +64,6 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
-            },
-            "dev-spa": {
-              "optimization": false,
-              "extractLicenses": false,
-              "sourceMap": true,
-              "ssr": false,
-              "prerender": false
             }
           },
           "defaultConfiguration": "production"
@@ -86,9 +76,6 @@
             },
             "development": {
               "buildTarget": "why-app:build:development"
-            },
-            "dev-spa": {
-              "buildTarget": "why-app:build:dev-spa"
             }
           },
           "defaultConfiguration": "development"

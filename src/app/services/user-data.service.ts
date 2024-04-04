@@ -1,4 +1,5 @@
-import { Injectable, Signal, computed, signal } from '@angular/core';
+import { isPlatformBrowser } from '@angular/common';
+import { Injectable, PLATFORM_ID, inject, signal } from '@angular/core';
 
 export const localKey = 'user-data';
 export const pageReadTime = '__page-read-in';
@@ -16,18 +17,21 @@ function startDownload(url: string, filename: string) {
     providedIn: 'root',
 })
 export class UserDataService<T = unknown> {
+    readonly platformId = inject(PLATFORM_ID);
     readonly userData = signal(this.load());
 
     private load(): Record<string, Record<string, T>> {
-      const data = localStorage.getItem(localKey);
-      if (data) {
-          try {
-              return JSON.parse(data);
-          } catch (e) {
-              console.error(e);
-          }
-      }
-      return {};
+        if (isPlatformBrowser(this.platformId)) {
+            const data = localStorage.getItem(localKey);
+            if (data) {
+                try {
+                    return JSON.parse(data);
+                } catch (e) {
+                    console.error(e);
+                }
+            }
+        }
+        return {};
     }
 
     getEntry(id: number | string): Record<string, T> {
@@ -35,25 +39,36 @@ export class UserDataService<T = unknown> {
     }
 
     save(id: number | string, data: Record<string, T>) {
-        this.userData.update(obj => ({ 
-            ...obj, 
-            [id]: {
-                ...obj[id],
-                ...data
-            }
-        }));
-        localStorage.setItem(localKey, JSON.stringify(this.userData()));
+        if (isPlatformBrowser(this.platformId)) {
+            this.userData.update((obj) => ({
+                ...obj,
+                [id]: {
+                    ...obj[id],
+                    ...data,
+                },
+            }));
+            localStorage.setItem(localKey, JSON.stringify(this.userData()));
+        } else {
+            console.warn(`Cannot save ${id} in server`);
+        }
     }
 
     clear() {
-        this.userData.set({});
-        localStorage.removeItem(localKey);
+        if (isPlatformBrowser(this.platformId)) {
+            this.userData.set({});
+            localStorage.removeItem(localKey);
+        }
     }
 
     download() {
-        const json = JSON.stringify(this.userData());
-        const blob = new Blob([json], { type: 'application/json' });
-        const url = URL.createObjectURL(blob);
-        startDownload(url, 'user-data.json');
+        const data = this.userData();
+        if (data) {
+            const json = JSON.stringify(data);
+            const blob = new Blob([json], { type: 'application/json' });
+            const url = URL.createObjectURL(blob);
+            startDownload(url, 'user-data.json');
+        } else {
+            console.info('No data to download');
+        }
     }
 }
