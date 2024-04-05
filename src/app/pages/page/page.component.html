@@ -12,7 +12,7 @@
                     allowfullscreen width="560" height="315" frameborder="0"></iframe>
             </div>
         } @else if (item.type === 'text') {
-            <div class="content" [@next]="show($index)" [innerHtml]="item.value | marked"></div>
+            <div class="content" [@next]="show($index)" [innerHtml]="item.value | marked | async"></div>
         } @else if (item.type === 'stepper') {
             <form class="content" [@next]="show($index)">
                 <app-input-stepper [data]="page.data" [definitions]="item.value" (continue)="continue($event)" />

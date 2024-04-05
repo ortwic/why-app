@@ -1,19 +1,17 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Pipe, PipeTransform, inject } from '@angular/core';
 import { marked } from 'marked';
 import { markedMedia } from './marked-media.extension';
-
-export const resourceUrl = "https://firebasestorage.googleapis.com/v0/b/why-app-8a640.appspot.com/o/";
+import { StorageService } from '../services/storage.service';
 
 @Pipe({
     name: 'marked',
     standalone: true,
 })
 export class MarkedPipe implements PipeTransform {
-    constructor() {
-        marked.use(markedMedia(resourceUrl));
-    }
+    private _service = inject(StorageService);
 
-    transform(value: string): string | Promise<string> {
-        return marked(value);
+    transform(value: string): Promise<string> {
+        marked.use(markedMedia((path) => this._service.downloadUrl(path)));
+        return marked(value) as Promise<string>;
     }
 }

@@ -36,10 +36,10 @@ export interface SectionContent {
 
 export interface SliderContent {
     type: 'slider';
-    value: SliderImages[];
+    value: SliderImage[];
 }
 
-export interface SliderImages {
+export interface SliderImage {
     title: string;
     file: string;
     url: string;

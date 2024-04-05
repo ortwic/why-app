@@ -1,10 +1,10 @@
 <div class="keen-slider" #sliderRef>
-    @for(img of images; track $index) {
+    <ng-container *ngFor="let img of images$ | async">
         <div class="keen-slider__slide slide-container">
-            <img [src]="img.url || img.file" [alt]="img.title" [title]="img.title" />
+            <img [src]="img.url" [alt]="img.title" [title]="img.title" />
             <div class="caption">{{img.title}}</div>
         </div>
-    }
+    </ng-container>
     @if(images.length > 1) {
         <button mat-icon-button class="prev" aria-label="Zurück" (click)="slider.prev()">
             <mat-icon fontIcon="chevron_left" />

@@ -7,7 +7,7 @@ import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { getAuth, provideAuth } from '@angular/fire/auth';
 // import { getAnalytics, provideAnalytics, ScreenTrackingService, UserTrackingService } from '@angular/fire/analytics';
 import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager, provideFirestore } from '@angular/fire/firestore';
-// import { getStorage, provideStorage } from '@angular/fire/storage';
+import { getStorage, provideStorage } from '@angular/fire/storage';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -40,8 +40,8 @@ export const appConfig: ApplicationConfig = {
                         tabManager: persistentMultipleTabManager(),
                     }),
                 })
-            )
-            // provideStorage(() => getStorage()),
+            ),
+            provideStorage(() => getStorage()),
         ),
         // ScreenTrackingService,
         // UserTrackingService,

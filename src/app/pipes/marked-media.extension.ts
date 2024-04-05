@@ -1,9 +1,9 @@
 
-import { RendererObject } from "marked";
+import { RendererObject, Token } from "marked";
 import { MediaAttributes, Attributes } from "./marked-media.model";
 
 /***
- * @param resourceUrl
+ * @param resolveHref
  * @description 
  * https://github.com/airmanxtw/marked-media/blob/master/marked-media.js
  * @example
@@ -11,7 +11,7 @@ import { MediaAttributes, Attributes } from "./marked-media.model";
  * marked.parseInline("![this is audio](1 'type:wav,controls,autoplay,muted')
  * marked.parseInline("![](PB4gId2mPNc 'type:youtube,width:560,height:315')");")
  */
-export const markedMedia = (resourceUrl: string) => {
+export const markedMedia = (resolveHref: (path: string) => Promise<string>) => {
     const parseAttributes = (title: string) => {
         return title.split(',').reduce((acc, element) => {
             let object = element.split('=');
@@ -19,17 +19,25 @@ export const markedMedia = (resourceUrl: string) => {
             return acc;
         }, {} as Attributes);
     };
+    const walkTokens = async (token: Token) => {
+        const isYouTubeId = (id: string) => id.match(/^[\w-]+$/);
+        if (token.type === 'image' && !isYouTubeId(token.href)) {
+            try {
+                token.href = await resolveHref(token.href);
+            } catch (error) {
+                console.log(error);
+            }
+        }
+    };
     const renderer: RendererObject = {
         image(href: string, title: string | null, text: string): string {
-            const src = href.match(/^https?:\/\//) ? href : resourceUrl + href;
             const attr = (title ? parseAttributes(title) : {}) as MediaAttributes;
-    
             switch (attr.type) {
                 case 'wav':
                     let controls = attr.controls ? ' controls' : '';
                     let autoplay = attr.autoplay ? ' autoplay' : '';
                     let muted = attr.muted ? ' muted' : '';
-                    return `<audio alt='${text}'${controls}${autoplay}${muted}><source src='${src}' type='audio/wav'></audio>`;
+                    return `<audio alt='${text}'${controls}${autoplay}${muted}><source src='${href}' type='audio/wav'></audio>`;
                 case 'youtube':
                     let width = attr.width ?? 560;
                     let height = attr.height ?? 315;
@@ -39,7 +47,7 @@ export const markedMedia = (resourceUrl: string) => {
                 default:
                     let style = attr.style != null ? ` style='${attr.style}'` : '';
                     let title = attr.title != null ? ` title='${attr.title}'` : '';
-                    return `<img class='marked-image' src='${src}' alt='${text}'${style}${title}></img>`;
+                    return `<img class='marked-image' src='${href}' alt='${text}'${style}${title}></img>`;
             }
         },
         blockquote(text: string): string {
@@ -50,5 +58,5 @@ export const markedMedia = (resourceUrl: string) => {
             return `<blockquote>${text}</blockquote>`;
         }
     };
-    return { renderer, sanitize: true };
+    return { walkTokens, renderer, sanitize: true, async: true };
 };

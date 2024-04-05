@@ -1,6 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SummaryComponent } from './summary.component';
+import { Guide } from '../../models/guide.model';
+import { CommonService } from '../../services/common.service';
+import { GuideService } from '../../services/guide.service';
 
 describe('SummaryComponent', () => {
   let component: SummaryComponent;
@@ -8,7 +11,21 @@ describe('SummaryComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SummaryComponent]
+      imports: [SummaryComponent],
+      providers: [
+        {
+          provide: CommonService,
+          useValue: { 
+            getResources: () => Promise.resolve({}) 
+          }
+        },
+        {
+          provide: GuideService,
+          useValue: { 
+            dataPromise: Promise.resolve([] as Guide[]) 
+          }
+        }
+      ]
     })
     .compileComponents();
     

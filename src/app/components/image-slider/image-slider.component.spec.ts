@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ImageSliderComponent } from './image-slider.component';
+import { StorageService } from '../../services/storage.service';
 
 describe('ImageSliderComponent', () => {
   let component: ImageSliderComponent;
@@ -8,7 +9,15 @@ describe('ImageSliderComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ImageSliderComponent]
+      imports: [ImageSliderComponent],
+      providers: [
+        {
+          provide: StorageService,
+          useValue: { 
+            downloadUrl: () => Promise.resolve('') 
+          }
+        }        
+      ]
     })
     .compileComponents();
     
