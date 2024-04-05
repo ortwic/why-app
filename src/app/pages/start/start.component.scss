@@ -1,5 +1,5 @@
 header {
-    margin-bottom: 4rem;    
+    margin-bottom: 4rem;
     
     [mat-subheader] {
         color: var(--mat-card-subtitle-text-color);;
@@ -76,7 +76,7 @@ small {
 
         .card {
             flex: 1 0 auto;
-            max-width: 400px;
+            max-width: 367px;
 
             .card-header {
                 display: flex;
@@ -95,9 +95,9 @@ small {
             .card-content {
                 padding: 0;
 
-                img {
+                .thumbnail {
                     width: 100%;
-                    height: 200px;
+                    max-height: 200px;
                     object-fit: cover;
                 }
             }

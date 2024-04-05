@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UserProgressService } from './user-progress.service';
+import { UserResultService } from './user-result.service';
 
-xdescribe('UserProgressService', () => {
-  let service: UserProgressService;
+xdescribe('UserResultService', () => {
+  let service: UserResultService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(UserProgressService);
+    service = TestBed.inject(UserResultService);
   });
 
   it('should be created', () => {

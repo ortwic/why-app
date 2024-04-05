@@ -8,8 +8,9 @@ import { LoadingComponent } from '../../components/ui/loading/loading.component'
 import { ProgressSpinnerComponent } from '../../components/ui/progress-spinner/progress-spinner.component';
 import { CommonService } from '../../services/common.service';
 import { GuideService } from '../../services/guide.service';
-import { Progress, UserProgressService } from '../../services/user-progress.service';
+import { UserResultService } from '../../services/user-result.service';
 import { Guide } from '../../models/guide.model';
+import { Result } from '../../models/result.model';
 
 @Component({
     selector: 'app-start',
@@ -29,18 +30,18 @@ import { Guide } from '../../models/guide.model';
 export class StartComponent {
     private readonly _commonService = inject(CommonService);
     private readonly _guideService = inject(GuideService);
-    private readonly _progressService = inject(UserProgressService);
+    private readonly _resultService = inject(UserResultService);
     
     private _resources: Record<string, unknown> = {};
     private _units!: Guide[];
-    private _progress!: Progress[];    
+    private _results!: Result[];    
     private _greeting!: string;
     private _userName!: string;
     loading = true;
 
     async ngOnInit() {
         this._units = await this._guideService.dataPromise;
-        this._progress = await this._progressService.progressTree;
+        this._results = await this._resultService.resultTree;
         
         this._resources = await this._commonService.getResources('start');
         this.setUserName(this._resources['user-names'] as string[]);
@@ -87,10 +88,10 @@ export class StartComponent {
     }
 
     unitProgressPercent(unitIndex: number) {
-        return this._progress ? this._progress[unitIndex].percent : 0;
+        return this._results ? this._results[unitIndex].progress.percent : 0;
     }
 
     pageProgressPercent(unitIndex: number, pageId: string) {
-        return this._progress ? (<Progress>this._progress[unitIndex][pageId]).percent : 0;
+        return this._results ? (<Result>this._results[unitIndex][pageId]).progress.percent : 0;
     }
 }

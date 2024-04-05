@@ -109,7 +109,7 @@ export class PageComponent {
                 completed: true, 
                 data: {
                     ...data,
-                    [pageReadTime]: elapsedTime
+                    [pageReadTime]: elapsedTime / 1000
                 } 
             });
         }

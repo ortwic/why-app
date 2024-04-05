@@ -1,0 +1,47 @@
+<app-loading [loading]="loading">
+    @for (unit of summary; track $index) {
+        <div class="header">
+            <h2>
+                {{resource('unit')}} {{$index + 1}}
+            </h2>
+            <span class="sub">{{title($index)}}</span>
+            <app-progress-spinner [size]="40" [value]="unit.progress.percent">
+                <small>{{unit.progress.percent}}%</small>
+            </app-progress-spinner>
+        </div>
+        <mat-accordion multi>
+            <ng-container *ngFor="let page of pages($index) | async">
+                @if (data(unit[page.slug])) {
+                    <mat-expansion-panel expanded>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title class="header">
+                                <span>{{page.title}}</span>
+                                <small>{{percent(unit[page.slug])}}%</small>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="content">                            
+                            @for (item of data(unit[page.slug]) | keyvalue: doneAtLast; track $index) {
+                                @if (item.key === doneKey) {
+                                    <mat-divider /><br/>
+                                    <label [title]="item.value + 's'">
+                                        <mat-icon fontIcon="task_alt"/> Erledigt
+                                    </label>
+                                } @else {
+                                    <label>
+                                        {{caption(page, item.key)}}
+                                    </label>
+                                    <div class="value">
+                                        {{format(item.value) || 'Keine Angabe'}}
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </mat-expansion-panel>
+                }
+            </ng-container>
+        </mat-accordion>
+        <mat-divider class="spacer" />
+    }
+
+    <app-settings />
+</app-loading>

@@ -7,6 +7,7 @@ import { SettingsComponent } from './pages/settings/settings.component';
 import { ImprintComponent } from './pages/imprint/imprint.component';
 import { PrivacyComponent } from './pages/privacy/privacy.component';
 import { ErrorComponent } from './pages/error/error.component';
+import { SummaryComponent } from './pages/summary/summary.component';
 
 export const routes: Routes = [
     { 
@@ -21,6 +22,11 @@ export const routes: Routes = [
             unit: (route: ActivatedRouteSnapshot) => route.params['unit'],
             page: (route: ActivatedRouteSnapshot) => route.params['page']
         }
+    },
+    { 
+        path: 'summary',
+        title: 'Auswertung | Why App',
+        component: SummaryComponent,
     },
     { 
         path: 'blog',
