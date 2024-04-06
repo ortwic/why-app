@@ -4,6 +4,7 @@ import { of } from 'rxjs';
 
 import { PageComponent } from './page.component';
 import { GuideService } from '../../services/guide.service';
+import { PageService } from '../../services/page.service';
 
 const params = {
   unit: 0,
@@ -29,6 +30,12 @@ describe('PageComponent', () => {
           provide: GuideService,
           useValue: { 
             getPages: () => Promise.resolve([]) 
+          }
+        },
+        {
+          provide: PageService,
+          useValue: { 
+            getDocument: () => Promise.resolve({}) 
           }
         }
       ]

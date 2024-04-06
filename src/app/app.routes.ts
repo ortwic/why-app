@@ -4,8 +4,6 @@ import { PageComponent } from './pages/page/page.component';
 import { BlogComponent } from './pages/blog/blog.component';
 import { BlogPostComponent } from './pages/blog-post/blog-post.component';
 import { SettingsComponent } from './pages/settings/settings.component';
-import { ImprintComponent } from './pages/imprint/imprint.component';
-import { PrivacyComponent } from './pages/privacy/privacy.component';
 import { ErrorComponent } from './pages/error/error.component';
 import { SummaryComponent } from './pages/summary/summary.component';
 
@@ -14,6 +12,13 @@ export const routes: Routes = [
         path: '', 
         title: 'Start | Why App', 
         component: StartComponent
+    },
+    { 
+        path: 'p/:unit',
+        component: PageComponent,
+        resolve: {
+            unit: (route: ActivatedRouteSnapshot) => route.params['unit']
+        }
     },
     { 
         path: 'p/:unit/:page',
@@ -48,16 +53,6 @@ export const routes: Routes = [
         path: 'settings',
         title: 'Einstellungen | Why App',
         component: SettingsComponent
-    },
-    {
-        path: 'imprint',
-        title: 'Impressum | Why App',
-        component: ImprintComponent
-    },
-    {
-        path: 'privacy',
-        title: 'Datenschutz | Why App',
-        component: PrivacyComponent
     },
     {
         path: '**',

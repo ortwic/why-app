@@ -24,10 +24,10 @@
         }
     }
 
-    <footer class="centered">
+    <footer class="centered" *ngIf="showFooter">
         @if (page.prevIndex !== undefined) {
             <a role="button" mat-button color="primary" aria-label="Zurück"
-               [routerLink]="[ '/p', unitIndex, page.prevIndex ]">
+               [routerLink]="[ '/p', page.unitIndex, page.prevIndex ]">
                 <span class="prev">
                     <mat-icon fontIcon="arrow_back" /> &nbsp;Zurück
                 </span>
@@ -35,7 +35,7 @@
         }
         @if (page.nextIndex !== undefined) {
             <a role="button" mat-button color="primary" aria-label="Weiter"
-               [routerLink]="[ '/p', unitIndex, page.nextIndex ]" 
+               [routerLink]="[ '/p', page.unitIndex, page.nextIndex ]" 
                (click)="complete(page.data)" [disabled]="page.nextDisabled()">
                 <span class="next">
                     <mat-icon fontIcon="arrow_forward" /> Weiter&nbsp;
