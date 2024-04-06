@@ -11,16 +11,16 @@
         </div>
         <mat-accordion multi>
             <ng-container *ngFor="let page of pages($index) | async">
-                @if (data(unit[page.slug])) {
+                @if (data(unit[page.id])) {
                     <mat-expansion-panel expanded>
                         <mat-expansion-panel-header>
                             <mat-panel-title class="header">
                                 <span>{{page.title}}</span>
-                                <small>{{percent(unit[page.slug])}}%</small>
+                                <small>{{percent(unit[page.id])}}%</small>
                             </mat-panel-title>
                         </mat-expansion-panel-header>
                         <div class="content">                            
-                            @for (item of data(unit[page.slug]) | keyvalue: doneAtLast; track $index) {
+                            @for (item of data(unit[page.id]) | keyvalue: doneAtLast; track $index) {
                                 @if (item.key === doneKey) {
                                     <mat-divider /><br/>
                                     <label [title]="item.value + 's'">

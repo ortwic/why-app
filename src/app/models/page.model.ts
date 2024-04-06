@@ -3,23 +3,12 @@ import { IFrameContent, MarkdownContent, SectionContent, SliderContent, FormCont
 export interface Page {
     id: string;
     title: string;
-    slug: string;
     hero_section: HeroSection,
     content: PageContent[];
-    sidebar?: {
-        title: string;
-        content: string;
-    },
-    seo_metadata?: {
-        meta_title: string;
-        meta_description: string;
-        focus_keywords: string;
-    },
-    footer_override: string;
+    min_read_time: number;
     publish_date: Date;
     last_updated: Date;
-    status: 'published' | 'beta' | 'draft';
-    min_read_time: number;
+    status: 'published' | 'draft';
 }
 
 export interface HeroSection {

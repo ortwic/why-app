@@ -64,14 +64,14 @@ export class PageComponent {
             const next = pageIndex + 1 < pages.length ? pageIndex + 1 : undefined;
             return {
                 ...page,
-                data: unitData[page.slug] ?? {},
+                data: unitData[page.id] ?? {},
                 unitIndex,
                 prevIndex: prev,
                 nextIndex: next,
                 nextDisabled: () => this._step !== page.content.length
             };
         }),
-        tap(page => this.continue = this.initBreakpoints(page.content, page.unitIndex, page.slug)),
+        tap(page => this.continue = this.initBreakpoints(page.content, page.unitIndex, page.id)),
         tap(page => document.title = page.title + " | Why App"),
         tap(page => {
             this._startTime = Date.now();

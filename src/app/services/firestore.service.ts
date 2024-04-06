@@ -95,13 +95,19 @@ export class FirestoreService {
 
     public async getDocument<T>(id: string): Promise<T | undefined> {
         const docRef = doc(this.store, this.path, id);
-        return await this.toDocument(docRef) as T;
+        return {
+            id: id,
+            ...await this.toDocument(docRef) as T
+        };
     }
 
     protected async toDocument<T>(docRef: DocumentReference<T, DocumentData>) {
         const snapshot = await getDoc(docRef);
         if (snapshot.exists()) {
-            return snapshot.data(snapshotOptions);
+            return {
+                id: snapshot.id,
+                ...snapshot.data(snapshotOptions)
+            };
         }
         
         return Promise.resolve(undefined);

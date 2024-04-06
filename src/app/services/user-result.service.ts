@@ -18,15 +18,15 @@ export class UserResultService {
                 return guide.pages.then(pages => {
                     let unitData: Record<string, Result> = {};
                     pages.forEach(page => {
-                        const count = userData[page.slug] ? Object.keys(userData[page.slug]).length : 0;
+                        const count = userData[page.id] ? Object.keys(userData[page.id]).length : 0;
                         const total = page.content
                           .filter(content => content.type === 'stepper')
                           .reduce((acc, content) => acc + (content as FormContent).value.length, 1);
                         const percent = Math.round(count / total * 100);
                         unitData = {
                             ...unitData,
-                            [page.slug]: {
-                                data: userData[page.slug],
+                            [page.id]: {
+                                data: userData[page.id],
                                 progress: {
                                     count, 
                                     total, 
@@ -35,8 +35,8 @@ export class UserResultService {
                             }
                         }
                     });
-                    const count = Object.keys(unitData).reduce((acc, slug) => acc + unitData[slug].progress.count, 0);
-                    const total = Object.keys(unitData).reduce((acc, slug) => acc + unitData[slug].progress.total, 0);
+                    const count = Object.keys(unitData).reduce((acc, id) => acc + unitData[id].progress.count, 0);
+                    const total = Object.keys(unitData).reduce((acc, id) => acc + unitData[id].progress.total, 0);
                     const percent = Math.round(count / total * 100);
                     return { 
                         ...unitData,
