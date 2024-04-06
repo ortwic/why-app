@@ -4,6 +4,7 @@ import { of } from 'rxjs';
 
 import { BlogComponent } from './blog.component';
 import { BlogService } from '../../services/blog.service';
+import { StorageService } from '../../services/storage.service';
 
 const params = {
   tag: 'foo'
@@ -28,6 +29,12 @@ describe('BlogComponent', () => {
           provide: BlogService,
           useValue: { 
             data$: of([])
+          }
+        },
+        {
+          provide: StorageService,
+          useValue: { 
+            downloadUrl: () => Promise.resolve('') 
           }
         }
       ]

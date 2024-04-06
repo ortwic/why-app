@@ -1,8 +1,8 @@
 <div class="card" *ngFor="let post of blogPosts$ | async">
     <mat-card class="card">
         <mat-card-header>
-            @if (post.images) {
-                <img class="thumbnail" mat-card-lg-image [src]="post.images[0].value" />
+            @if (post.imageSrc) {
+                <img class="thumbnail" mat-card-lg-image [src]="post.imageSrc" />
             }
             <mat-card-title-group>
                 <mat-card-title>

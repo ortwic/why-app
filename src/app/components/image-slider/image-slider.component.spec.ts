@@ -16,7 +16,7 @@ describe('ImageSliderComponent', () => {
           useValue: { 
             downloadUrl: () => Promise.resolve('') 
           }
-        }        
+        }
       ]
     })
     .compileComponents();
