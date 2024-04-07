@@ -7,12 +7,17 @@
         
         @if (item.type === 'iframe' && item.value) {
             <div class="content" [@next]="show($index)">
-                <iframe [src]="item.value.src | safeUrl" [title]="item.value.title"
-                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                    allowfullscreen width="560" height="315" frameborder="0"></iframe>
+                <app-iframe [value]="item.value" />
             </div>
         } @else if (item.type === 'text') {
             <div class="content" [@next]="show($index)" [innerHtml]="item.value | marked | async"></div>
+        } @else if (item.type === 'expand') {
+            <div class="content" [@next]="show($index)">
+                <app-expand 
+                    [title]="item.value.title" [description]="item.value.description">
+                    <span [innerHtml]="item.value.content | marked | async"></span>
+                </app-expand>
+            </div>
         } @else if (item.type === 'stepper') {
             <form class="content" [@next]="show($index)">
                 <app-input-stepper [data]="page.data" [definitions]="item.value" (continue)="continue($event)" />

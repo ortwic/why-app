@@ -6,6 +6,8 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { map, switchMap, tap } from 'rxjs';
 import { LoadingComponent } from '../../components/ui/loading/loading.component';
+import { ExpandComponent } from '../../components/ui/expand/expand.component';
+import { IFrameComponent } from '../../components/ui/iframe/iframe.component';
 import { HeroSectionComponent } from '../../components/hero-section/hero-section.component';
 import { ImageSliderComponent } from '../../components/image-slider/image-slider.component';
 import { InputSectionComponent } from '../../components/input-section/input-section.component';
@@ -13,7 +15,6 @@ import { ContinueEventArgs, InputStepperComponent } from '../../components/input
 import { GuideService } from '../../services/guide.service';
 import { PageService } from '../../services/page.service';
 import { UserDataService, pageReadTime } from '../../services/user-data.service';
-import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
 import { MarkedPipe } from '../../pipes/marked.pipe';
 import { Page, PageContent } from '../../models/page.model';
 import { InputValue } from '../../models/content.model';
@@ -29,12 +30,13 @@ import { expandTrigger } from '../../animations.helper';
         MatButtonModule,
         MatIconModule,
         LoadingComponent,
+        ExpandComponent,
         HeroSectionComponent,
+        IFrameComponent,
         ImageSliderComponent,
         InputSectionComponent,
         InputStepperComponent,
-        MarkedPipe,
-        SafeUrlPipe,
+        MarkedPipe
     ],
     templateUrl: './page.component.html',
     styleUrl: './page.component.scss',

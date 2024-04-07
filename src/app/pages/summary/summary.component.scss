@@ -4,6 +4,12 @@
     align-items: center;
     gap: 1rem;
 
+    &.mat-expansion-panel-header-title {
+        color: var(--primary);
+        // padding-bottom: .2rem;
+        // border-bottom: 1px solid var(--mat-divider-color);
+    }
+
     h2 {
         font-size: large;
         letter-spacing: .1rem;

@@ -2,9 +2,7 @@
     <h1>{{doc.title}}</h1>
     @for (item of doc.content; track item) {
         @if (item.type === 'iframe' && item.value) {
-            <iframe [src]="item.value.src | safeUrl" [title]="item.value.title"
-                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                allowfullscreen width="560" height="315" frameborder="0"></iframe>
+            <app-iframe [value]="item.value" />
         } @else {
             <div [innerHtml]="item.value.toString() | marked | async"></div>
         }

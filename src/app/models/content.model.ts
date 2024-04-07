@@ -3,6 +3,15 @@ export interface MarkdownContent {
     value: string;
 }
 
+export interface ExpandContent {
+    type: 'expand';
+    value: {
+        title: string;
+        description: string;
+        content: string;
+    };
+}
+
 export interface QuoteContent {
     type: 'quote';
     value: {
@@ -16,6 +25,7 @@ export interface IFrameContent {
     value: {
         src: string;
         title: string;
+        type: 'custom' | 'youtube';
     };
 }
 

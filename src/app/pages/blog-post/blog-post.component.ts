@@ -1,15 +1,15 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { IFrameComponent } from '../../components/ui/iframe/iframe.component';
 import { BlogService } from '../../services/blog.service';
 import { BlogPost } from '../../models/blog.model';
 import { MarkedPipe } from '../../pipes/marked.pipe';
-import { SafeUrlPipe } from '../../pipes/safe-url.pipe';
 
 @Component({
     selector: 'app-blog-post',
     standalone: true,
-    imports: [CommonModule, MarkedPipe, SafeUrlPipe],
+    imports: [CommonModule, IFrameComponent, MarkedPipe],
     templateUrl: './blog-post.component.html',
     styles: ``,
 })
