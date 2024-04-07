@@ -6,7 +6,7 @@
     @for (item of page.content; track $index) {
         
         @if (item.type === 'iframe' && item.value) {
-            <div class="content" [@next]="show($index)"]>
+            <div class="content" [@next]="show($index)">
                 <iframe [src]="item.value.src | safeUrl" [title]="item.value.title"
                     allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
                     allowfullscreen width="560" height="315" frameborder="0"></iframe>

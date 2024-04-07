@@ -8,7 +8,7 @@ export class StorageService {
     private readonly storage = inject(Storage);
 
     async downloadUrl(path: string): Promise<string> {
-        if (path.match(/^https?:\/\//)) {
+        if (!path || path.match(/^https?:\/\//)) {
             return path;
         }
         return getDownloadURL(ref(this.storage, path));

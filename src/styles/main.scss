@@ -31,9 +31,17 @@ h1 {
   letter-spacing: .1rem;
 }
 
+h2, h3 {
+  letter-spacing: .06rem;
+}
+
 img.marked-image {
   max-width: 100%;
   height: auto;
+}
+
+p {
+  line-height: 1.33;
 }
 
 blockquote {

@@ -35,7 +35,7 @@ export class BlogComponent {
 
     private async resolveUrl(posts: BlogPost[]) {
         return Promise.all(posts.map(async (post) => {
-            const path = post.images[0].value;
+            const path = post.images[0]?.value;
             const imageUrl = await this.storageService.downloadUrl(path);
             return { 
                 ...post, 
