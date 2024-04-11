@@ -10,6 +10,8 @@ export interface BlogPost {
     status: 'published' | 'beta' | 'draft';
     publish_date: Date;
     created_on: Date;
+    reviewed: boolean;
+    sticky: boolean;
 }
 
 type BlogContent = MarkdownContent 
