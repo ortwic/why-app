@@ -7,9 +7,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { LoadingComponent } from '../../components/ui/loading/loading.component';
 import { ProgressSpinnerComponent } from '../../components/ui/progress-spinner/progress-spinner.component';
 import { CommonService } from '../../services/common.service';
-import { GuideService } from '../../services/guide.service';
+import { UnitService } from '../../services/unit.service';
 import { UserResultService } from '../../services/user-result.service';
-import { Guide } from '../../models/guide.model';
+import { Unit } from '../../models/unit.model';
 import { Result } from '../../models/result.model';
 
 @Component({
@@ -29,18 +29,18 @@ import { Result } from '../../models/result.model';
 })
 export class StartComponent {
     private readonly _commonService = inject(CommonService);
-    private readonly _guideService = inject(GuideService);
+    private readonly _unitService = inject(UnitService);
     private readonly _resultService = inject(UserResultService);
     
     private _resources: Record<string, unknown> = {};
-    private _units!: Guide[];
+    private _units!: Unit[];
     private _results!: Result[];    
     private _greeting!: string;
     private _userName!: string;
     loading = true;
 
     async ngOnInit() {
-        this._units = await this._guideService.dataPromise;
+        this._units = await this._unitService.dataPromise;
         this._results = await this._resultService.resultTree;
         
         this._resources = await this._commonService.getResources('start');
@@ -71,7 +71,7 @@ export class StartComponent {
         }
     }
 
-    get units(): Guide[] {
+    get units(): Unit[] {
         return this._units;
     }
 

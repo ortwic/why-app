@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { getDoc, orderBy, DocumentReference, QueryDocumentSnapshot } from '@angular/fire/firestore';
 import { FirestoreService, snapshotOptions } from './firestore.service';
-import { Guide } from '../models/guide.model';
+import { Unit } from '../models/unit.model';
 import { Page } from '../models/page.model';
 
 @Injectable({
     providedIn: 'root',
 })
-export class GuideService extends FirestoreService {
-    readonly dataPromise = super.getDocuments<Guide>(orderBy('no'));
+export class UnitService extends FirestoreService {
+    readonly dataPromise = super.getDocuments<Unit>(orderBy('order'));
 
     constructor() {
-        super('guide');
+        super('units');
     }
 
     protected override fromFirestore(snapshot: QueryDocumentSnapshot) {
@@ -33,6 +33,6 @@ export class GuideService extends FirestoreService {
     }
 
     async getPages(index: number): Promise<Page[]> {
-        return this.dataPromise.then((guide) => guide[index]?.pages ?? []);
+        return this.dataPromise.then((unit) => unit[index]?.pages ?? []);
     }
 }

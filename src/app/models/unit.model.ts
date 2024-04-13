@@ -1,9 +1,10 @@
 import { Page } from "./page.model";
 
-export interface Guide {
+export interface Unit {
     id: string;
-    no: number;
+    order: number;
     title: string;
+    caption: string;
     description: string;
     pages: Promise<Page[]>;
 }

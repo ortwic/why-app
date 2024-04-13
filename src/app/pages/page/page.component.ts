@@ -12,7 +12,7 @@ import { HeroSectionComponent } from '../../components/hero-section/hero-section
 import { ImageSliderComponent } from '../../components/image-slider/image-slider.component';
 import { InputSectionComponent } from '../../components/input-section/input-section.component';
 import { ContinueEventArgs, InputStepperComponent } from '../../components/input-stepper/input-stepper.component';
-import { GuideService } from '../../services/guide.service';
+import { UnitService } from '../../services/unit.service';
 import { PageService } from '../../services/page.service';
 import { UserDataService, pageReadTime } from '../../services/user-data.service';
 import { MarkedPipe } from '../../pipes/marked.pipe';
@@ -53,7 +53,7 @@ export class PageComponent {
 
     private readonly _userDataService = inject(UserDataService);
 
-    private readonly _guideService = inject(GuideService);
+    private readonly _unitService = inject(UnitService);
     private readonly _pageService = inject(PageService);
     readonly currentPage$ = this._route.params.pipe(
         map(params => ([params['unit'],  +(params['page'] ?? 0)] as [string, number])),
@@ -84,7 +84,7 @@ export class PageComponent {
     private async getPages(unitIndex: string) {
         return isNaN(+unitIndex)
             ? this._pageService.getDocument<Page>(unitIndex).then(p => p ? [p] : [])
-            : this._guideService.getPages(+unitIndex);
+            : this._unitService.getPages(+unitIndex);
     }
 
     private initBreakpoints(content: PageContent[], unitIndex: string, pageId: string) {

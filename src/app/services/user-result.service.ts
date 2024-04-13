@@ -1,5 +1,5 @@
 import { Injectable, inject } from '@angular/core';
-import { GuideService } from './guide.service';
+import { UnitService } from './unit.service';
 import { FormContent } from '../models/content.model';
 import { Result } from '../models/result.model';
 import { UserDataService } from './user-data.service';
@@ -8,14 +8,14 @@ import { UserDataService } from './user-data.service';
     providedIn: 'root',
 })
 export class UserResultService {
-    private readonly userDataService = inject(UserDataService);
-    private readonly guideService = inject(GuideService);
+    private readonly _userDataService = inject(UserDataService);
+    private readonly _unitService = inject(UnitService);
 
     get resultTree(): Promise<Result[]> {
-        return this.guideService.dataPromise.then(data => {
-            return Promise.all(data.map(async (guide, index) => {
-                const userData = this.userDataService.getEntry(index);
-                return guide.pages.then(pages => {
+        return this._unitService.dataPromise.then(data => {
+            return Promise.all(data.map(async (unit, index) => {
+                const userData = this._userDataService.getEntry(index);
+                return unit.pages.then(pages => {
                     let unitData: Record<string, Result> = {};
                     pages.forEach(page => {
                         const count = userData[page.id] ? Object.keys(userData[page.id]).length : 0;

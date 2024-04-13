@@ -19,7 +19,7 @@
                                 <small>{{percent(unit[page.id])}}%</small>
                             </mat-panel-title>
                         </mat-expansion-panel-header>
-                        <div class="content">                            
+                        <div class="content">
                             @for (item of data(unit[page.id]) | keyvalue: doneAtLast; track $index) {
                                 @if (item.key === doneKey) {
                                     <mat-divider /><br/>

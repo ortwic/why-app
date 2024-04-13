@@ -4,11 +4,11 @@
         <h2 mat-subheader>{{resource('intro')}}</h2>
         <div role="progress">
             @for(unit of units; track $index) {
-                <a href="#{{unit.no}}">
+                <a href="#{{unit.order}}">
                     <app-progress-spinner [size]="50" [value]="unitProgressPercent($index)">
                         <small>{{unitProgressPercent($index)}}%</small>
                     </app-progress-spinner>
-                    <div>{{resource('unit')}} {{ unit.no }}</div>
+                    <div>{{resource('unit')}} {{ unit.order }}</div>
                 </a>
                 <p>
                     <mat-divider vertical="true" />
@@ -23,9 +23,9 @@
 
     @for(unit of units; track $index) {
         <div class="unit">
-            <div class="header" [id]="unit.no">
-                <span mat-subheader>Einheit {{unit.no}}</span>
-                <h3>{{unit.title}}</h3>
+            <div class="header" [id]="unit.order">
+                <span mat-subheader>Einheit {{unit.order}} &mdash; {{unit.caption}}</span>
+                <h2>{{unit.title}}</h2>
             </div>
             <p>
                 <mat-divider />

@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
 import { PageComponent } from './page.component';
-import { GuideService } from '../../services/guide.service';
+import { UnitService } from '../../services/unit.service';
 import { PageService } from '../../services/page.service';
 
 const params = {
@@ -27,7 +27,7 @@ describe('PageComponent', () => {
           } 
         },
         {
-          provide: GuideService,
+          provide: UnitService,
           useValue: { 
             getPages: () => Promise.resolve([]) 
           }

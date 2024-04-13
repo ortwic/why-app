@@ -1,9 +1,9 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SummaryComponent } from './summary.component';
-import { Guide } from '../../models/guide.model';
+import { Unit } from '../../models/unit.model';
 import { CommonService } from '../../services/common.service';
-import { GuideService } from '../../services/guide.service';
+import { UnitService } from '../../services/unit.service';
 
 describe('SummaryComponent', () => {
   let component: SummaryComponent;
@@ -20,9 +20,9 @@ describe('SummaryComponent', () => {
           }
         },
         {
-          provide: GuideService,
+          provide: UnitService,
           useValue: { 
-            dataPromise: Promise.resolve([] as Guide[]) 
+            dataPromise: Promise.resolve([] as Unit[]) 
           }
         }
       ]

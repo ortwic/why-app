@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { GuideService } from './guide.service';
+import { UnitService } from './unit.service';
 
-xdescribe('GuideService', () => {
-  let service: GuideService;
+xdescribe('UnitService', () => {
+  let service: UnitService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(GuideService);
+    service = TestBed.inject(UnitService);
   });
 
   it('should be created', () => {

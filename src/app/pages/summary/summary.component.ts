@@ -6,8 +6,8 @@ import { MatIconModule } from '@angular/material/icon';
 import { SettingsComponent } from '../settings/settings.component';
 import { LoadingComponent } from '../../components/ui/loading/loading.component';
 import { ProgressSpinnerComponent } from '../../components/ui/progress-spinner/progress-spinner.component';
-import { GuideService } from '../../services/guide.service';
-import { Guide } from '../../models/guide.model';
+import { UnitService } from '../../services/unit.service';
+import { Unit } from '../../models/unit.model';
 import { Result, ResultValue } from '../../models/result.model';
 import { InputDefinition, InputValue } from '../../models/content.model';
 import { Page } from '../../models/page.model';
@@ -33,17 +33,17 @@ import { pageReadTime } from '../../services/user-data.service';
 })
 export class SummaryComponent {
     private readonly _commonService = inject(CommonService);
-    private readonly _guideService = inject(GuideService);
+    private readonly _unitService = inject(UnitService);
     private readonly _resultService = inject(UserResultService);
     
     private _resources: Record<string, unknown> = {};
-    private _units!: Guide[];
+    private _units!: Unit[];
     private _results!: Result[];
     readonly doneKey = pageReadTime;
     loading = true;
 
     async ngOnInit() {
-        this._units = await this._guideService.dataPromise;
+        this._units = await this._unitService.dataPromise;
         this._results = await this._resultService.resultTree;
         this._resources = await this._commonService.getResources('start');
 

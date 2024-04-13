@@ -3,8 +3,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { StartComponent } from './start.component';
 import { CommonService } from '../../services/common.service';
-import { GuideService } from '../../services/guide.service';
-import { Guide } from '../../models/guide.model';
+import { UnitService } from '../../services/unit.service';
+import { Unit } from '../../models/unit.model';
 
 describe('StartComponent', () => {
   let component: StartComponent;
@@ -25,9 +25,9 @@ describe('StartComponent', () => {
           }
         },
         {
-          provide: GuideService,
+          provide: UnitService,
           useValue: { 
-            dataPromise: Promise.resolve([] as Guide[]) 
+            dataPromise: Promise.resolve([] as Unit[]) 
           }
         }
       ]
