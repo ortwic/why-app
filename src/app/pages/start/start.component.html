@@ -34,8 +34,11 @@
                 <mat-card class="card" *ngFor="let page of (unit.pages | async); let j = index">
                     <mat-card-header class="card-header">
                         <div class="card-title">
-                            <mat-card-title>
+                            <mat-card-title [title]="page.status">
                                 <h3>
+                                    @if (page.status === 'draft') {
+                                        <mat-icon color="primary" fontIcon="draw"></mat-icon>
+                                    }
                                     <a [routerLink]="['/p', $index, j]">
                                         {{page.title}}
                                     </a>

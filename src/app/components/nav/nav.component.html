@@ -6,8 +6,8 @@
       [mode]="(isHandset$ | async) ? 'over' : 'side'"
       [opened]="(isHandset$ | async) === false">
     <mat-toolbar class="blur" *ngIf="(isHandset$ | async)">
-      <img src="assets/icons/logo.svg" alt="{{header}}" width="24"/> 
-      <strong>&nbsp; {{header}}</strong>
+      <img src="assets/icons/logo.svg" alt="{{currentGuide.title}}" width="24"/> 
+      <strong>&nbsp; {{currentGuide.caption}}</strong>
     </mat-toolbar>
     <mat-nav-list>
       <ul>
@@ -32,10 +32,10 @@
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
       }
-      <ng-container *ngIf="header && subheader">  
-        <img src="assets/icons/logo.svg" alt="{{header}}" width="24"/> 
-        <strong>&nbsp; {{header}}</strong>
-        <span>&nbsp;&mdash; {{subheader}}</span>
+      <ng-container *ngIf="currentGuide.title">  
+        <img src="assets/icons/logo.svg" alt="{{currentGuide.title}}" width="24"/> 
+        <strong>&nbsp; {{currentGuide.title}}</strong>
+        <span>&nbsp;&mdash; {{currentGuide.caption}}</span>
       </ng-container>
       <span class="spacer"></span>
     </mat-toolbar>

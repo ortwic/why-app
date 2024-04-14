@@ -22,7 +22,8 @@ describe('InputStepperComponent', () => {
         value: {
           id: 'name',
           caption: 'Name',
-          placeholder: 'Your name'
+          placeholder: 'Your name',
+          validation: ''
         }
       },
       {

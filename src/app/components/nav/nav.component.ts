@@ -10,7 +10,9 @@ import { MatIconModule } from '@angular/material/icon';
 import { Observable, of } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
 import { CommonService } from '../../services/common.service';
+import { GuideService } from '../../services/guide.service';
 import { NavigationItem } from '../../models/nav.model';
+import { Guide } from '../../models/guide.model';
 
 @Component({
     selector: 'app-nav',
@@ -31,13 +33,13 @@ import { NavigationItem } from '../../models/nav.model';
 })
 export class NavComponent implements AfterViewInit {
     private readonly _commonService = inject(CommonService);
+    private readonly _guideService = inject(GuideService);
     private readonly _breakpointObserver = inject(BreakpointObserver);
 
     @ViewChild(MatSidenavContainer)
     private _sidenavContainer!: MatSidenavContainer;
     private _routes: NavigationItem[] = [];
-    header!: string;
-    subheader!: string;
+    currentGuide = {} as Guide;
 
     isHandset$: Observable<boolean> = this._breakpointObserver.observe(Breakpoints.Handset).pipe(
         map((result) => result.matches),
@@ -47,9 +49,8 @@ export class NavComponent implements AfterViewInit {
     
     async ngOnInit() {
         this._routes = await this._commonService.getNavigation();
-        const resources = await this._commonService.getResources('nav');
-        this.header = resources['header'] as string;
-        this.subheader = resources['subheader'] as string;
+        const guides = await this._guideService.getDocuments<Guide>();
+        this.currentGuide = guides[0];
     }
 
     ngAfterViewInit(): void {

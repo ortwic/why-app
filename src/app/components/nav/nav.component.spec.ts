@@ -4,6 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { NavComponent } from './nav.component';
 import { CommonService } from '../../services/common.service';
+import { GuideService } from '../../services/guide.service';
 
 describe('NavComponent', () => {
   let component: NavComponent;
@@ -29,6 +30,10 @@ describe('NavComponent', () => {
             ]),
             getResources: () => Promise.resolve({}) 
           }
+        },
+        { 
+          provide: GuideService, 
+          useValue: {} 
         }
       ]
     }).compileComponents();

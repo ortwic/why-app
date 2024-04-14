@@ -14,6 +14,7 @@ describe('IframeComponent', () => {
     
     fixture = TestBed.createComponent(IFrameComponent);
     component = fixture.componentInstance;
+    component.value = { type: 'youtube', src: 'test', title: '' };
     fixture.detectChanges();
   });
 

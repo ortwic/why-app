@@ -2,6 +2,7 @@ import { TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { AppComponent } from './app.component';
 import { CommonService } from '../services/common.service';
+import { GuideService } from '../services/guide.service';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
@@ -13,6 +14,10 @@ describe('AppComponent', () => {
           useValue: { 
             getNavigation: () => Promise.resolve([])
           }
+        },
+        {
+          provide: GuideService,
+          useValue: {}
         }
       ],
     }).compileComponents();
