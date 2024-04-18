@@ -1,3 +1,5 @@
+$icon-size: 18px;
+
 header {
     margin-bottom: 4rem;
     
@@ -39,16 +41,16 @@ header {
     }
 }
 
-small {
+.summary {
+    margin: 1rem .4rem;
     display: flex;
-    justify-content: end;
-    align-items: last baseline;
+    justify-content: start;
     gap: 4px;
-    
+
     .mat-icon {
-        font-size: 12px;
-        height: 12px;
-        width: 12px;
+        font-size: $icon-size;
+        height: $icon-size;
+        width: $icon-size;
     }
 }
 
@@ -108,11 +110,11 @@ small {
                 gap: .4rem;
                 align-items: center;
             }
-        
+
             .mat-icon {
-                font-size: 18px;
-                width: 18px;
-                height: 18px;
+                font-size: $icon-size;
+                height: $icon-size;
+                width: $icon-size;
             }
         }
     }

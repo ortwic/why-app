@@ -29,30 +29,34 @@
         }
     }
 
-    <footer class="centered" *ngIf="showFooter">
-        @if (page.prevIndex !== undefined) {
-            <a role="button" mat-button color="primary" aria-label="Zurück"
-               [routerLink]="[ '/p', page.unitIndex, page.prevIndex ]">
-                <span class="prev">
-                    <mat-icon fontIcon="arrow_back" /> &nbsp;Zurück
-                </span>
-            </a> 
-        }
-        @if (page.nextIndex !== undefined) {
-            <a role="button" mat-button color="primary" aria-label="Weiter"
-               [routerLink]="[ '/p', page.unitIndex, page.nextIndex ]" 
-               (click)="complete(page.data)" [disabled]="page.nextDisabled()">
-                <span class="next">
-                    <mat-icon fontIcon="arrow_forward" /> Weiter&nbsp;
-                </span>
-            </a>
+    <footer class="centered">
+        @if (!page.footer_override) {
+            @if (page.prevIndex !== undefined) {
+                <a role="button" mat-button color="primary" aria-label="Vorherige Seite"
+                [routerLink]="[ '/p', page.unitIndex, page.prevIndex ]">
+                    <span class="prev">
+                        <mat-icon fontIcon="arrow_back" /> &nbsp;Vorherige Seite
+                    </span>
+                </a> 
+            }
+            @if (page.nextIndex !== undefined) {
+                <a role="button" mat-button color="primary" aria-label="Nächste Seite"
+                [routerLink]="[ '/p', page.unitIndex, page.nextIndex ]" 
+                (click)="next(page.data)" [disabled]="page.nextDisabled()">
+                    <span class="next">
+                        <mat-icon fontIcon="arrow_forward" /> Nächste Seite&nbsp;
+                    </span>
+                </a>
+            } @else {
+                <a role="button" mat-button color="primary" aria-label="Abschließen"
+                    (click)="complete(page.data)" [disabled]="page.nextDisabled()">
+                    <span class="next">            
+                        <mat-icon fontIcon="check_small" /> Abschließen&nbsp;
+                    </span>
+                </a>
+            }
         } @else {
-            <a role="button" mat-button color="primary" aria-label="Abschließen"
-               routerLink="/" [disabled]="page.nextDisabled()" (click)="complete(page.data)">
-                <span class="next">            
-                    <mat-icon fontIcon="check_small" /> Abschließen&nbsp;
-                </span>
-            </a>
+            <span [innerHTML]="page.footer_override | marked | async"></span>
         }
     </footer>
 </ng-container>

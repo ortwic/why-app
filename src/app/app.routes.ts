@@ -1,4 +1,5 @@
 import { ActivatedRouteSnapshot, Routes } from '@angular/router';
+import { termsOfUseGuard } from './guards/terms-of-use.guard';
 import { StartComponent } from './pages/start/start.component';
 import { PageComponent } from './pages/page/page.component';
 import { BlogComponent } from './pages/blog/blog.component';
@@ -11,7 +12,8 @@ export const routes: Routes = [
     { 
         path: '', 
         title: 'Start | Why App', 
-        component: StartComponent
+        component: StartComponent,
+        canActivate: [termsOfUseGuard]
     },
     { 
         path: 'p/:unit',
@@ -32,15 +34,18 @@ export const routes: Routes = [
         path: 'summary',
         title: 'Auswertung | Why App',
         component: SummaryComponent,
+        canActivate: [termsOfUseGuard]
     },
     { 
         path: 'blog',
         title: 'Blog | Why App',
         component: BlogComponent,
+        canActivate: [termsOfUseGuard]
     },
     { 
         path: 'blog/:tag',
         component: BlogComponent,
+        canActivate: [termsOfUseGuard],
         resolve: {
             tag: (route: ActivatedRouteSnapshot) => route.params['tag']
         }
@@ -48,11 +53,13 @@ export const routes: Routes = [
     { 
         path: 'post/:id', 
         component: BlogPostComponent,
+        canActivate: [termsOfUseGuard]
     },
     {
         path: 'settings',
         title: 'Einstellungen | Why App',
-        component: SettingsComponent
+        component: SettingsComponent,
+        canActivate: [termsOfUseGuard]
     },
     {
         path: '**',

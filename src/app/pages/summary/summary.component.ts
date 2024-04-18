@@ -11,7 +11,7 @@ import { Unit } from '../../models/unit.model';
 import { Result, ResultValue } from '../../models/result.model';
 import { InputDefinition, InputValue } from '../../models/content.model';
 import { Page } from '../../models/page.model';
-import { CommonService } from '../../services/common.service';
+import { CommonService, currentGuideId } from '../../services/common.service';
 import { UserResultService } from '../../services/user-result.service';
 import { pageReadTime } from '../../services/user-data.service';
 
@@ -44,7 +44,7 @@ export class SummaryComponent {
 
     async ngOnInit() {
         this._units = await this._unitService.dataPromise;
-        this._results = await this._resultService.resultTree;
+        this._results = await this._resultService.resultTree(currentGuideId());
         this._resources = await this._commonService.getResources('start');
 
         this.loading = false;

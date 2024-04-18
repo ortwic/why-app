@@ -1,9 +1,11 @@
-import { Injectable } from '@angular/core';
+import { Injectable, signal } from '@angular/core';
 import { FirestoreService } from './firestore.service';
 import { orderBy } from '@angular/fire/firestore';
 import { NavigationItem } from '../models/nav.model';
 
 type ResourceContainer = { resources: Record<string, unknown> };
+
+export const currentGuideId = signal<string | undefined>(undefined);
 
 @Injectable({
     providedIn: 'root',

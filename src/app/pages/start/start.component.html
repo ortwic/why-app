@@ -15,10 +15,10 @@
                 </p>
             }
         </div>
-        <small>
-            <mat-icon class="small" color="primary" fontIcon="settings"></mat-icon>
-            <a role="button" [routerLink]="['/settings']">{{resource('settings')}}</a>
-        </small>
+        <summary class="summary">
+            <mat-icon color="primary" fontIcon="analytics"></mat-icon>
+            <a role="button" [routerLink]="['/summary']">{{resource('summary')}}</a>
+        </summary>
     </header>
 
     @for(unit of units; track $index) {

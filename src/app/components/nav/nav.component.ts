@@ -9,7 +9,7 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { Observable, of } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { CommonService } from '../../services/common.service';
+import { CommonService, currentGuideId } from '../../services/common.service';
 import { GuideService } from '../../services/guide.service';
 import { NavigationItem } from '../../models/nav.model';
 import { Guide } from '../../models/guide.model';
@@ -51,6 +51,7 @@ export class NavComponent implements AfterViewInit {
         this._routes = await this._commonService.getNavigation();
         const guides = await this._guideService.getDocuments<Guide>();
         this.currentGuide = guides[0];
+        currentGuideId.set(guides[0].id);
     }
 
     ngAfterViewInit(): void {

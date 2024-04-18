@@ -9,6 +9,7 @@ export interface Page {
     publish_date: Date;
     last_updated: Date;
     status: 'published' | 'draft';
+    footer_override: string;
 }
 
 export interface HeroSection {

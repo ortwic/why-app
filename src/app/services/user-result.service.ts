@@ -11,10 +11,10 @@ export class UserResultService {
     private readonly _userDataService = inject(UserDataService);
     private readonly _unitService = inject(UnitService);
 
-    get resultTree(): Promise<Result[]> {
+    async resultTree(storageKey?: string): Promise<Result[]> {
         return this._unitService.dataPromise.then(data => {
             return Promise.all(data.map(async (unit, index) => {
-                const userData = this._userDataService.getEntry(index);
+                const userData = this._userDataService.getEntry(index, storageKey);
                 return unit.pages.then(pages => {
                     let unitData: Record<string, Result> = {};
                     pages.forEach(page => {

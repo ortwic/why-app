@@ -6,7 +6,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { LoadingComponent } from '../../components/ui/loading/loading.component';
 import { ProgressSpinnerComponent } from '../../components/ui/progress-spinner/progress-spinner.component';
-import { CommonService } from '../../services/common.service';
+import { CommonService, currentGuideId } from '../../services/common.service';
 import { UnitService } from '../../services/unit.service';
 import { UserResultService } from '../../services/user-result.service';
 import { Unit } from '../../models/unit.model';
@@ -41,7 +41,7 @@ export class StartComponent {
 
     async ngOnInit() {
         this._units = await this._unitService.dataPromise;
-        this._results = await this._resultService.resultTree;
+        this._results = await this._resultService.resultTree(currentGuideId());
         
         this._resources = await this._commonService.getResources('start');
         this.setUserName(this._resources['user-names'] as string[]);

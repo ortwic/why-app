@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
-import { UserDataService, localKey } from './user-data.service';
+import { UserDataService, defaultKey } from './user-data.service';
 
 describe('UserDataService', () => {
   let service: UserDataService;
@@ -15,7 +15,7 @@ describe('UserDataService', () => {
     spyOn(window.localStorage, 'getItem').and.callFake((key) => key in localStore ? localStore[key] : null);
     spyOn(window.localStorage, 'setItem').and.callFake((key, value) => (localStore[key] = value + ''));
     spyOn(window.localStorage, 'clear').and.callFake(() => (localStore = {}));
-    window.localStorage.setItem(localKey, JSON.stringify({ 0: initialData }));
+    window.localStorage.setItem(defaultKey, JSON.stringify({ 0: initialData }));
 
     service = TestBed.inject(UserDataService<{}>);
   });
@@ -25,7 +25,7 @@ describe('UserDataService', () => {
   });
 
   it('should contain initial data', () => {
-    expect(service.userData()).toEqual({ 0: initialData });
+    expect(service.getData()).toEqual({ 0: initialData });
   });
 
   it('should get initial entry', () => {
