@@ -6,8 +6,10 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { LoadingComponent } from '../../components/ui/loading/loading.component';
 import { ProgressSpinnerComponent } from '../../components/ui/progress-spinner/progress-spinner.component';
+import { termsOfUseId } from '../../guards/terms-of-use.guard';
 import { CommonService, currentGuideId } from '../../services/common.service';
 import { UnitService } from '../../services/unit.service';
+import { UserDataService } from '../../services/user-data.service';
 import { UserResultService } from '../../services/user-result.service';
 import { Unit } from '../../models/unit.model';
 import { Result } from '../../models/result.model';
@@ -31,6 +33,7 @@ export class StartComponent {
     private readonly _commonService = inject(CommonService);
     private readonly _unitService = inject(UnitService);
     private readonly _resultService = inject(UserResultService);
+    private readonly _dataService = inject(UserDataService);
     
     private _resources: Record<string, unknown> = {};
     private _units!: Unit[];
@@ -44,15 +47,19 @@ export class StartComponent {
         this._results = await this._resultService.resultTree(currentGuideId());
         
         this._resources = await this._commonService.getResources('start');
-        this.setUserName(this._resources['user-names'] as string[]);
+        this._userName = this.getUserName(this._resources['user-names'] as string[]);
         this.setGreeting(this._resources['greetings'] as Record<number, string>);
 
         this.loading = false;
     }
 
-    private setUserName(userNames: string[]) {
-        const randomIndex = Math.floor(Math.random() * userNames.length);
-        this._userName = userNames[randomIndex];        
+    private getUserName(defaultNames: string[]): string {
+        const entry = this._dataService.getEntry(termsOfUseId);
+        if ('display-name' in entry && entry['display-name']) {
+            return entry['display-name'];
+        }
+        const randomIndex = Math.floor(Math.random() * defaultNames.length);
+        return defaultNames[randomIndex];        
     }
     
     private setGreeting(greetings: Record<number, string>) {

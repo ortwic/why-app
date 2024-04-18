@@ -10,12 +10,12 @@
                 <app-iframe [value]="item.value" />
             </div>
         } @else if (item.type === 'text') {
-            <div class="content" [@next]="show($index)" [innerHtml]="item.value | marked | async"></div>
+            <app-markdown class="content" [@next]="show($index)" [content]="item.value" />
         } @else if (item.type === 'expand') {
             <div class="content" [@next]="show($index)">
                 <app-expand 
                     [title]="item.value.title" [description]="item.value.description">
-                    <span [innerHtml]="item.value.content | marked | async"></span>
+                    <app-markdown [content]="item.value.content" />
                 </app-expand>
             </div>
         } @else if (item.type === 'stepper') {
@@ -56,7 +56,7 @@
                 </a>
             }
         } @else {
-            <span [innerHTML]="page.footer_override | marked | async"></span>
+            <app-markdown [content]="page.footer_override" />
         }
     </footer>
 </ng-container>

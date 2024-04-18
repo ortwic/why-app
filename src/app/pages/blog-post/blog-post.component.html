@@ -4,7 +4,7 @@
         @if (item.type === 'iframe' && item.value) {
             <app-iframe [value]="item.value" />
         } @else {
-            <div [innerHtml]="item.value.toString() | marked | async"></div>
+            <app-markdown [content]="item.value.toString()" />
         }
     }
 </ng-container>

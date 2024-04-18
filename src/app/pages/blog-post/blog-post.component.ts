@@ -2,14 +2,14 @@ import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { IFrameComponent } from '../../components/ui/iframe/iframe.component';
+import { MarkdownComponent } from '../../components/ui/markdown/markdown.component';
 import { BlogService } from '../../services/blog.service';
 import { BlogPost } from '../../models/blog.model';
-import { MarkedPipe } from '../../pipes/marked.pipe';
 
 @Component({
     selector: 'app-blog-post',
     standalone: true,
-    imports: [CommonModule, IFrameComponent, MarkedPipe],
+    imports: [CommonModule, IFrameComponent, MarkdownComponent],
     templateUrl: './blog-post.component.html',
     styles: ``,
 })

@@ -12,12 +12,12 @@ import { HeroSectionComponent } from '../../components/hero-section/hero-section
 import { ImageSliderComponent } from '../../components/image-slider/image-slider.component';
 import { InputSectionComponent } from '../../components/input-section/input-section.component';
 import { ContinueEventArgs, InputStepperComponent } from '../../components/input-stepper/input-stepper.component';
+import { MarkdownComponent } from '../../components/ui/markdown/markdown.component';
 import { currentGuideId } from '../../services/common.service';
 import { UnitService } from '../../services/unit.service';
 import { PageService } from '../../services/page.service';
 import { UserDataService, pageReadTime } from '../../services/user-data.service';
-import { MarkedPipe } from '../../pipes/marked.pipe';
-import { Page } from '../../models/page.model';
+import { Page, PageContent } from '../../models/page.model';
 import { InputValue } from '../../models/content.model';
 import { expandTrigger } from '../../animations.helper';
 
@@ -37,7 +37,7 @@ import { expandTrigger } from '../../animations.helper';
         ImageSliderComponent,
         InputSectionComponent,
         InputStepperComponent,
-        MarkedPipe
+        MarkdownComponent
     ],
     templateUrl: './page.component.html',
     styleUrl: './page.component.scss',
@@ -84,7 +84,7 @@ export class PageComponent {
     private async getPages(unitIndex: string, pageIndex: number): Promise<[Page, boolean?, string?]> {
         if (isNaN(+unitIndex)) {
             const page = await this._pageService.getDocument<Page>(unitIndex);
-            return [page ?? {} as Page];
+            return [page ?? { content: [] as PageContent[] } as Page];
         }
         const pages = await this._unitService.getPages(+unitIndex);
         return [pages[pageIndex], pageIndex + 1 < pages.length, currentGuideId()];
