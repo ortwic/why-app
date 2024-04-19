@@ -82,6 +82,6 @@ export class NavComponent implements AfterViewInit {
     }
 
     get footerRoutes(): NavigationItem[] {
-        return this._routes.filter(route => route.sidenav);
+        return this._routes.filter(route => route.footer);
     }
 }

@@ -46,6 +46,10 @@ export class InputStepperComponent {
         return ((this._step + 1) / this.definitions.length) * 100;
     }
 
+    ngAfterViewInit() {
+        setTimeout(() => this.setDisabled(), 0);
+    }
+
     show(index: number): 'expanded' | 'collapsed' {
         return index <= this._step ? 'expanded' : 'collapsed';
     }
@@ -54,14 +58,9 @@ export class InputStepperComponent {
         return index === this._step;
     }
 
-    isValid(): boolean {
-        const currentInput = this.inputs?.get(this._step);
-        return currentInput ? currentInput.valid : true;
-    }
-
     update(value: InputValue, id: string) {
         this.data[id] = value;
-        this.disabled = !this.isValid();
+        this.setDisabled();
     }
 
     next(): void {
@@ -72,11 +71,20 @@ export class InputStepperComponent {
         }
 
         this._step++;
-        this.disabled = !this.isValid();
+        this.setDisabled();
         this.done = this._step === this.definitions.length;
         this.continue.emit({
             completed: this.done,
             data: { ...this.data }
         });
+    }
+
+    private setDisabled() {
+        this.disabled = !this.isValid();
+    }
+
+    private isValid(): boolean {
+        const currentInput = this.inputs?.get(this._step);
+        return currentInput ? currentInput.valid : true;
     }
 }

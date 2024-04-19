@@ -6,7 +6,7 @@
     @for (item of page.content; track $index) {
         
         @if (item.type === 'iframe' && item.value) {
-            <div class="content" [@next]="show($index)">
+            <div class="centered" [@next]="show($index)">
                 <app-iframe [value]="item.value" />
             </div>
         } @else if (item.type === 'text') {
@@ -29,7 +29,7 @@
         }
     }
 
-    <footer class="centered">
+    <footer class="content centered">
         @if (!page.footer_override) {
             @if (page.prevIndex !== undefined) {
                 <a role="button" mat-button color="primary" aria-label="Vorherige Seite"

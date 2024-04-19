@@ -65,7 +65,7 @@ export class PageComponent {
             const next = hasNext ? pageIndex + 1 : undefined;
             return {
                 ...page,
-                data: unitData[page.id] ?? {},
+                data: unitData[page.id] ?? unitData,
                 storageKey,
                 unitIndex,
                 prevIndex: prev,
