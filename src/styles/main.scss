@@ -42,6 +42,11 @@ img.marked-image {
 
 p {
   line-height: 1.33;
+  hyphens: auto;
+}
+
+strong {
+  font-weight: 600;
 }
 
 blockquote {
@@ -60,6 +65,11 @@ blockquote {
       font-style: normal;
       letter-spacing: 1px;
   }
+}
+
+ul li {
+  padding: .3rem 0;
+  hyphens: auto;
 }
 
 pre.wp-block-verse {

@@ -1,5 +1,6 @@
-<div class="element">
-    <mat-progress-spinner [color] [diameter]="size" [value]="value" mode="determinate" />
+<div class="element" [ngClass]="{ 'disabled': disabled }">
+    <mat-progress-spinner [ariaDisabled]="disabled" [color]="color" 
+        [diameter]="size" [value]="value" mode="determinate" />
     <div class="content">
         <ng-content></ng-content>
     </div>

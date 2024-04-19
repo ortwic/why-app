@@ -10,4 +10,9 @@
         transform: translate(-50%, -50%);
         z-index: 1;
     }
+
+    &.disabled {
+        filter: grayscale(1);
+        opacity: .5;
+    }
 }

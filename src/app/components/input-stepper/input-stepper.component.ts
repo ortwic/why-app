@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -32,8 +32,10 @@ export class InputStepperComponent {
     @Input({ required: true }) definitions!: InputDefinition[];
     @Input() data: Record<string, InputValue> = {};
     @Output() continue = new EventEmitter<ContinueEventArgs>();
+    @ViewChildren(InputSectionComponent) inputs!: QueryList<InputSectionComponent>;
 
     done = false;
+    disabled = true;
     private _step = 0;
 
     get last(): boolean {
@@ -48,12 +50,18 @@ export class InputStepperComponent {
         return index <= this._step ? 'expanded' : 'collapsed';
     }
 
-    disabled(index: number): boolean {
-        return index !== this._step;
+    isActive(index: number): boolean {
+        return index === this._step;
+    }
+
+    isValid(): boolean {
+        const currentInput = this.inputs?.get(this._step);
+        return currentInput ? currentInput.valid : true;
     }
 
     update(value: InputValue, id: string) {
         this.data[id] = value;
+        this.disabled = !this.isValid();
     }
 
     next(): void {
@@ -64,6 +72,7 @@ export class InputStepperComponent {
         }
 
         this._step++;
+        this.disabled = !this.isValid();
         this.done = this._step === this.definitions.length;
         this.continue.emit({
             completed: this.done,

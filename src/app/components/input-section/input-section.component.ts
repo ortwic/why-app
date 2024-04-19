@@ -36,6 +36,21 @@ export class InputSectionComponent implements ControlValueAccessor {
     @Input('ngModel') value!: InputValue;
     @Output('ngModelChange') change = new EventEmitter();
     
+    get valid(): boolean {
+        if ('validation' in this.item.value && this.item.value.validation) {
+            const pattern = new RegExp(this.item.value.validation);
+            return pattern.test(`${this.value}`);
+        }
+        return true;
+    }
+
+    get validationMessage(): string {
+        if ('message' in this.item.value) {
+            return this.item.value.message;
+        }
+        return 'Eingabe ungültig';
+    }
+
     writeValue(value: InputValue): void {
         this.value = value;
     }

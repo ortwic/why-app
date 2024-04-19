@@ -60,7 +60,7 @@ export interface FormContent {
     value: InputDefinition[];
 }
 
-export type InputDefinition = SelectList | Textarea;
+export type InputDefinition = SelectList | TextField;
 export type InputValue = string[] | string | number | boolean | undefined;
 
 interface SelectList {
@@ -74,11 +74,13 @@ interface SelectList {
     };
 }
 
-interface Textarea {
-    type: 'textarea';
+interface TextField {
+    type: 'text' | 'textarea';
     value: {
         id: string;
         caption: string;
         placeholder: string;
+        validation: string;
+        message: string;
     };
 }
