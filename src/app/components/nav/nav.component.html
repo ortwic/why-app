@@ -32,12 +32,16 @@
           <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
         </button>
       }
-      <ng-container *ngIf="currentGuide.title">  
+      <ng-container *ngIf="currentGuide.title">
         <img src="assets/icons/logo.svg" alt="{{currentGuide.title}}" width="24"/> 
         <strong>&nbsp; {{currentGuide.title}}</strong>
         <span>&nbsp;&mdash; {{currentGuide.caption}}</span>
       </ng-container>
       <span class="spacer"></span>
+      <a mat-icon-button color="accent" title="Spenden"
+        href="https://liberapay.com/OCSoft42/donate" target="_blank">
+        <mat-icon fontIcon="coffee"/>
+      </a>
     </mat-toolbar>
 
     <ng-content />
