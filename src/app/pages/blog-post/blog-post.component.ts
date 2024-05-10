@@ -1,6 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
+import { switchMap } from 'rxjs';
 import { IFrameComponent } from '../../components/ui/iframe/iframe.component';
 import { MarkdownComponent } from '../../components/ui/markdown/markdown.component';
 import { BlogService } from '../../services/blog.service';
@@ -14,18 +15,29 @@ import { BlogPost } from '../../models/blog.model';
     styles: ``,
 })
 export class BlogPostComponent {
-    readonly route = inject(ActivatedRoute);
-    readonly blogService = inject(BlogService);
+    private readonly _route = inject(ActivatedRoute);
+    private readonly _blogService = inject(BlogService);
 
-    readonly document = this.loadDocument();
+    readonly document = this._route.params.pipe(
+        switchMap((params) => this.loadDocument(params['id']))
+    );
 
-    private async loadDocument(): Promise<BlogPost | undefined> {
-        const id = this.route.snapshot.params['id'];
-        return this.blogService.getDocument<BlogPost>(id).then((post) => {
+    private async loadDocument(id: string): Promise<BlogPost> {
+        return this._blogService.getDocument<BlogPost>(id).then((post) => {
+            console.log(post)
             if (post) {
                 document.title = post.title + ' | Why App';
+                return post;
             }
-            return post;
+            return {
+                title: 'Blog Post Not Found',
+                content: [
+                    {
+                        type: 'text',
+                        value: 'The blog post you were looking for was not found',
+                    },
+                ],
+            } as BlogPost;
         });
     }
 }

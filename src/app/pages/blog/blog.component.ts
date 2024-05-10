@@ -23,10 +23,14 @@ export class BlogComponent {
     );
 
     constructor() {
-        const tag = this.route.snapshot.params['tag'];
+        const tag = this.route.snapshot.params['tag']?.toLowerCase();
+        const contains = (array: string[]) => {
+            return array && array.join().toLowerCase().includes(tag);
+        };
+
         if (tag) {
             this.blogPosts$ = this.service.data$.pipe(
-                map((posts) => posts.filter((post) => post.tags?.includes(tag))),
+                map((posts) => posts.filter((post) => contains(post.tags))),
                 switchMap(async (posts) => this.resolveUrl(posts))
             );
             document.title = 'Blog - ' + tag + ' | Why App';

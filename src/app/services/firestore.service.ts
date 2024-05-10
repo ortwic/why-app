@@ -95,10 +95,14 @@ export class FirestoreService {
 
     public async getDocument<T>(id: string): Promise<T | undefined> {
         const docRef = doc(this.store, this.path, id);
-        return {
-            id: id,
-            ...await this.toDocument(docRef) as T
-        };
+        const document = await this.toDocument(docRef) as T;
+        if (document) {
+            return {
+                id: id,
+                ...document
+            };
+        }
+        return undefined;
     }
 
     protected async toDocument<T>(docRef: DocumentReference<T, DocumentData>) {
