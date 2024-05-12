@@ -54,7 +54,7 @@ export class StartComponent {
     }
 
     private getUserName(defaultNames: string[]): string {
-        const entry = this._dataService.getEntry(termsOfUseId);
+        const entry = this._dataService.getItems(termsOfUseId);
         if ('display-name' in entry && entry['display-name']) {
             return entry['display-name'];
         }

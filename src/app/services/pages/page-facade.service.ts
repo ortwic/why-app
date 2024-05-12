@@ -4,7 +4,7 @@ import { PageService } from './page.service';
 import { UserDataService } from '../user/user-data.service';
 import { PageView } from '../../models/page.model';
 import { InputValue } from '../../models/content.model';
-import { UserDataElement, UserDataItems } from '../../models/user-data.model';
+import { UserDataItems } from '../../models/user-data.model';
 
 export const pageReadTime = '__page-read-in';
 

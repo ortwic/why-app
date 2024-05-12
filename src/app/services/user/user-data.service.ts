@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { UserData, UserDataEntry } from '../../models/user-data.model';
+import { UserDataArray, UserDataRecord, UserDataItems, UserDataItemSet } from '../../models/user-data.model';
 
 export const defaultKey = 'default';
 export const pageReadTime = '__page-read-in';
@@ -17,9 +17,9 @@ function startDownload(url: string, filename: string) {
     providedIn: 'root',
 })
 export class UserDataService<TValue = unknown> {
-    private readonly _userData: Record<string, UserData<TValue>> = {};
+    private readonly _userData: Record<string, UserDataArray<TValue>> = {};
 
-    private load(storageKey: string): UserData<TValue> {
+    private load(storageKey: string): UserDataArray<TValue> {
         const data = localStorage.getItem(storageKey);
         if (data) {
             try {
@@ -28,39 +28,44 @@ export class UserDataService<TValue = unknown> {
                 console.error(e);
             }
         }
-        return {};
+        return [];
     }
 
-    getData(storageKey = defaultKey): UserData<TValue> {
+    getAll(storageKey = defaultKey): UserDataArray<TValue> {
         if (!this._userData[storageKey]) {
             this._userData[storageKey] = this.load(storageKey);
         }
         return this._userData[storageKey];
     }
 
-    getEntry(id: number | string, storageKey = defaultKey): UserDataEntry<TValue> {
-        const data = this.getData(storageKey);
-        if (typeof id === 'number') {
-            return Object.values(data)[id] ?? {};
-        }
-        return data[id] ?? {};
+    getRecord(recordIndex: number, storageKey = defaultKey): UserDataRecord<TValue> {
+        const array = this.getAll(storageKey);
+        return array[recordIndex] ?? {};
     }
 
-    save(id: number | string, data: UserDataEntry<TValue>, storageKey = defaultKey) {
-        const obj = this.getData(storageKey);
-        this._userData[storageKey] = {
-            ...obj,
-            [id]: {
-                ...obj[id],
-                ...data,
-            },
+    getItems(setId: string, recordIndex = 0, storageKey = defaultKey): UserDataItems<TValue> {
+        const record = this.getRecord(recordIndex, storageKey);
+        return record[setId] ?? {};
+    }
+
+    saveItems(id: [string, number?], newItems: UserDataItems<TValue>, storageKey = defaultKey) {
+        const setId = id[0];
+        const index = id[1] ?? 0;
+        const array = this.getAll(storageKey);
+        const items = this.getItems(setId, index, storageKey);
+        this._userData[storageKey][index] = {
+            ...array[index],
+            [setId]: {
+                ...items,
+                ...newItems
+            }
         };
         localStorage.setItem(storageKey, JSON.stringify(this._userData[storageKey]));
     }
 
     clear() {
         Object.keys(this._userData).forEach((key) => {
-           this._userData[key] = {};
+           this._userData[key] = [];
            localStorage.removeItem(key);
         });
     }

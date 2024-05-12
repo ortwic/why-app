@@ -1,10 +1,11 @@
 import { InputValue } from "./content.model";
+import { UserDataItems } from "./user-data.model";
 
-export type ResultValue = Result | Progress | Record<string, InputValue> | undefined;
+export type ResultValue = Result | Progress | UserDataItems<InputValue> | undefined;
 
 export interface Result {
     [key: string]: ResultValue;
-    data?: Record<string, InputValue>;
+    data?: UserDataItems<InputValue>;
     progress: Progress;
 }
 

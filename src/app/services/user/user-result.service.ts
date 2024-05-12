@@ -14,7 +14,7 @@ export class UserResultService {
     async resultTree(storageKey?: string): Promise<Result[]> {
         return this._unitService.dataPromise.then(data => {
             return Promise.all(data.map(async (unit, index) => {
-                const userData = this._userDataService.getEntry(index, storageKey);
+                const userData = this._userDataService.getRecord(index, storageKey);
                 return unit.pages.then(pages => {
                     let unitData: Record<string, Result> = {};
                     pages.forEach(page => {

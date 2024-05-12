@@ -6,11 +6,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { expandTrigger } from '../../animations.helper';
 import { InputSectionComponent } from '../input-section/input-section.component';
 import { ProgressSpinnerComponent } from '../ui/progress-spinner/progress-spinner.component';
+import { UserDataItems } from '../../models/user-data.model';
 import { InputDefinition, InputValue } from '../../models/content.model';
 
 export interface ContinueEventArgs {
     completed: boolean;
-    data: Record<string, InputValue>;
+    data: UserDataItems<InputValue>;
 }
 
 @Component({
@@ -30,7 +31,7 @@ export interface ContinueEventArgs {
 })
 export class InputStepperComponent {
     @Input({ required: true }) definitions!: InputDefinition[];
-    @Input() data: Record<string, InputValue> = {};
+    @Input() data: UserDataItems<InputValue> = {};
     @Output() continue = new EventEmitter<ContinueEventArgs>();
     @ViewChildren(InputSectionComponent) inputs!: QueryList<InputSectionComponent>;
 
