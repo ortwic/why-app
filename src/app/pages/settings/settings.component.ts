@@ -2,8 +2,8 @@ import { Component, inject } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { LoadingComponent } from '../../components/ui/loading/loading.component';
-import { CommonService } from '../../services/common.service';
-import { UserDataService } from '../../services/user-data.service';
+import { CommonService } from '../../services/common/common.service';
+import { UserDataService } from '../../services/user/user-data.service';
 
 @Component({
     selector: 'app-settings',

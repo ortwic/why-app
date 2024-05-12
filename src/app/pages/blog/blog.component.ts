@@ -3,8 +3,8 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { map, switchMap } from 'rxjs';
-import { BlogService } from '../../services/blog.service';
-import { StorageService } from '../../services/storage.service';
+import { BlogService } from '../../services/blog/blog.service';
+import { MediaStorageService } from '../../services/common/media-storage.service';
 import { BlogPost } from '../../models/blog.model';
 
 @Component({
@@ -17,7 +17,7 @@ import { BlogPost } from '../../models/blog.model';
 export class BlogComponent {
     readonly route = inject(ActivatedRoute);
     readonly service = inject(BlogService);
-    readonly storageService = inject(StorageService);
+    readonly storageService = inject(MediaStorageService);
     readonly blogPosts$ = this.service.data$.pipe(
         switchMap(async (posts) => this.resolveUrl(posts))
     );

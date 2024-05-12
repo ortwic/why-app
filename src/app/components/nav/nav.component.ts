@@ -9,8 +9,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { Observable, of } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { CommonService, currentGuideId } from '../../services/common.service';
-import { GuideService } from '../../services/guide.service';
+import { CommonService, currentGuideId } from '../../services/common/common.service';
+import { GuideService } from '../../services/pages/guide.service';
 import { NavigationItem } from '../../models/nav.model';
 import { Guide } from '../../models/guide.model';
 

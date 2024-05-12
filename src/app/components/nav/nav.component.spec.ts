@@ -3,8 +3,8 @@ import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 
 import { NavComponent } from './nav.component';
-import { CommonService } from '../../services/common.service';
-import { GuideService } from '../../services/guide.service';
+import { CommonService } from '../../services/common/common.service';
+import { GuideService } from '../../services/pages/guide.service';
 
 describe('NavComponent', () => {
   let component: NavComponent;

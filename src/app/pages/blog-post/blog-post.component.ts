@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 import { switchMap } from 'rxjs';
 import { IFrameComponent } from '../../components/ui/iframe/iframe.component';
 import { MarkdownComponent } from '../../components/ui/markdown/markdown.component';
-import { BlogService } from '../../services/blog.service';
+import { BlogService } from '../../services/blog/blog.service';
 import { BlogPost } from '../../models/blog.model';
 
 @Component({

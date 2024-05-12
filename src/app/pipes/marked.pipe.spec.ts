@@ -1,26 +1,26 @@
 import { TestBed } from '@angular/core/testing';
-import { StorageService } from '../services/storage.service';
+import { MediaStorageService } from '../services/common/media-storage.service';
 import { MarkedPipe } from './marked.pipe';
 
 const resourceUrl = "http://example.com/media/";
 
 describe('MarkedPipe', () => {
     let pipe: MarkedPipe;
-    let service: StorageService;
+    let service: MediaStorageService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
         providers: [
             MarkedPipe,
             { 
-                provide: StorageService, 
+                provide: MediaStorageService, 
                 useValue: {
                     downloadUrl: (path: string) => Promise.resolve(resourceUrl + path)
                 } 
             }
         ]
         });
-        service = TestBed.inject(StorageService);
+        service = TestBed.inject(MediaStorageService);
         pipe = TestBed.inject(MarkedPipe);
     });
 

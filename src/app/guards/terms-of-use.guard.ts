@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
-import { UserDataService } from '../services/user-data.service';
+import { UserDataService } from '../services/user/user-data.service';
 
 export const termsOfUseId = '0-termsofuse';
 

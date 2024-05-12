@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { orderBy } from '@angular/fire/firestore';
-import { FirestoreService } from './firestore.service';
-import { Guide } from '../models/guide.model';
+import { FirestoreService } from '../firestore.service';
+import { Guide } from '../../models/guide.model';
 
 @Injectable({
     providedIn: 'root',

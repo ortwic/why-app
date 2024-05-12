@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ActivatedRoute } from '@angular/router';
 import { StartComponent } from './start.component';
-import { CommonService } from '../../services/common.service';
-import { UnitService } from '../../services/unit.service';
+import { CommonService } from '../../services/common/common.service';
+import { UnitService } from '../../services/pages/unit.service';
 import { Unit } from '../../models/unit.model';
 
 describe('StartComponent', () => {

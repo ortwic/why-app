@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
 import { BlogPostComponent } from './blog-post.component';
-import { BlogService } from '../../services/blog.service';
+import { BlogService } from '../../services/blog/blog.service';
 
 const params = {
   id: '0'

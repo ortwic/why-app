@@ -1,4 +1,5 @@
-import { IFrameContent, MarkdownContent, SectionContent, SliderContent, FormContent, ExpandContent } from "./content.model";
+import { IFrameContent, MarkdownContent, SectionContent, SliderContent, FormContent, ExpandContent, InputValue } from "./content.model";
+import { UserDataItems } from "./user-data.model";
 
 export interface Page {
     id: string;
@@ -10,6 +11,15 @@ export interface Page {
     last_updated: Date;
     status: 'published' | 'draft';
     footer_override: string;
+}
+
+export interface PageView extends Page {
+    sectionCount: number;
+    guideId?: string;
+    unitIndex?: number;
+    prevIndex?: number;
+    nextIndex?: number;
+    userData: UserDataItems<InputValue>;
 }
 
 export interface HeroSection {

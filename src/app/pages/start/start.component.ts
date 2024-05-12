@@ -7,10 +7,10 @@ import { MatIconModule } from '@angular/material/icon';
 import { LoadingComponent } from '../../components/ui/loading/loading.component';
 import { ProgressSpinnerComponent } from '../../components/ui/progress-spinner/progress-spinner.component';
 import { termsOfUseId } from '../../guards/terms-of-use.guard';
-import { CommonService, currentGuideId } from '../../services/common.service';
-import { UnitService } from '../../services/unit.service';
-import { UserDataService } from '../../services/user-data.service';
-import { UserResultService } from '../../services/user-result.service';
+import { CommonService, currentGuideId } from '../../services/common/common.service';
+import { UnitService } from '../../services/pages/unit.service';
+import { UserDataService } from '../../services/user/user-data.service';
+import { UserResultService } from '../../services/user/user-result.service';
 import { Unit } from '../../models/unit.model';
 import { Result } from '../../models/result.model';
 

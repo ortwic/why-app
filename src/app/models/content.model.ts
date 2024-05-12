@@ -81,6 +81,6 @@ interface TextField {
         caption: string;
         placeholder: string;
         validation: string;
-        message: string;
+        message?: string;
     };
 }

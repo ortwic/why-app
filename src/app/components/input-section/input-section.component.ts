@@ -45,7 +45,7 @@ export class InputSectionComponent implements ControlValueAccessor {
     }
 
     get validationMessage(): string {
-        if ('message' in this.item.value) {
+        if ('message' in this.item.value && this.item.value.message) {
             return this.item.value.message;
         }
         return 'Eingabe ungültig';

@@ -1,8 +1,8 @@
 import { Injectable } from '@angular/core';
 import { getDoc, orderBy, DocumentReference, QueryDocumentSnapshot } from '@angular/fire/firestore';
-import { FirestoreService, snapshotOptions } from './firestore.service';
-import { Unit } from '../models/unit.model';
-import { Page } from '../models/page.model';
+import { FirestoreService, snapshotOptions } from '../firestore.service';
+import { Unit } from '../../models/unit.model';
+import { Page } from '../../models/page.model';
 
 @Injectable({
     providedIn: 'root',

@@ -4,7 +4,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import KeenSlider, { KeenSliderInstance } from 'keen-slider';
 import { SliderImage } from '../../models/content.model';
-import { StorageService } from '../../services/storage.service';
+import { MediaStorageService } from '../../services/common/media-storage.service';
 
 @Component({
     selector: 'app-image-slider',
@@ -14,7 +14,7 @@ import { StorageService } from '../../services/storage.service';
     styleUrls: ['../../../../node_modules/keen-slider/keen-slider.min.css', './image-slider.component.scss'],
 })
 export class ImageSliderComponent {
-    private readonly _storageService = inject(StorageService);
+    private readonly _storageService = inject(MediaStorageService);
 
     @Input() images = [] as SliderImage[];
     @Input() height = '300px';

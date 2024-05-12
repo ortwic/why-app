@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { UserData, UserDataEntry } from '../../models/user-data.model';
 
 export const defaultKey = 'default';
 export const pageReadTime = '__page-read-in';
@@ -11,9 +12,6 @@ function startDownload(url: string, filename: string) {
     link.click();
     document.body.removeChild(link);
 }
-
-type UserData<TValue> = Record<string, UserDataEntry<TValue>>;
-type UserDataEntry<TValue> = Record<string, TValue>;
 
 @Injectable({
     providedIn: 'root',

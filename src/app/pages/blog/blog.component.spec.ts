@@ -3,8 +3,8 @@ import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
 import { BlogComponent } from './blog.component';
-import { BlogService } from '../../services/blog.service';
-import { StorageService } from '../../services/storage.service';
+import { BlogService } from '../../services/blog/blog.service';
+import { MediaStorageService } from '../../services/common/media-storage.service';
 
 const params = {
   tag: 'foo'
@@ -32,7 +32,7 @@ describe('BlogComponent', () => {
           }
         },
         {
-          provide: StorageService,
+          provide: MediaStorageService,
           useValue: { 
             downloadUrl: () => Promise.resolve('') 
           }

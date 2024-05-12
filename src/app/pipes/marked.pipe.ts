@@ -1,14 +1,14 @@
 import { Pipe, PipeTransform, inject } from '@angular/core';
 import { marked } from 'marked';
 import { markedMedia } from './marked-media.extension';
-import { StorageService } from '../services/storage.service';
+import { MediaStorageService } from '../services/common/media-storage.service';
 
 @Pipe({
     name: 'marked',
     standalone: true,
 })
 export class MarkedPipe implements PipeTransform {
-    private _service = inject(StorageService);
+    private _service = inject(MediaStorageService);
 
     transform(value: string): Promise<string> {
         marked.use(markedMedia((path) => this._service.downloadUrl(path)));

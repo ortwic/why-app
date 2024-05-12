@@ -1,6 +1,6 @@
 <ng-template #loading><app-loading /></ng-template>
 
-<ng-container *ngIf="currentPage$ | async as page; else loading">
+<ng-container *ngIf="currentPageView$ | async as page; else loading">
     <app-hero-section [hero-section]="page.hero_section"/>
 
     @for (item of page.content; track $index) {
@@ -20,7 +20,7 @@
             </div>
         } @else if (item.type === 'stepper') {
             <form class="content" [@next]="show($index)">
-                <app-input-stepper [data]="page.data" [definitions]="item.value" (continue)="continue($event)" />
+                <app-input-stepper [data]="page.userData" [definitions]="item.value" (continue)="continue($event)" />
             </form>
         } @else if (item.type === 'slider') {
             <app-image-slider [@next]="show($index)" [images]="item.value" height="50vh" />
@@ -42,14 +42,14 @@
             @if (page.nextIndex !== undefined) {
                 <a role="button" mat-button color="primary" aria-label="Nächste Seite"
                 [routerLink]="[ '/p', page.unitIndex, page.nextIndex ]" 
-                (click)="next(page.data)" [disabled]="page.nextDisabled()">
+                (click)="next(page.userData)" [disabled]="nextDisabled(page.sectionCount)">
                     <span class="next">
                         <mat-icon fontIcon="arrow_forward" /> Nächste Seite&nbsp;
                     </span>
                 </a>
             } @else {
                 <a role="button" mat-button color="primary" aria-label="Abschließen"
-                    (click)="complete(page.data)" [disabled]="page.nextDisabled()">
+                    (click)="complete(page.userData)" [disabled]="nextDisabled(page.sectionCount)">
                     <span class="next">            
                         <mat-icon fontIcon="check_small" /> Abschließen&nbsp;
                     </span>

@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
-import { FirestoreService } from './firestore.service';
+import { FirestoreService } from '../firestore.service';
 import { orderBy } from '@angular/fire/firestore';
-import { NavigationItem } from '../models/nav.model';
+import { NavigationItem } from '../../models/nav.model';
 
 type ResourceContainer = { resources: Record<string, unknown> };
 

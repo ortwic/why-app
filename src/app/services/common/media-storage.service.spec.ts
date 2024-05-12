@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { StorageService } from './storage.service';
+import { MediaStorageService } from './media-storage.service';
 
-xdescribe('StorageService', () => {
-  let service: StorageService;
+xdescribe('MediaStorageService', () => {
+  let service: MediaStorageService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(StorageService);
+    service = TestBed.inject(MediaStorageService);
   });
 
   it('should be created', () => {

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { SettingsComponent } from './settings.component';
-import { CommonService } from '../../services/common.service';
+import { CommonService } from '../../services/common/common.service';
 
 describe('SettingsComponent', () => {
   let component: SettingsComponent;

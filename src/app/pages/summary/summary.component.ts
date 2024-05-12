@@ -6,14 +6,14 @@ import { MatIconModule } from '@angular/material/icon';
 import { SettingsComponent } from '../settings/settings.component';
 import { LoadingComponent } from '../../components/ui/loading/loading.component';
 import { ProgressSpinnerComponent } from '../../components/ui/progress-spinner/progress-spinner.component';
-import { UnitService } from '../../services/unit.service';
+import { UnitService } from '../../services/pages/unit.service';
 import { Unit } from '../../models/unit.model';
 import { Result, ResultValue } from '../../models/result.model';
 import { InputDefinition, InputValue } from '../../models/content.model';
 import { Page } from '../../models/page.model';
-import { CommonService, currentGuideId } from '../../services/common.service';
-import { UserResultService } from '../../services/user-result.service';
-import { pageReadTime } from '../../services/user-data.service';
+import { CommonService, currentGuideId } from '../../services/common/common.service';
+import { UserResultService } from '../../services/user/user-result.service';
+import { pageReadTime } from '../../services/user/user-data.service';
 
 @Component({
     selector: 'app-summary',

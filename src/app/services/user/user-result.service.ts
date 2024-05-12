@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
-import { UnitService } from './unit.service';
-import { FormContent } from '../models/content.model';
-import { Result } from '../models/result.model';
+import { UnitService } from '../pages/unit.service';
+import { FormContent } from '../../models/content.model';
+import { Result } from '../../models/result.model';
 import { UserDataService } from './user-data.service';
 
 @Injectable({

@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { ImageSliderComponent } from './image-slider.component';
-import { StorageService } from '../../services/storage.service';
+import { MediaStorageService } from '../../services/common/media-storage.service';
 
 describe('ImageSliderComponent', () => {
   let component: ImageSliderComponent;
@@ -12,7 +12,7 @@ describe('ImageSliderComponent', () => {
       imports: [ImageSliderComponent],
       providers: [
         {
-          provide: StorageService,
+          provide: MediaStorageService,
           useValue: { 
             downloadUrl: () => Promise.resolve('') 
           }
