@@ -1,16 +1,17 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { derivedAsync } from 'ngxtension/derived-async';
 import { LoadingComponent } from '../../components/ui/loading/loading.component';
 import { ProgressSpinnerComponent } from '../../components/ui/progress-spinner/progress-spinner.component';
 import { termsOfUseId } from '../../guards/terms-of-use.guard';
 import { CommonService, currentGuideId } from '../../services/common/common.service';
 import { UnitService } from '../../services/pages/unit.service';
 import { UserDataService } from '../../services/user/user-data.service';
-import { UserResultService } from '../../services/user/user-result.service';
+import { UserResultService, percentOf } from '../../services/user/user-result.service';
 import { Unit } from '../../models/unit.model';
 import { Result } from '../../models/result.model';
 
@@ -37,15 +38,13 @@ export class StartComponent {
     
     private _resources: Record<string, unknown> = {};
     private _units!: Unit[];
-    private _results!: Result[];    
+    private _results = derivedAsync(() => this._resultService.resultTree(currentGuideId()));
     private _greeting!: string;
     private _userName!: string;
     loading = true;
 
     async ngOnInit() {
-        this._units = await this._unitService.dataPromise;
-        this._results = await this._resultService.resultTree(currentGuideId());
-        
+        this._units = await this._unitService.dataPromise;        
         this._resources = await this._commonService.getResources('start');
         this._userName = this.getUserName(this._resources['user-names'] as string[]);
         this.setGreeting(this._resources['greetings'] as Record<number, string>);
@@ -95,10 +94,12 @@ export class StartComponent {
     }
 
     unitProgressPercent(unitIndex: number) {
-        return this._results ? this._results[unitIndex].progress.percent : 0;
+        const results: Result[] = this._results() ?? [];
+        return results ? percentOf(results[unitIndex]) : 0;
     }
 
     pageProgressPercent(unitIndex: number, pageId: string) {
-        return this._results ? (<Result>this._results[unitIndex][pageId]).progress.percent : 0;
+        const results: Result[] = this._results() ?? [];
+        return results[unitIndex] ? percentOf(<Result>results[unitIndex][pageId]) : 0;
     }
 }

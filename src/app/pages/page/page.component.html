@@ -1,6 +1,6 @@
 <ng-template #loading><app-loading /></ng-template>
 
-<ng-container *ngIf="currentPageView$ | async as page; else loading">
+<ng-container *ngIf="pageView() as page; else loading">
     <app-hero-section [hero-section]="page.hero_section"/>
 
     @for (item of page.content; track $index) {

@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, isDevMode } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
+import { Component, computed, effect, isDevMode } from '@angular/core';
 import { FormsModule } from '@angular/forms';
-import { ActivatedRoute, Router, RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { combineLatest, map, switchMap, tap } from 'rxjs';
+import { derivedAsync } from 'ngxtension/derived-async';
+import { injectParams } from 'ngxtension/inject-params';
+import { injectQueryParams } from 'ngxtension/inject-query-params';
 import { LoadingComponent } from '../../components/ui/loading/loading.component';
 import { ExpandComponent } from '../../components/ui/expand/expand.component';
 import { IFrameComponent } from '../../components/ui/iframe/iframe.component';
@@ -45,69 +46,68 @@ import { expandTrigger } from '../../animations.helper';
     animations: [ expandTrigger('next') ],
 })
 export class PageComponent {
-    private _router = inject(Router);
-    private _route = inject(ActivatedRoute);
+    private _params = injectParams((params) => ([params['unit'],  +(params['page'] ?? 0)] as [string, number]));
+    private _returnPath = injectQueryParams('from', { initialValue: '/' });
+    private _breakpoints = computed(() => this.initBreakpoints(this.pageView()));
+    private _currentBreakpoint = 0;
     private _startTime!: number;
     private _minReadTime!: number;
+    
+    readonly pageView = derivedAsync(() => {
+        const [unitIndex, pageIndex] = this._params();
+        return isNaN(+unitIndex) 
+            ? this._pageFacade.getSinglePageView(unitIndex) 
+            : this._pageFacade.getUnitPageView(+unitIndex, pageIndex, currentGuideId())
+    });
 
-    private _returnPath = '/';
-    private _step = 0;
-    continue!: (args: ContinueEventArgs) => void;
+    constructor(private _router: Router, private _pageFacade: PageFacadeService) {
+        effect(() => {
+            const page = this.pageView();
+            if (page) {
+                document.title = `${page.title} | Why App`;
 
-    private readonly _pageFacade = inject(PageFacadeService);
-    readonly currentPageView$ = combineLatest([
-        toObservable(currentGuideId),
-        this._route.params.pipe(
-            map(params => ([params['unit'],  +(params['page'] ?? 0)] as [string, number]))
-        )
-    ]).pipe(
-        switchMap(async ([guideId, [unitIndex, pageIndex]]) => (isNaN(+unitIndex) 
-            ? await this._pageFacade.getSinglePageView(unitIndex) 
-            : await this._pageFacade.getUnitPageView(+unitIndex, pageIndex, guideId)
-        )),
-        tap(page => this.continue = this.initBreakpoints(page)),
-        tap(page => document.title = page.title + " | Why App"),
-        tap(page => {
-            this._startTime = Date.now();
-            this._minReadTime = !isDevMode() ? page.min_read_time : .1;
-        })
-    );
-
-    private initBreakpoints(page: PageView) {
-        const nextStep = () => this._step = breakpoints.shift() ?? page.content.length;
-        const breakpoints = page.content.reduce((acc, def, index) => {
-            // consider input-stepper as a breakpoint only
-            if (def.type === 'stepper') {
-                acc.push(index);
+                this._startTime = Date.now();
+                this._minReadTime = !isDevMode() ? page.min_read_time : .1;
+                
+                this.nextBreakpoint(page);
             }
-            return acc;
-        }, [] as number[]);
+        });
+    } 
 
-        nextStep();
-        return (args: ContinueEventArgs) => {
-            this._pageFacade.saveUserInput(page, args.data);
-            if (args.completed) {
-                nextStep();
-            }
-        };
+    private initBreakpoints(page?: PageView): number[] {
+        if (page) {
+            return page.content.reduce((acc, def, index) => {
+                // consider input-stepper as a breakpoint only
+                if (def.type === 'stepper') {
+                    acc.push(index);
+                }
+                return acc;
+            }, [] as number[]);
+        }
+        return [];
     }
 
-    async ngOnInit() {
-        this._route.queryParamMap.subscribe(params => {
-            const from = params.get('from');
-            if (from) {
-                this._returnPath = from;
-            } 
-        });
+    continue(args: ContinueEventArgs) {
+        const page = this.pageView();
+        if (page) {            
+            this._pageFacade.saveUserInput(page, args.data);
+            if (args.completed) {
+                this.nextBreakpoint(page);
+            }
+        }
+    }
+
+    private nextBreakpoint(page: PageView) {
+        this._currentBreakpoint = this._breakpoints()?.shift() ?? page.content.length;
     }
     
     show(index: number): 'expanded' | 'collapsed' {
-        return index <= this._step ? 'expanded' : 'collapsed';
+        return index <= this._currentBreakpoint ? 'expanded' : 'collapsed';
     }
 
     complete(data: UserDataItems<InputValue>) {
         this.next(data);
-        this._router.navigate([this._returnPath]);
+        this._router.navigate([this._returnPath()]);
     }
 
     next(data: UserDataItems<InputValue>) {
@@ -124,6 +124,6 @@ export class PageComponent {
     }
 
     nextDisabled(sectionCount: number): boolean {
-        return this._step !== sectionCount;
+        return this._currentBreakpoint !== sectionCount;
     }
 }

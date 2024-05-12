@@ -3,6 +3,7 @@ import { CommonModule, KeyValue } from '@angular/common';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { derivedAsync } from 'ngxtension/derived-async';
 import { SettingsComponent } from '../settings/settings.component';
 import { LoadingComponent } from '../../components/ui/loading/loading.component';
 import { ProgressSpinnerComponent } from '../../components/ui/progress-spinner/progress-spinner.component';
@@ -38,20 +39,19 @@ export class SummaryComponent {
     
     private _resources: Record<string, unknown> = {};
     private _units!: Unit[];
-    private _results!: Result[];
+    private _results = derivedAsync(() => this._resultService.resultTree(currentGuideId()));
     readonly doneKey = pageReadTime;
     loading = true;
 
     async ngOnInit() {
         this._units = await this._unitService.dataPromise;
-        this._results = await this._resultService.resultTree(currentGuideId());
         this._resources = await this._commonService.getResources('start');
 
         this.loading = false;
     }
 
-    get summary() {
-        return this._results;
+    get summary(): Result[] | undefined {
+        return this._results();
     }
     
     resource(key: string) {
