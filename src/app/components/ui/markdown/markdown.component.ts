@@ -1,4 +1,4 @@
-import { Component, Input, inject } from '@angular/core';
+import { Component, inject, input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
 import { MarkedPipe } from '../../../pipes/marked.pipe';
@@ -12,7 +12,7 @@ import { MarkedPipe } from '../../../pipes/marked.pipe';
 })
 export class MarkdownComponent {
     private _router = inject(Router);
-    @Input({ required: true }) content!: string;
+    content = input.required<string>();
 
     // https://stackoverflow.com/questions/51764517/use-angular-router-inside-markdown-links
     public onClick(e: MouseEvent): void {

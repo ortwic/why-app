@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, QueryList, ViewChildren } from '@angular/core';
+import { AfterViewInit, Component, input, output, model, viewChildren } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
@@ -18,36 +18,37 @@ export interface ContinueEventArgs {
     selector: 'app-input-stepper',
     standalone: true,
     imports: [
-        CommonModule, 
+        CommonModule,
         FormsModule,
-        MatButtonModule, 
+        MatButtonModule,
         MatIconModule,
         InputSectionComponent,
-        ProgressSpinnerComponent
+        ProgressSpinnerComponent,
     ],
     templateUrl: './input-stepper.component.html',
     styleUrl: './input-stepper.component.scss',
     animations: [expandTrigger('next')],
 })
-export class InputStepperComponent {
-    @Input({ required: true }) definitions!: InputDefinition[];
-    @Input() data: UserDataItems<InputValue> = {};
-    @Output() continue = new EventEmitter<ContinueEventArgs>();
-    @ViewChildren(InputSectionComponent) inputs!: QueryList<InputSectionComponent>;
+export class InputStepperComponent implements AfterViewInit {
+    readonly definitions = input.required<InputDefinition[]>();
+    readonly data = model<UserDataItems<InputValue>>({});
+    readonly continue = output<ContinueEventArgs>();
+    inputs = viewChildren(InputSectionComponent);
 
     done = false;
     disabled = true;
     private _step = 0;
 
     get last(): boolean {
-        return this._step >= this.definitions.length - 1;
+        return this._step >= this.definitions().length - 1;
     }
 
     get progress(): number {
-        return ((this._step + 1) / this.definitions.length) * 100;
+        return ((this._step + 1) / this.definitions().length) * 100;
     }
 
     ngAfterViewInit() {
+        // bypass ExpressionChangedAfterItHasBeenCheckedError: Expression has changed after it was checked.
         setTimeout(() => this.setDisabled(), 0);
     }
 
@@ -59,24 +60,28 @@ export class InputStepperComponent {
         return index === this._step;
     }
 
+    model(definition: InputDefinition) {
+        return this.data()[definition.value.id];
+    }
+
     update(value: InputValue, id: string) {
-        this.data[id] = value;
+        this.data()[id] = value;
         this.setDisabled();
     }
 
     next(): void {
-        const currentId = this.definitions[this._step].value.id;
-        if (!this.data[currentId]) {
+        const currentId = this.definitions()[this._step].value.id;
+        if (!this.data()[currentId]) {
             // no data entered hence no update fired
-            this.data[currentId] = undefined;
+            this.data()[currentId] = undefined;
         }
 
         this._step++;
+        this.setDone();
         this.setDisabled();
-        this.done = this._step === this.definitions.length;
         this.continue.emit({
             completed: this.done,
-            data: { ...this.data }
+            data: { ...this.data() },
         });
     }
 
@@ -84,8 +89,12 @@ export class InputStepperComponent {
         this.disabled = !this.isValid();
     }
 
+    private setDone() {
+        this.done = this._step === this.definitions().length;
+    }
+
     private isValid(): boolean {
-        const currentInput = this.inputs?.get(this._step);
+        const currentInput = this.inputs()?.at(this._step);
         return currentInput ? currentInput.valid : true;
     }
 }

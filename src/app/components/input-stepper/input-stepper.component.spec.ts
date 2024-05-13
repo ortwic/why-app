@@ -15,8 +15,8 @@ describe('InputStepperComponent', () => {
     
     fixture = TestBed.createComponent(InputStepperComponent);
     component = fixture.componentInstance;
-    component.data = {};
-    component.definitions = [
+    fixture.componentRef.setInput('pageId', '0-test');
+    fixture.componentRef.setInput('definitions', [
       {
         type: 'textarea',
         value: {
@@ -36,7 +36,8 @@ describe('InputStepperComponent', () => {
           multiline: true
         }
       }
-    ];
+    ]);
+    fixture.componentRef.setInput('data', {});
     
     fixture.detectChanges();
   });

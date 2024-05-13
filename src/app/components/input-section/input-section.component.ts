@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, Output, forwardRef } from '@angular/core';
+import { Component, forwardRef, input, model, output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -31,28 +31,30 @@ import { InputDefinition, InputValue } from '../../models/content.model';
     ]
 })
 export class InputSectionComponent implements ControlValueAccessor {
-    @Input({ required: true }) item!: InputDefinition;
-    @Input() disabled = false;
-    @Input('ngModel') value!: InputValue;
-    @Output('ngModelChange') change = new EventEmitter();
+    item = input.required<InputDefinition>();
+    disabled = model(false);
+    value = model<InputValue>(undefined, { alias: 'ngModel' });
+    change = output<InputValue>({ alias: 'ngModelChange' });
     
     get valid(): boolean {
-        if ('validation' in this.item.value && this.item.value.validation) {
-            const pattern = new RegExp(this.item.value.validation);
-            return pattern.test(`${this.value}`);
+        const definition = this.item();
+        if ('validation' in definition.value && definition.value.validation) {
+            const pattern = new RegExp(definition.value.validation);
+            return pattern.test(`${this.value()}`);
         }
         return true;
     }
 
     get validationMessage(): string {
-        if ('message' in this.item.value && this.item.value.message) {
-            return this.item.value.message;
+        const definition = this.item();
+        if ('message' in definition.value && definition.value.message) {
+            return definition.value.message;
         }
         return 'Eingabe ungültig';
     }
 
     writeValue(value: InputValue): void {
-        this.value = value;
+        this.value.set(value);
     }
 
     registerOnChange(fn: (v: InputValue) => void): void {
@@ -64,11 +66,11 @@ export class InputSectionComponent implements ControlValueAccessor {
     }
 
     setDisabledState?(isDisabled: boolean): void {
-        this.disabled = isDisabled;
+        this.disabled.set(isDisabled);
     }
 
     updateValue(value: InputValue): void {
-        this.value = value;
+        this.value.set(value);
         this.change.emit(value);
     }
 }

@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { HeroSection } from '../../models/page.model';
 
 @Component({
@@ -9,6 +9,5 @@ import { HeroSection } from '../../models/page.model';
   styleUrl: './hero-section.component.scss'
 })
 export class HeroSectionComponent {
-  @Input('hero-section')
-  section = {} as HeroSection;
+  section = input({} as HeroSection, { alias: 'hero-section' });
 }

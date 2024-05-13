@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { SafeUrlPipe } from '../../../pipes/safe-url.pipe';
 import { IFrameContent } from '../../../models/content.model';
 
@@ -10,12 +10,13 @@ import { IFrameContent } from '../../../models/content.model';
     styleUrl: './iframe.component.scss',
 })
 export class IFrameComponent {
-    @Input({ required: true }) value!: IFrameContent['value'];
+    value = input.required<IFrameContent['value']>();
 
     get src() {
-        if (this.value.type === 'youtube') {
-            return `https://www.youtube.com/embed/${this.value.src}`;
+        if (this.value().type === 'youtube') {
+            return `https://www.youtube.com/embed/${this.value().src}`;
         }
-        return this.value.src;
+        return this.value().src;
     }
+
 }

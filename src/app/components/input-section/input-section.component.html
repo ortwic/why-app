@@ -1,46 +1,46 @@
-<mat-card class="card">
+<mat-card class="card" *ngIf="item() as definition">
     <mat-card-header>
         <mat-card-title class="title">
-            {{item.value.caption}}
+            {{definition.value.caption}}
         </mat-card-title>
     </mat-card-header>
     <mat-card-content class="content">
-    @if(item.type === 'select') {
+    @if(definition.type === 'select') {
         <mat-button-toggle-group class="select-group"
-            [ngClass]="{'wrap-options': item.value.multiline}"
-            [name]="item.value.id" 
-            [multiple]="item.value.multiple"
-            [disabled]="disabled"
-            [ngModel]="value"
+            [ngClass]="{'wrap-options': definition.value.multiline}"
+            [name]="definition.value.id" 
+            [multiple]="definition.value.multiple"
+            [disabled]="disabled()"
+            [ngModel]="value()"
             (ngModelChange)="updateValue($event)">
-            @for(opt of item.value.options; track $index) {
+            @for(opt of definition.value.options; track $index) {
                 <mat-button-toggle [value]="opt">
                     {{opt}}
                 </mat-button-toggle>
             }
         </mat-button-toggle-group>
-    } @else if (item.type === 'textarea') {
+    } @else if (definition.type === 'textarea') {
         <mat-form-field class="field" appearance="outline">
             <textarea matInput
-                [name]="item.value.id" 
-                [disabled]="disabled"
-                [placeholder]="item.value.placeholder"
-                [pattern]="item.value.validation"
-                [ngModel]="value"
+                [name]="definition.value.id" 
+                [disabled]="disabled()"
+                [placeholder]="definition.value.placeholder"
+                [pattern]="definition.value.validation"
+                [ngModel]="value()"
                 (ngModelChange)="updateValue($event)"
                 ></textarea>
             <mat-error *ngIf="!valid">
                 {{validationMessage}}
             </mat-error>
         </mat-form-field>
-    } @else if (item.type === 'text') {
+    } @else if (definition.type === 'text') {
         <mat-form-field class="field" appearance="outline">
             <input type="text" matInput
-                [name]="item.value.id" 
-                [disabled]="disabled"
-                [placeholder]="item.value.placeholder"
-                [pattern]="item.value.validation"
-                [ngModel]="value"
+                [name]="definition.value.id" 
+                [disabled]="disabled()"
+                [placeholder]="definition.value.placeholder"
+                [pattern]="definition.value.validation"
+                [ngModel]="value()"
                 (ngModelChange)="updateValue($event)"/>
             <mat-error *ngIf="!valid">
                 {{validationMessage}}

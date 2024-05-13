@@ -1,8 +1,8 @@
 <section>
-    @for (item of definitions; track $index) {
+    @for (item of definitions(); track $index) {
         <div [@next]="show($index)">
             <app-input-section [item]="item" [name]="item.value.id" [disabled]="!isActive($index)"
-                [ngModel]="data[item.value.id]" (ngModelChange)="update($event, item.value.id)" />
+                [ngModel]="model(item)" (ngModelChange)="update($event, item.value.id)" />
         </div>
     }
     <span class="footer">

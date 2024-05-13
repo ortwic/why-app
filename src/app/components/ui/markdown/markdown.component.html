@@ -1,1 +1,1 @@
-<span [innerHTML]="content | marked | async" (click)="onClick($event)"></span>
+<span [innerHTML]="content() | marked | async" (click)="onClick($event)"></span>

@@ -5,7 +5,7 @@
             <div class="caption">{{img.title}}</div>
         </div>
     </ng-container>
-    @if(images.length > 1) {
+    @if(images().length > 1) {
         <button mat-icon-button class="prev" aria-label="Zurück" (click)="slider.prev()">
             <mat-icon fontIcon="chevron_left" />
         </button>

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 
 @Component({
@@ -10,6 +10,6 @@ import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
   styleUrl: './expand.component.scss'
 })
 export class ExpandComponent {
-    @Input({ required: true }) title!: string;
-    @Input() description = '';
+    title = input.required<string>();
+    description = input('');
 }

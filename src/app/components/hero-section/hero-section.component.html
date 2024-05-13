@@ -1,14 +1,14 @@
-@if (section.image) {
-    <div class="header" [style.backgroundImage]="'url(' + section.image + ')'">
-        <h1>{{section.headline}}</h1>
+@if (section().image) {
+    <div class="header" [style.backgroundImage]="'url(' + section().image + ')'">
+        <h1>{{section().headline}}</h1>
         <section>
-            <div class="subhead">{{section.subhead}}</div>
-            <a mat-button role="button" [href]="section.call_to_action_link">
-                {{section.call_to_action}}
+            <div class="subhead">{{section().subhead}}</div>
+            <a mat-button role="button" [href]="section().call_to_action_link">
+                {{section().call_to_action}}
             </a>
         </section>
-        <div class="img-info">{{section.image_info}}</div>
+        <div class="img-info">{{section().image_info}}</div>
     </div>
 } @else {
-    <h1>{{section.headline}}</h1>
+    <h1>{{section().headline}}</h1>
 }

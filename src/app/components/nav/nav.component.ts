@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ViewChild, inject } from '@angular/core';
+import { AfterViewInit, Component, inject, viewChild } from '@angular/core';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
@@ -36,8 +36,7 @@ export class NavComponent implements AfterViewInit {
     private readonly _guideService = inject(GuideService);
     private readonly _breakpointObserver = inject(BreakpointObserver);
 
-    @ViewChild(MatSidenavContainer)
-    private _sidenavContainer!: MatSidenavContainer;
+    private _sidenavContainer = viewChild(MatSidenavContainer);
     private _routes: NavigationItem[] = [];
     currentGuide = {} as Guide;
 
@@ -71,7 +70,7 @@ export class NavComponent implements AfterViewInit {
             return `${top}px`;
         };
 
-        this.toolbarTop$ = this._sidenavContainer.scrollable.elementScrolled().pipe(map(onScroll));
+        this.toolbarTop$ = this._sidenavContainer()!.scrollable.elementScrolled().pipe(map(onScroll));
 
         // this.changeDetectorRef.detectChanges();
         this.toolbarTop$.subscribe();

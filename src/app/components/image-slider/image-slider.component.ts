@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, ElementRef, Input, ViewChild, inject } from '@angular/core';
+import { Component, ElementRef, inject, input, viewChild } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import KeenSlider, { KeenSliderInstance } from 'keen-slider';
@@ -16,21 +16,21 @@ import { MediaStorageService } from '../../services/common/media-storage.service
 export class ImageSliderComponent {
     private readonly _storageService = inject(MediaStorageService);
 
-    @Input() images = [] as SliderImage[];
-    @Input() height = '300px';
-    @ViewChild('sliderRef') sliderRef!: ElementRef<HTMLElement>;
+    images = input([] as SliderImage[]);
+    height = input('300px');
+    sliderRef = viewChild<ElementRef<HTMLElement>>('sliderRef');
 
     slider!: KeenSliderInstance;
     images$!: Promise<Omit<SliderImage, 'file'>[]>;
 
     ngOnInit() {
-        this.images$ = Promise.all(this.images.map((img) => this.resolveUrl(img))).finally(() =>
+        this.images$ = Promise.all(this.images().map((img) => this.resolveUrl(img))).finally(() =>
             setTimeout(this.slider.update, 0)
         );
     }
 
     ngAfterViewInit() {
-        this.slider = new KeenSlider(this.sliderRef.nativeElement, {
+        this.slider = new KeenSlider(this.sliderRef()!.nativeElement, {
             mode: 'free-snap',
             loop: true,
             slides: {

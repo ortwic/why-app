@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, input } from '@angular/core';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 
 @Component({
@@ -8,5 +8,5 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
     templateUrl: './loading.component.html',
 })
 export class LoadingComponent {
-    @Input() loading = true;
+    loading = input(true);
 }
