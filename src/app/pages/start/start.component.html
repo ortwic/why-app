@@ -1,0 +1,79 @@
+<app-loading [loading]="loading">
+    <header>
+        <h1>{{ greeting }}, {{ userName }}</h1>
+        <h2 mat-subheader>{{resource('intro')}}</h2>
+        <div role="progress">
+            @for(unit of units; track $index) {
+                <a href="#{{unit.order}}">
+                    <app-progress-spinner [size]="50" [value]="unitProgressPercent($index)">
+                        <small>{{unitProgressPercent($index)}}%</small>
+                    </app-progress-spinner>
+                    <div>{{resource('unit')}} {{ unit.order }}</div>
+                </a>
+                <p>
+                    <mat-divider vertical="true" />
+                </p>
+            }
+        </div>
+        <summary class="summary">
+            <mat-icon color="primary" fontIcon="analytics"></mat-icon>
+            <a role="button" [routerLink]="['/summary']">{{resource('summary')}}</a>
+        </summary>
+    </header>
+
+    @for(unit of units; track $index) {
+        <div class="unit">
+            <div class="header" [id]="unit.order">
+                <span mat-subheader>Einheit {{unit.order}} &mdash; {{unit.caption}}</span>
+                <h2>{{unit.title}}</h2>
+            </div>
+            <p>
+                <mat-divider />
+            </p>
+            <div class="card-container">
+                <mat-card class="card" *ngFor="let page of (unit.pages | async); let j = index">
+                    <mat-card-header class="card-header">
+                        <div class="card-title">
+                            <mat-card-title [title]="page.status">
+                                <h3>
+                                    @if (page.status === 'draft') {
+                                        <mat-icon color="primary" fontIcon="draw"></mat-icon>
+                                    }
+                                    <a [routerLink]="['/p', $index, j]">
+                                        {{page.title}}
+                                    </a>
+                                </h3>
+                            </mat-card-title>
+                            @if (page.hero_section) {
+                                <mat-card-subtitle>
+                                    {{page.hero_section.subhead}}
+                                </mat-card-subtitle>
+                            }
+                        </div>
+                        <div class="card-progress">
+                            <app-progress-spinner [size]="50" [value]="pageProgressPercent($index, page.id)">
+                                <small>{{pageProgressPercent($index, page.id)}}%</small>
+                            </app-progress-spinner>
+                        </div>
+                    </mat-card-header>
+                    <mat-card-content class="card-content">
+                        <p>
+                            @if (page.hero_section && page.hero_section.image) {
+                                <img class="thumbnail" mat-card-image [src]="page.hero_section.image" [alt]="page.hero_section.image_info" />
+                            } @else {
+                                <mat-divider />
+                            }
+                        </p>
+                    </mat-card-content>
+                    <mat-card-footer class="footer">
+                        @if (pageProgressPercent($index, page.id) > 99) {
+                            <mat-icon fontIcon="task_alt"/> Erledigt
+                        } @else {
+                            <mat-icon fontIcon="radio_button_unchecked"/> Offen
+                        }
+                    </mat-card-footer>
+                </mat-card>
+            </div>
+        </div>
+    }
+</app-loading>

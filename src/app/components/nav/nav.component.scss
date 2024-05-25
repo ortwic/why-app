@@ -1,0 +1,59 @@
+.sidenav-container {
+  height: 100%;
+
+  .mat-toolbar {
+    position: sticky;
+    z-index: 100;
+    border-bottom: 1px solid var(--bg3);
+    transition: top .2s ease;
+  }
+}
+
+.blur {
+  background: inherit;
+  backdrop-filter: blur(30px);
+  -webkit-backdrop-filter: blur(30px);
+}
+
+.sidenav {
+  width: 200px;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+
+  a[mat-list-item] {
+    display: flex;
+    flex-direction: row;
+    
+    .mat-icon {
+      font-size: 16px;
+      width: 16px;
+      height: 16px;
+      padding-right: 4px;
+    }
+  }
+
+  &.inline > li {
+    display: inline;
+
+    &.pipe:not(.active)::after {
+      content: ' | ';
+    }
+  }
+}
+
+.active {
+  display: none !important;
+}
+
+footer {
+  margin: 2rem 0;
+  text-align: center;
+}
