@@ -78,7 +78,7 @@ export class StartComponent {
     }
 
     get units(): Unit[] {
-        return this._units;
+        return this._units.sort((a, b) => a.order - b.order);
     }
 
     get userName(): string {
