@@ -6,12 +6,15 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { derivedAsync } from 'ngxtension/derived-async';
 import { LoadingComponent } from '../../components/ui/loading/loading.component';
+import { MarkdownComponent } from '../../components/ui/markdown/markdown.component';
 import { ProgressSpinnerComponent } from '../../components/ui/progress-spinner/progress-spinner.component';
 import { termsOfUseId } from '../../guards/terms-of-use.guard';
 import { CommonService, currentGuideId } from '../../services/common/common.service';
+import { GuideService } from '../../services/pages/guide.service';
 import { UnitService } from '../../services/pages/unit.service';
 import { UserDataService } from '../../services/user/user-data.service';
 import { UserResultService, percentOf } from '../../services/user/user-result.service';
+import { Guide } from '../../models/guide.model';
 import { Unit } from '../../models/unit.model';
 import { Result } from '../../models/result.model';
 
@@ -24,6 +27,7 @@ import { Result } from '../../models/result.model';
         MatCardModule,
         MatDividerModule,
         MatIconModule,
+        MarkdownComponent,
         LoadingComponent,
         ProgressSpinnerComponent,
     ],
@@ -32,22 +36,29 @@ import { Result } from '../../models/result.model';
 })
 export class StartComponent {
     private readonly _commonService = inject(CommonService);
+    private readonly _guideService = inject(GuideService);
     private readonly _unitService = inject(UnitService);
     private readonly _resultService = inject(UserResultService);
     private readonly _dataService = inject(UserDataService);
     
     private _resources: Record<string, unknown> = {};
+    private _guide?: Guide;
     private _units!: Unit[];
     private _results = derivedAsync(() => this._resultService.resultTree(currentGuideId()));
     private _greeting!: string;
     private _userName!: string;
     loading = true;
 
-    async ngOnInit() {
+    async ngOnInit() {    
         this._units = await this._unitService.dataPromise;        
         this._resources = await this._commonService.getResources('start');
         this._userName = this.getUserName(this._resources['user-names'] as string[]);
         this.setGreeting(this._resources['greetings'] as Record<number, string>);
+
+        const guideId = currentGuideId();
+        if (guideId) {
+            this._guide = await this._guideService.getDocument(guideId);
+        }
 
         this.loading = false;
     }
@@ -78,7 +89,7 @@ export class StartComponent {
     }
 
     get units(): Unit[] {
-        return this._units.sort((a, b) => a.order - b.order);
+        return this._units?.sort((a, b) => a.order - b.order);
     }
 
     get userName(): string {
@@ -87,6 +98,10 @@ export class StartComponent {
 
     get greeting() {
         return this._greeting;
+    }
+
+    get overview() {
+        return this._guide?.overview;
     }
 
     resource(key: string) {

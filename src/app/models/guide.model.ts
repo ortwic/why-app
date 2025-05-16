@@ -5,6 +5,7 @@ export interface Guide {
     order: number;
     title: string;
     caption: string;
+    overview: string;
     description: string;
     units: Promise<Unit[]>;
 }
