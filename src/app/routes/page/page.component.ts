@@ -16,7 +16,7 @@ import { InputSectionComponent } from '../../components/input-section/input-sect
 import { ContinueEventArgs, InputStepperComponent } from '../../components/input-stepper/input-stepper.component';
 import { MarkdownComponent } from '../../components/ui/markdown/markdown.component';
 import { currentGuideId } from '../../services/common/common.service';
-import { PageFacadeService } from '../../services/pages/page-facade.service';
+import { ConjunctionService } from '../../services/content/conjunction.service';
 import { pageReadTime } from '../../services/user/user-data.service';
 import { PageView } from '../../models/page.model';
 import { InputValue } from '../../models/content.model';
@@ -56,11 +56,11 @@ export class PageComponent {
     readonly pageView = derivedAsync(() => {
         const [unitIndex, pageIndex] = this._params();
         return isNaN(+unitIndex) 
-            ? this._pageFacade.getSinglePageView(unitIndex) 
-            : this._pageFacade.getUnitPageView(+unitIndex, pageIndex, currentGuideId())
+            ? this._content.getSinglePageView(unitIndex) 
+            : this._content.getUnitPageView(+unitIndex, pageIndex, currentGuideId())
     });
 
-    constructor(private _router: Router, private _pageFacade: PageFacadeService) {
+    constructor(private _router: Router, private _content: ConjunctionService) {
         effect(() => {
             const page = this.pageView();
             if (page) {
@@ -90,7 +90,7 @@ export class PageComponent {
     continue(args: ContinueEventArgs) {
         const page = this.pageView();
         if (page) {            
-            this._pageFacade.saveUserInput(page, args.data);
+            this._content.saveUserInput(page, args.data);
             if (args.completed) {
                 this.nextBreakpoint(page);
             }

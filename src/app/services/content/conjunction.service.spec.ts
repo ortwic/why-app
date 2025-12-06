@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { PageFacadeService } from './page-facade.service';
+import { ConjunctionService } from './conjunction.service';
 import { PageService } from './page.service';
 import { UnitService } from './unit.service';
 import { UserDataService } from '../user/user-data.service';
 
-describe('PageFacadeService', () => {
-    let service: PageFacadeService;
+describe('ConjunctionService', () => {
+    let service: ConjunctionService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -31,7 +31,7 @@ describe('PageFacadeService', () => {
                 },
             ],
         });
-        service = TestBed.inject(PageFacadeService);
+        service = TestBed.inject(ConjunctionService);
     });
 
     it('should be created', () => {

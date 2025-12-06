@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SummaryComponent } from './summary.component';
 import { Unit } from '../../models/unit.model';
 import { CommonService } from '../../services/common/common.service';
-import { UnitService } from '../../services/pages/unit.service';
+import { UnitService } from '../../services/content/unit.service';
 
 describe('SummaryComponent', () => {
   let component: SummaryComponent;

@@ -11,7 +11,7 @@ export const pageReadTime = '__page-read-in';
 @Injectable({
     providedIn: 'root',
 })
-export class PageFacadeService {
+export class ConjunctionService {
     constructor(
         private unitService: UnitService,
         private pageService: PageService,

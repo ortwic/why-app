@@ -3,7 +3,7 @@ import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
 import { PageComponent } from './page.component';
-import { PageFacadeService } from '../../services/pages/page-facade.service';
+import { ConjunctionService } from '../../services/content/conjunction.service';
 
 const params = {
     unit: 0,
@@ -26,7 +26,7 @@ describe('PageComponent', () => {
                     },
                 },
                 {
-                    provide: PageFacadeService,
+                    provide: ConjunctionService,
                     useValue: {
                         getSinglePageView: () => Promise.resolve({}),
                         getUnitPageView: () => Promise.resolve({}),

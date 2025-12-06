@@ -10,8 +10,8 @@ import { MarkdownComponent } from '../../components/ui/markdown/markdown.compone
 import { ProgressSpinnerComponent } from '../../components/ui/progress-spinner/progress-spinner.component';
 import { termsOfUseId } from '../../guards/terms-of-use.guard';
 import { CommonService, currentGuideId } from '../../services/common/common.service';
-import { GuideService } from '../../services/pages/guide.service';
-import { UnitService } from '../../services/pages/unit.service';
+import { GuideService } from '../../services/content/guide.service';
+import { UnitService } from '../../services/content/unit.service';
 import { UserDataService } from '../../services/user/user-data.service';
 import { UserResultService, percentOf } from '../../services/user/user-result.service';
 import { Guide } from '../../models/guide.model';

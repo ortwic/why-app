@@ -3,7 +3,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { StartComponent } from './start.component';
 import { CommonService } from '../../services/common/common.service';
-import { UnitService } from '../../services/pages/unit.service';
+import { UnitService } from '../../services/content/unit.service';
 import { Unit } from '../../models/unit.model';
 
 describe('StartComponent', () => {

@@ -7,7 +7,7 @@ import { derivedAsync } from 'ngxtension/derived-async';
 import { SettingsComponent } from '../settings/settings.component';
 import { LoadingComponent } from '../../components/ui/loading/loading.component';
 import { ProgressSpinnerComponent } from '../../components/ui/progress-spinner/progress-spinner.component';
-import { UnitService } from '../../services/pages/unit.service';
+import { UnitService } from '../../services/content/unit.service';
 import { Unit } from '../../models/unit.model';
 import { Result, ResultValue } from '../../models/result.model';
 import { InputDefinition, InputValue } from '../../models/content.model';

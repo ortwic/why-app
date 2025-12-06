@@ -1,12 +1,12 @@
 import { ActivatedRouteSnapshot, Routes } from '@angular/router';
 import { termsOfUseGuard } from './guards/terms-of-use.guard';
-import { StartComponent } from './pages/start/start.component';
-import { PageComponent } from './pages/page/page.component';
-import { BlogComponent } from './pages/blog/blog.component';
-import { BlogPostComponent } from './pages/blog-post/blog-post.component';
-import { SettingsComponent } from './pages/settings/settings.component';
-import { ErrorComponent } from './pages/error/error.component';
-import { SummaryComponent } from './pages/summary/summary.component';
+import { StartComponent } from './routes/start/start.component';
+import { PageComponent } from './routes/page/page.component';
+import { BlogComponent } from './routes/blog/blog.component';
+import { BlogPostComponent } from './routes/blog/blog-post.component';
+import { SettingsComponent } from './routes/settings/settings.component';
+import { ErrorComponent } from './routes/error/error.component';
+import { SummaryComponent } from './routes/summary/summary.component';
 
 export const routes: Routes = [
     { 

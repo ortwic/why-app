@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { map, switchMap } from 'rxjs';
-import { BlogService } from '../../services/blog/blog.service';
+import { BlogService } from '../../services/content/blog.service';
 import { MediaStorageService } from '../../services/common/media-storage.service';
 import { BlogPost } from '../../models/blog.model';
 

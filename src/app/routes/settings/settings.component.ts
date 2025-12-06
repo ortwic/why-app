@@ -4,11 +4,12 @@ import { MatIconModule } from '@angular/material/icon';
 import { LoadingComponent } from '../../components/ui/loading/loading.component';
 import { CommonService } from '../../services/common/common.service';
 import { UserDataService } from '../../services/user/user-data.service';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
     selector: 'app-settings',
     standalone: true,
-    imports: [MatButtonModule, MatIconModule,LoadingComponent],
+    imports: [MatButtonModule, MatDividerModule, MatIconModule, LoadingComponent],
     templateUrl: './settings.component.html',
     styleUrl: './settings.component.scss',
 })

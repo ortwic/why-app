@@ -4,7 +4,7 @@ import { ActivatedRoute } from '@angular/router';
 
 import { NavComponent } from './nav.component';
 import { CommonService } from '../../services/common/common.service';
-import { GuideService } from '../../services/pages/guide.service';
+import { GuideService } from '../../services/content/guide.service';
 
 describe('NavComponent', () => {
   let component: NavComponent;
