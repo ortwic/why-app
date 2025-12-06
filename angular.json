@@ -36,6 +36,8 @@
               "src/manifest.webmanifest"
             ],
             "styles": [
+              "node_modules/material-icons/iconfont/material-icons.css",
+              "node_modules/@fontsource/roboto/index.css",
               "src/styles/theme.scss",
               "src/styles/main.scss"
             ],
