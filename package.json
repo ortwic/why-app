@@ -23,12 +23,13 @@
   "type": "module",
   "scripts": {
     "preinstall": "npx only-allow pnpm",
-    "dev": "ng serve -c development",
+    "dev": "ng serve -c emulators",
     "start": "ng serve -c development",
     "build": "ng build --aot --verbose",
     "watch": "ng build --watch -c development",
     "host:beta": "firebase --project why-app-8a640 deploy --only hosting:beta",
     "host:prod": "firebase --project why-app-8a640 deploy --only hosting:prod",
+    "fbem": "firebase emulators:start --only auth,firestore,storage --project=emulator --import firestore.local --export-on-exit",
     "test": "ng test --browsers=ChromeHeadless",
     "serve:ssr:why-app": "node dist/why-app/server/server.mjs"
   },

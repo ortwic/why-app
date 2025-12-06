@@ -4,10 +4,11 @@ import { provideClientHydration } from '@angular/platform-browser';
 import { provideServiceWorker } from '@angular/service-worker';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
-import { getAuth, provideAuth } from '@angular/fire/auth';
+import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 // import { getAnalytics, provideAnalytics, ScreenTrackingService, UserTrackingService } from '@angular/fire/analytics';
-import { initializeFirestore, persistentLocalCache, persistentMultipleTabManager, provideFirestore } from '@angular/fire/firestore';
-import { getStorage, provideStorage } from '@angular/fire/storage';
+import { connectFirestoreEmulator, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, provideFirestore } from '@angular/fire/firestore';
+import { connectStorageEmulator, getStorage, provideStorage } from '@angular/fire/storage';
+import { environment as env } from '../environments/env.default';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -20,28 +21,35 @@ export const appConfig: ApplicationConfig = {
         }),
         provideAnimationsAsync(),
         importProvidersFrom(
-            provideFirebaseApp(() =>
-                initializeApp({
-                    projectId: 'why-app-8a640',
-                    appId: '1:421607989972:web:94f09c89b215baaf3f1141',
-                    storageBucket: 'why-app-8a640.appspot.com',
-                    // "locationId":"europe-west",
-                    apiKey: 'AIzaSyC4pJvHQFG4btucEzsw77uVT4HHovK7Nmg',
-                    authDomain: 'why-app-8a640.firebaseapp.com',
-                    messagingSenderId: '421607989972',
-                    measurementId: 'G-1MPCGHPTJ5',
-                })
-            ),
-            provideAuth(() => getAuth()),
+            provideFirebaseApp(() => initializeApp(env.firebase)),
+            provideAuth(() => {
+                const auth = getAuth();
+                if (env.useEmulators) {
+                    connectAuthEmulator(auth, env.firebase['authDomain']);
+                }
+                return auth;
+            }),
             // provideAnalytics(() => getAnalytics()),
-            provideFirestore(() =>
-                initializeFirestore(getApp(), {
+            provideFirestore(() => {
+                const store = initializeFirestore(getApp(), env.useEmulators ? {} : {
                     localCache: persistentLocalCache({
                         tabManager: persistentMultipleTabManager(),
                     }),
                 })
-            ),
-            provideStorage(() => getStorage()),
+                if (env.useEmulators) {
+                    const port = env.firebase['databaseURL']?.split(':').at(-1) || 8080;
+                    connectFirestoreEmulator(store, 'localhost', +port);
+                }
+                return store;
+            }),
+            provideStorage(() => {
+                const storage = getStorage();
+                if (env.useEmulators) {
+                    const port = env.firebase['storageBucket']?.split(':').at(-1) || 8188;
+                    connectStorageEmulator(storage, 'localhost', +port);
+                }
+                return storage;
+            }),
         ),
         // ScreenTrackingService,
         // UserTrackingService,

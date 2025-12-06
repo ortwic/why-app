@@ -64,6 +64,14 @@
               "optimization": false,
               "extractLicenses": false,
               "sourceMap": true
+            },
+            "emulators": {
+              "fileReplacements": [
+                {
+                  "replace": "src/environments/env.default.ts",
+                  "with": "src/environments/env.emulator.ts"
+                }
+              ]
             }
           },
           "defaultConfiguration": "production"
@@ -76,6 +84,9 @@
             },
             "development": {
               "buildTarget": "why-app:build:development"
+            },
+            "emulators": {
+              "buildTarget": "why-app:build:emulators"
             }
           },
           "defaultConfiguration": "development"
