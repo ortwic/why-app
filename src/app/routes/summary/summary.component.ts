@@ -4,7 +4,6 @@ import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
 import { derivedAsync } from 'ngxtension/derived-async';
-import { SettingsComponent } from '../settings/settings.component';
 import { LoadingComponent } from '../../components/ui/loading/loading.component';
 import { ProgressSpinnerComponent } from '../../components/ui/progress-spinner/progress-spinner.component';
 import { UnitService } from '../../services/content/unit.service';
@@ -12,32 +11,33 @@ import { Unit } from '../../models/unit.model';
 import { Result, ResultValue } from '../../models/result.model';
 import { InputDefinition, InputValue } from '../../models/content.model';
 import { Page } from '../../models/page.model';
-import { CommonService, currentGuideId } from '../../services/common/common.service';
+import { currentGuideId } from '../../services/common/common.service';
 import { UserResultService } from '../../services/user/user-result.service';
 import { pageReadTime } from '../../services/user/user-data.service';
+import { UserDataComponent } from "../settings/user-data/user-data.component";
+import { TranslatePipe } from "../../pipes/translate.pipe";
 
 @Component({
     selector: 'app-summary',
     standalone: true,
     imports: [
-        CommonModule, 
-        MatAccordion,
-        MatExpansionModule,
-        MatDividerModule,
-        MatIconModule,
-        LoadingComponent, 
-        ProgressSpinnerComponent,
-        SettingsComponent
-    ],
+    CommonModule,
+    MatAccordion,
+    MatExpansionModule,
+    MatDividerModule,
+    MatIconModule,
+    LoadingComponent,
+    ProgressSpinnerComponent,
+    UserDataComponent,
+    TranslatePipe
+],
     templateUrl: './summary.component.html',
     styleUrl: './summary.component.scss',
 })
 export class SummaryComponent {
-    private readonly _commonService = inject(CommonService);
     private readonly _unitService = inject(UnitService);
     private readonly _resultService = inject(UserResultService);
     
-    private _resources: Record<string, unknown> = {};
     private _units!: Unit[];
     private _results = derivedAsync(() => this._resultService.resultTree(currentGuideId()));
     readonly doneKey = pageReadTime;
@@ -45,17 +45,12 @@ export class SummaryComponent {
 
     async ngOnInit() {
         this._units = await this._unitService.dataPromise;
-        this._resources = await this._commonService.getResources('start');
 
         this.loading = false;
     }
 
     get summary(): Result[] | undefined {
         return this._results();
-    }
-    
-    resource(key: string) {
-        return this._resources[key];
     }
 
     title(index: number) {

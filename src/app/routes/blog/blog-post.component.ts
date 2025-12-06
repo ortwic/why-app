@@ -23,7 +23,7 @@ export class BlogPostComponent {
     );
 
     private async loadDocument(id: string): Promise<BlogPost> {
-        return this._blogService.getDocument<BlogPost>(id).then((post) => {
+        return this._blogService.getDocumentAsync<BlogPost>(id).then((post) => {
             console.log(post)
             if (post) {
                 document.title = post.title + ' | Why App';

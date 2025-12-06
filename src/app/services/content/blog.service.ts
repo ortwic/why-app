@@ -17,7 +17,7 @@ export class BlogService extends FirestoreService {
 
   constructor() {
     super('blog');
-    this.data$ = super.getDocumentStream<BlogPost>(...this.constraints)
+    this.data$ = super.getDocuments<BlogPost>(...this.constraints)
       .pipe(map(arr => arr.sort((a) => a.sticky ? -1 : 1)));
   }
 }

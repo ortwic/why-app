@@ -48,7 +48,7 @@ export class NavComponent implements AfterViewInit {
     
     async ngOnInit() {
         this._routes = await this._commonService.getNavigation();
-        const guides = await this._guideService.getDocuments<Guide>();
+        const guides = await this._guideService.getDocumentsAsync<Guide>();
         this.currentGuide = guides[0];
         currentGuideId.set(guides[0].id);
     }

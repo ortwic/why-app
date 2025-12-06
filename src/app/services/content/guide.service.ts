@@ -7,7 +7,7 @@ import { Guide } from '../../models/guide.model';
     providedIn: 'root',
 })
 export class GuideService extends FirestoreService {
-    readonly dataPromise = super.getDocuments<Guide>(orderBy('order'));
+    readonly dataPromise = super.getDocumentsAsync<Guide>(orderBy('order'));
 
     constructor() {
         super('guides');

@@ -1,14 +1,14 @@
 <app-loading [loading]="loading">
     <header>
-        <h1>{{ greeting }}, {{ userName }}</h1>
-        <h2 mat-subheader>{{resource('intro')}}</h2>
+        <h1>{{ greeting }}, {{ userName ?? randomName() }}</h1>
+        <h2 mat-subheader>{{'start.intro' | t}}</h2>
         <div role="progress">
             @for(unit of units; track $index) {
                 <a href="#{{unit.order}}">
                     <app-progress-spinner [size]="50" [value]="unitProgressPercent($index)">
                         <small>{{unitProgressPercent($index)}}%</small>
                     </app-progress-spinner>
-                    <div>{{resource('unit')}} {{ unit.order }}</div>
+                    <div>{{'start.unit' | t}} {{ unit.order }}</div>
                 </a>
                 <p>
                     <mat-divider vertical="true" />
@@ -17,7 +17,7 @@
         </div>
         <summary class="summary">
             <mat-icon color="primary" fontIcon="analytics"></mat-icon>
-            <a role="button" [routerLink]="['/summary']">{{resource('summary')}}</a>
+            <a role="button" [routerLink]="['/summary']">{{'start.summary' | t}}</a>
         </summary>
         <app-markdown class="content" content="{{overview}}" />
     </header>

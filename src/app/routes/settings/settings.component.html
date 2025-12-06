@@ -1,16 +1,7 @@
 <app-loading [loading]="loading">
     <div class="settings">
-        <h1>{{resource('user-data')}}</h1>
+        <h1>{{ 'settings.user-data' | t }}</h1>
         <mat-divider /><br/>
-        <div class="info">
-            <mat-icon fontIcon="info" color="primary" />
-            <p>{{resource('user-data-info')}}</p>
-        </div>
-        <a mat-raised-button (click)="download()">
-            <p>{{resource('user-data-export')}}</p>
-        </a>
-        <a mat-raised-button (click)="clear()">
-            <p>{{resource('user-data-reset')}}</p>
-        </a>
+        <app-user-data />
     </div>
 </app-loading>

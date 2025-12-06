@@ -13,7 +13,7 @@ export class PageService extends FirestoreService {
     }
 
     async getSinglePageOrDefault(pageId: string): Promise<Page> {
-        const page = await this.getDocument<Page>(pageId);
+        const page = await this.getDocumentAsync<Page>(pageId);
         return page ?? emptyPage;
     }
 }

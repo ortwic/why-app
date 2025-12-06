@@ -8,7 +8,7 @@ import { Page } from '../../models/page.model';
     providedIn: 'root',
 })
 export class UnitService extends FirestoreService {
-    readonly dataPromise = super.getDocuments<Unit>(orderBy('order'));
+    readonly dataPromise = super.getDocumentsAsync<Unit>(orderBy('order'));
 
     constructor() {
         super('units');

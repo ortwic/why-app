@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, Signal, signal } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
@@ -17,20 +17,22 @@ import { UserResultService, percentOf } from '../../services/user/user-result.se
 import { Guide } from '../../models/guide.model';
 import { Unit } from '../../models/unit.model';
 import { Result } from '../../models/result.model';
+import { TranslatePipe } from "../../pipes/translate.pipe";
 
 @Component({
     selector: 'app-start',
     standalone: true,
     imports: [
-        CommonModule,
-        RouterModule,
-        MatCardModule,
-        MatDividerModule,
-        MatIconModule,
-        MarkdownComponent,
-        LoadingComponent,
-        ProgressSpinnerComponent,
-    ],
+    CommonModule,
+    RouterModule,
+    MatCardModule,
+    MatDividerModule,
+    MatIconModule,
+    MarkdownComponent,
+    LoadingComponent,
+    ProgressSpinnerComponent,
+    TranslatePipe
+],
     templateUrl: './start.component.html',
     styleUrl: './start.component.scss',
 })
@@ -41,71 +43,65 @@ export class StartComponent {
     private readonly _resultService = inject(UserResultService);
     private readonly _dataService = inject(UserDataService);
     
-    private _resources: Record<string, unknown> = {};
     private _guide?: Guide;
     private _units!: Unit[];
     private _results = derivedAsync(() => this._resultService.resultTree(currentGuideId()));
-    private _greeting!: string;
-    private _userName!: string;
+    readonly randomName: Signal<string> = signal('');
     loading = true;
 
+    constructor() {
+        this.randomName = computed(() => {
+            const defaultNames = this._commonService.getResource<string[]>('start', 'user-names');
+            return defaultNames ? defaultNames[Math.floor(Math.random() * defaultNames.length)] : '';
+        })
+    }
+
     async ngOnInit() {    
-        this._units = await this._unitService.dataPromise;        
-        this._resources = await this._commonService.getResources('start');
-        this._userName = this.getUserName(this._resources['user-names'] as string[]);
-        this.setGreeting(this._resources['greetings'] as Record<number, string>);
+        this._units = await this._unitService.dataPromise;
 
         const guideId = currentGuideId();
         if (guideId) {
-            this._guide = await this._guideService.getDocument(guideId);
+            this._guide = await this._guideService.getDocumentAsync(guideId);
         }
 
         this.loading = false;
-    }
-
-    private getUserName(defaultNames: string[]): string {
-        const entry = this._dataService.getItems(termsOfUseId);
-        if ('display-name' in entry && entry['display-name']) {
-            return entry['display-name'];
-        }
-        const randomIndex = Math.floor(Math.random() * defaultNames.length);
-        return defaultNames[randomIndex];        
-    }
-    
-    private setGreeting(greetings: Record<number, string>) {
-        const currentHour = new Date().getHours();
-
-        if (currentHour >= 5 && currentHour < 12) {
-            this._greeting = greetings[5];
-        } else if (currentHour >= 12 && currentHour < 18) {
-            this._greeting = greetings[12];
-        } else if (currentHour >= 18 && currentHour < 21) {
-            this._greeting = greetings[18];
-        } else if (currentHour >= 21 && currentHour < 24) {
-            this._greeting = greetings[21];
-        } else {
-            this._greeting = greetings[0];
-        }
     }
 
     get units(): Unit[] {
         return this._units?.sort((a, b) => a.order - b.order);
     }
 
-    get userName(): string {
-        return this._userName;
+    get greeting(): string {
+        const greetings = this._commonService.getResource<Record<number, string>>('start', 'greetings');
+        if (typeof greetings === 'object') {
+            const currentHour = new Date().getHours();
+
+            if (currentHour >= 5 && currentHour < 12) {
+                return greetings[5];
+            } else if (currentHour >= 12 && currentHour < 18) {
+                return greetings[12];
+            } else if (currentHour >= 18 && currentHour < 21) {
+                return greetings[18];
+            } else if (currentHour >= 21 && currentHour < 24) {
+                return greetings[21];
+            } else {
+                return greetings[0];
+            }
+        }
+
+        return '';
     }
 
-    get greeting() {
-        return this._greeting;
+    get userName(): string | undefined {
+        const entry = this._dataService.getItems(termsOfUseId);
+        if ('display-name' in entry && entry['display-name']) {
+            return entry['display-name'];
+        }
+        return undefined;
     }
 
     get overview() {
         return this._guide?.overview;
-    }
-
-    resource(key: string) {
-        return this._resources[key];
     }
 
     unitProgressPercent(unitIndex: number) {
