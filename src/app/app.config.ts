@@ -43,12 +43,13 @@ export const appConfig: ApplicationConfig = {
                 return store;
             }),
             provideStorage(() => {
-                const storage = getStorage();
                 if (env.useEmulators) {
                     const port = env.firebase['storageBucket']?.split(':').at(-1) || 8188;
+                    const storage = getStorage(undefined, env.firebase['projectId']);
                     connectStorageEmulator(storage, 'localhost', +port);
+                    return storage;
                 }
-                return storage;
+                return getStorage();
             }),
         ),
         // ScreenTrackingService,
