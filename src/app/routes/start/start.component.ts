@@ -8,13 +8,12 @@ import { derivedAsync } from 'ngxtension/derived-async';
 import { LoadingComponent } from '../../components/ui/loading/loading.component';
 import { MarkdownComponent } from '../../components/ui/markdown/markdown.component';
 import { ProgressSpinnerComponent } from '../../components/ui/progress-spinner/progress-spinner.component';
-import { termsOfUseId } from '../../guards/terms-of-use.guard';
-import { CommonService, currentGuideId } from '../../services/common/common.service';
+import { termsOfUseKey } from '../../guards/terms-of-use.guard';
+import { CommonService } from '../../services/common/common.service';
 import { GuideService } from '../../services/content/guide.service';
 import { UnitService } from '../../services/content/unit.service';
 import { UserDataService } from '../../services/user/user-data.service';
 import { UserResultService, percentOf } from '../../services/user/user-result.service';
-import { Guide } from '../../models/guide.model';
 import { Unit } from '../../models/unit.model';
 import { Result } from '../../models/result.model';
 import { TranslatePipe } from "../../pipes/translate.pipe";
@@ -43,9 +42,8 @@ export class StartComponent {
     private readonly _resultService = inject(UserResultService);
     private readonly _dataService = inject(UserDataService);
     
-    private _guide?: Guide;
     private _units!: Unit[];
-    private _results = derivedAsync(() => this._resultService.resultTree(currentGuideId()));
+    private _results = derivedAsync(() => this._resultService.resultTree(this._guideService.currentId));
     readonly randomName: Signal<string> = signal('');
     loading = true;
 
@@ -58,12 +56,6 @@ export class StartComponent {
 
     async ngOnInit() {    
         this._units = await this._unitService.dataPromise;
-
-        const guideId = currentGuideId();
-        if (guideId) {
-            this._guide = await this._guideService.getDocumentAsync(guideId);
-        }
-
         this.loading = false;
     }
 
@@ -93,7 +85,7 @@ export class StartComponent {
     }
 
     get userName(): string | undefined {
-        const entry = this._dataService.getItems(termsOfUseId);
+        const entry = this._dataService.getItems(termsOfUseKey);
         if ('display-name' in entry && entry['display-name']) {
             return entry['display-name'];
         }
@@ -101,7 +93,7 @@ export class StartComponent {
     }
 
     get overview() {
-        return this._guide?.overview;
+        return this._guideService.current()?.overview;
     }
 
     unitProgressPercent(unitIndex: number) {

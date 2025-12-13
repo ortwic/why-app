@@ -5,11 +5,12 @@ import { LoadingComponent } from '../../components/ui/loading/loading.component'
 import { MatDividerModule } from '@angular/material/divider';
 import { UserDataComponent } from "./user-data/user-data.component";
 import { TranslatePipe } from "../../pipes/translate.pipe";
+import { GuidesComponent } from "./guides/guides.component";
 
 @Component({
     selector: 'app-settings',
     standalone: true,
-    imports: [MatButtonModule, MatDividerModule, MatIconModule, LoadingComponent, UserDataComponent, TranslatePipe],
+    imports: [MatButtonModule, MatDividerModule, MatIconModule, LoadingComponent, UserDataComponent, TranslatePipe, GuidesComponent],
     templateUrl: './settings.component.html',
     styleUrl: './settings.component.scss',
 })

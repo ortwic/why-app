@@ -11,7 +11,7 @@ import { Unit } from '../../models/unit.model';
 import { Result, ResultValue } from '../../models/result.model';
 import { InputDefinition, InputValue } from '../../models/content.model';
 import { Page } from '../../models/page.model';
-import { currentGuideId } from '../../services/common/common.service';
+import { GuideService } from '../../services/content/guide.service';
 import { UserResultService } from '../../services/user/user-result.service';
 import { pageReadTime } from '../../services/user/user-data.service';
 import { UserDataComponent } from "../settings/user-data/user-data.component";
@@ -37,9 +37,10 @@ import { TranslatePipe } from "../../pipes/translate.pipe";
 export class SummaryComponent {
     private readonly _unitService = inject(UnitService);
     private readonly _resultService = inject(UserResultService);
+    private readonly _guideService = inject(GuideService);
     
     private _units!: Unit[];
-    private _results = derivedAsync(() => this._resultService.resultTree(currentGuideId()));
+    private _results = derivedAsync(() => this._resultService.resultTree(this._guideService.currentId));
     readonly doneKey = pageReadTime;
     loading = true;
 

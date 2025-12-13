@@ -3,18 +3,23 @@
 # Why-App
 A philosophical tool for your existential journey.
 
+## Demo of capabilities
+
+- [Demo for testing](https://why-test.firebaseapp.com/)
+- [English Why-App](https://why-app.firebaseapp.com/)
+- [German Why-App](https://wozu-das-alles.firebaseapp.com/)
+
+
 # Content Management
 
 ## Creating Content
 
-Content is managed with [FireCMS](https://app.firecms.co/p/why-app-8a640).
+Content is managed with [Fl-CMS](https://github.com/ortwic/web-apps/tree/main/apps/fl-cms).
 
-There are 3 collections for content:
-- Guide
-- Page
-- Blog
-
-Each guide can reference to n pages.
+The `guide` collections for the content contains subcollections:
+- `guides/blog` for some blog posts
+- `guides/pages` for general stuff
+- `guides/units/pages` for the content grouped by its units
 
 ## Formatting Content
 

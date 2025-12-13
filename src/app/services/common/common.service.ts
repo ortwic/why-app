@@ -6,8 +6,6 @@ import { NavigationItem } from '../../models/nav.model';
 
 type ResourceContainer = { id: string, resources: Record<string, unknown> };
 
-export const currentGuideId = signal<string | undefined>(undefined);
-
 @Injectable({
     providedIn: 'root',
 })

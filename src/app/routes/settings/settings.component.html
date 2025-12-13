@@ -1,5 +1,8 @@
 <app-loading [loading]="loading">
     <div class="settings">
+        <h1>{{ 'settings.subscriptions' | t }}</h1>
+        <mat-divider /><br/>
+        <app-guides />
         <h1>{{ 'settings.user-data' | t }}</h1>
         <mat-divider /><br/>
         <app-user-data />

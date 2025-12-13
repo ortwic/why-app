@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, computed, effect, isDevMode } from '@angular/core';
+import { Component, computed, effect, inject, isDevMode } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
@@ -15,7 +15,7 @@ import { ImageSliderComponent } from '../../components/image-slider/image-slider
 import { InputSectionComponent } from '../../components/input-section/input-section.component';
 import { ContinueEventArgs, InputStepperComponent } from '../../components/input-stepper/input-stepper.component';
 import { MarkdownComponent } from '../../components/ui/markdown/markdown.component';
-import { currentGuideId } from '../../services/common/common.service';
+import { GuideService } from '../../services/content/guide.service';
 import { ConjunctionService } from '../../services/content/conjunction.service';
 import { pageReadTime } from '../../services/user/user-data.service';
 import { PageView } from '../../models/page.model';
@@ -46,6 +46,7 @@ import { expandTrigger } from '../../animations.helper';
     animations: [ expandTrigger('next') ],
 })
 export class PageComponent {
+    private readonly _guideService = inject(GuideService);
     private _params = injectParams((params) => ([params['unit'],  +(params['page'] ?? 0)] as [string, number]));
     private _returnPath = injectQueryParams('from', { initialValue: '/' });
     private _breakpoints = computed(() => this.initBreakpoints(this.pageView()));
@@ -57,7 +58,7 @@ export class PageComponent {
         const [unitIndex, pageIndex] = this._params();
         return isNaN(+unitIndex) 
             ? this._content.getSinglePageView(unitIndex) 
-            : this._content.getUnitPageView(+unitIndex, pageIndex, currentGuideId())
+            : this._content.getUnitPageView(+unitIndex, pageIndex, this._guideService.currentId)
     });
 
     constructor(private _router: Router, private _content: ConjunctionService) {
