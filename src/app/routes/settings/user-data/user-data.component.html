@@ -1,0 +1,12 @@
+<section>
+    <div class="info">
+        <mat-icon fontIcon="info" color="primary" />
+        <p>{{'settings.user-data-info' | t}}</p>
+    </div>
+    <a mat-raised-button (click)="download()">
+        <p>{{'settings.user-data-export' | t}}</p>
+    </a>
+    <a mat-raised-button (click)="clear()">
+        <p>{{'settings.user-data-reset' | t}}</p>
+    </a>
+</section>

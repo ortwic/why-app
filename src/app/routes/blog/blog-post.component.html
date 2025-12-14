@@ -1,0 +1,10 @@
+<ng-container *ngIf="document | async as doc">
+    <h1>{{doc.title}}</h1>
+    @for (item of doc.content; track item) {
+        @if (item.type === 'iframe' && item.value) {
+            <app-iframe [value]="item.value" />
+        } @else {
+            <app-markdown [content]="item.value.toString()" />
+        }
+    }
+</ng-container>

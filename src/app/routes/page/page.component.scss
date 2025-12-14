@@ -1,0 +1,22 @@
+.content {
+    margin: 2rem 5%;
+}
+
+.centered {
+    text-align: center;
+
+    a[mat-button] span {
+        display: flex;
+        align-items: center;
+
+        &.prev {
+            flex-direction: row;
+            padding-right: .6rem;
+        }
+
+        &.next {
+            flex-direction: row-reverse;
+            padding-left: .6rem;   
+        }
+    }
+}

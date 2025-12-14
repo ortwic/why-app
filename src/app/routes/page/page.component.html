@@ -1,0 +1,62 @@
+<ng-template #loading><app-loading /></ng-template>
+
+<ng-container *ngIf="pageView() as page; else loading">
+    <app-hero-section [hero-section]="page.hero_section"/>
+
+    @for (item of page.content; track $index) {
+        
+        @if (item.type === 'iframe' && item.value) {
+            <div class="centered" [@next]="show($index)">
+                <app-iframe [value]="item.value" />
+            </div>
+        } @else if (item.type === 'text') {
+            <app-markdown class="content" [@next]="show($index)" [content]="item.value" />
+        } @else if (item.type === 'expand') {
+            <div class="content" [@next]="show($index)">
+                <app-expand 
+                    [title]="item.value.title" [description]="item.value.description">
+                    <app-markdown [content]="item.value.content" />
+                </app-expand>
+            </div>
+        } @else if (item.type === 'stepper') {
+            <form class="content" [@next]="show($index)">
+                <app-input-stepper [data]="page.userData" [definitions]="item.value" (continue)="continue($event)" />
+            </form>
+        } @else if (item.type === 'slider') {
+            <app-image-slider [@next]="show($index)" [images]="item.value" height="50vh" />
+        } @else {
+            <pre class="content" [@next]="show($index)" title="{{item.type}}">{{item.value | json}}</pre>
+        }
+    }
+
+    <footer class="content centered">
+        @if (!page.footer_override) {
+            @if (page.prevIndex !== undefined) {
+                <a role="button" mat-button color="primary" aria-label="Vorherige Seite"
+                [routerLink]="[ '/p', page.unitIndex, page.prevIndex ]">
+                    <span class="prev">
+                        <mat-icon fontIcon="arrow_back" /> &nbsp;Vorherige Seite
+                    </span>
+                </a> 
+            }
+            @if (page.nextIndex !== undefined) {
+                <a role="button" mat-button color="primary" aria-label="Nächste Seite"
+                [routerLink]="[ '/p', page.unitIndex, page.nextIndex ]" 
+                (click)="next(page.userData)" [disabled]="nextDisabled(page.sectionCount)">
+                    <span class="next">
+                        <mat-icon fontIcon="arrow_forward" /> Nächste Seite&nbsp;
+                    </span>
+                </a>
+            } @else {
+                <a role="button" mat-button color="primary" aria-label="Abschließen"
+                    (click)="complete(page.userData)" [disabled]="nextDisabled(page.sectionCount)">
+                    <span class="next">            
+                        <mat-icon fontIcon="check_small" /> Abschließen&nbsp;
+                    </span>
+                </a>
+            }
+        } @else {
+            <app-markdown [content]="page.footer_override" />
+        }
+    </footer>
+</ng-container>
