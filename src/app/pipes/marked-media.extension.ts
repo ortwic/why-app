@@ -11,7 +11,7 @@ import { MediaAttributes, Attributes } from "./marked-media.model";
  * marked.parseInline("![this is audio](1 'type:wav,controls,autoplay,muted')
  * marked.parseInline("![](PB4gId2mPNc 'type:youtube,width:560,height:315')");")
  */
-export const markedMedia = (resolveHref: (path: string) => Promise<string>) => {
+export const markedMedia = (resolveHref: (path: string) => Promise<[string?, string?]>) => {
     const parseAttributes = (title: string) => {
         return title.split(',').reduce((acc, element) => {
             let object = element.split('=');
@@ -22,11 +22,9 @@ export const markedMedia = (resolveHref: (path: string) => Promise<string>) => {
     const walkTokens = async (token: Token) => {
         const isYouTubeId = (id: string) => id.match(/^[\w-]+$/);
         if (token.type === 'image' && !isYouTubeId(token.href)) {
-            try {
-                token.href = await resolveHref(token.href);
-            } catch (error) {
-                console.log(error);
-            }
+            const [url, error] = await resolveHref(token.href);
+            token.href = url;
+            token.title = error || token.title;
         }
     };
     const renderer: RendererObject = {

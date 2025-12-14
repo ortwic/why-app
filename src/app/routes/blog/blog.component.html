@@ -2,7 +2,7 @@
     <mat-card class="card">
         <mat-card-header>
             @if (post.imageSrc) {
-                <img class="thumbnail" mat-card-lg-image [src]="post.imageSrc" />
+                <img class="thumbnail" mat-card-lg-image [src]="post.imageSrc" [alt]="post.alt" />
             }
             <mat-card-title-group>
                 <mat-card-title>
