@@ -24,6 +24,7 @@ import {
 } from '@angular/fire/firestore';
 import { startWith } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
+import { PathBuilder } from '../utils/path-builder';
 
 // firestore does not like undefined values so omit them
 const omitUndefinedFields = (data: Record<string, unknown>) => {
@@ -39,21 +40,25 @@ export const snapshotOptions: SnapshotOptions = {
     serverTimestamps: 'none'
 };
 
-type Data = { id: string };
-
 export abstract class FirestoreService<T extends DocumentData> {
     private readonly store = inject(Firestore);
+    private readonly path: PathBuilder;
 
-    constructor(private path: string) {
+    constructor(...collectionIds: string[]) {
+        this.path = new PathBuilder(collectionIds);
     }
     
-    public getDocuments(...constraints: QueryConstraint[]): Observable<T[]> {
-        const query = this.createQuery(...constraints);
+    public getDocuments(...args: Array<QueryConstraint | string>): Observable<T[]> {
+        const fullPath = this.path.build(...args.filter(e => typeof e === 'string') as string[]);
+        const constraints = args.filter(e => e instanceof QueryConstraint) as QueryConstraint[];
+        const query = this.createQuery(fullPath, constraints);
         return collectionData<T>(query, { idField: 'id' }).pipe(startWith([]));
     }
 
-    public async getDocumentsAsync(...constraints: QueryConstraint[]): Promise<T[]> {
-        const query = this.createQuery(...constraints);
+    public async getDocumentsAsync(...args: Array<QueryConstraint | string>): Promise<T[]> {
+        const fullPath = this.path.build(...args.filter(e => typeof e === 'string') as string[]);
+        const constraints = args.filter(e => e instanceof QueryConstraint) as QueryConstraint[];
+        const query = this.createQuery(fullPath, constraints);
         return getDocs<T, DocumentData>(query).then((snapshot) => {
             const result: T[] = [];
             snapshot.forEach((doc) => result.push({
@@ -64,8 +69,8 @@ export abstract class FirestoreService<T extends DocumentData> {
         });
     }
 
-    private createQuery(...constraints: QueryConstraint[]): Query<T, DocumentData> {
-        const items = collection(this.store, this.path).withConverter({
+    private createQuery(path: string, constraints: QueryConstraint[]): Query<T, DocumentData> {
+        const items = collection(this.store, path).withConverter({
             toFirestore: this.toFirestore,
             fromFirestore: this.fromFirestore
         }) as CollectionReference<T>;
@@ -97,14 +102,14 @@ export abstract class FirestoreService<T extends DocumentData> {
     
     public getDocument(id?: string): Observable<T | null> {
         if (id && this.store) {
-            const ref = doc(this.store, this.path, id);
+            const ref = doc(this.store, this.path.toString(), id);
             return docData(ref, { idField: 'id' }) as Observable<T | null>;
         }
         return of(null);
     }
 
     public async getDocumentAsync<TResult = T>(id: string): Promise<TResult | undefined> {
-        const docRef = doc(this.store, this.path, id);
+        const docRef = doc(this.store, this.path.toString(), id);
         const document = await this.toDocument(docRef) as TResult;
         if (document) {
             return {
@@ -127,32 +132,32 @@ export abstract class FirestoreService<T extends DocumentData> {
         return Promise.resolve(undefined);
     }
 
-    public async setDocument<T extends Data>(data: T, options?: SetOptions): Promise<void> {
-        const docRef = doc(this.store, this.path, data.id);
+    public async setDocument<T extends { id: string }>(data: T, options?: SetOptions): Promise<void> {
+        const docRef = doc(this.store, this.path.toString(), data.id);
         await setDoc(docRef, omitUndefinedFields(data), options ?? {});
     }
 
-    public async setDocuments<T extends Data>(array: T[], options?: SetOptions): Promise<void> {
+    public async setDocuments<T extends { id: string }>(array: T[], options?: SetOptions): Promise<void> {
         const batch = writeBatch(this.store);
         array.forEach((data) => {
-            const docRef = doc(this.store, this.path, data.id);
+            const docRef = doc(this.store, this.path.toString(), data.id);
             batch.set(docRef, omitUndefinedFields(data), options ?? {});
         });
         await batch.commit();
     }
 
     public async updateDocument(data: Partial<unknown>, id: string): Promise<void> {
-        const docRef = doc(this.store, this.path, id);
+        const docRef = doc(this.store, this.path.toString(), id);
         await updateDoc(docRef, data);
     }
 
     public async setDeletedFlag(id: string): Promise<void> {
-        const docRef = doc(this.store, this.path, id);
+        const docRef = doc(this.store, this.path.toString(), id);
         await setDoc(docRef, { deleted: new Date() });
     }
 
     public async removeDocument(id: string): Promise<void> {
-        const docRef = doc(this.store, this.path, id);
+        const docRef = doc(this.store, this.path.toString(), id);
         await deleteDoc(docRef);
     }
 }

@@ -17,7 +17,7 @@ export type BlogPostView = BlogPost & {
 export class BlogService extends FirestoreService<BlogPost> {
 
     constructor(private guideService: GuideService, private storageService: MediaStorageService) {
-        super(`guides/${guideService.currentId}/blog`);
+        super('guides', 'blog');
     }
 
     getBlogPosts(tag$: Observable<string | null>): Observable<BlogPostView[]> {
@@ -31,7 +31,8 @@ export class BlogService extends FirestoreService<BlogPost> {
                     // array-contains does not support InvariantCase comparison!
                     ? [...defaults, where('tags', 'array-contains', tag)] 
                     : [...defaults];
-                return this.getDocuments(...constraints);
+                
+                return this.getDocuments(this.guideService.currentId, ...constraints);
             }),
             map((arr) => arr.sort((a) => (a.sticky ? -1 : 1))),
             switchMap(async (posts) => this.resolveUrl(posts))

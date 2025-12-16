@@ -21,7 +21,7 @@ import { pageReadTime } from '../../services/user/user-data.service';
 import { PageView } from '../../models/page.model';
 import { InputValue } from '../../models/content.model';
 import { UserDataItems } from '../../models/user-data.model';
-import { expandTrigger } from '../../animations.helper';
+import { expandTrigger } from '../../utils/animations.helper';
 
 @Component({
     selector: 'app-page',
