@@ -23,7 +23,7 @@ import {
     docData,
 } from '@angular/fire/firestore';
 import { startWith } from 'rxjs/operators';
-import { of, type Observable } from 'rxjs';
+import { of, Observable } from 'rxjs';
 
 // firestore does not like undefined values so omit them
 const omitUndefinedFields = (data: Record<string, unknown>) => {
@@ -41,18 +41,19 @@ export const snapshotOptions: SnapshotOptions = {
 
 type Data = { id: string };
 
-export class FirestoreService {
-    readonly store = inject(Firestore);
+export abstract class FirestoreService<T extends DocumentData> {
+    private readonly store = inject(Firestore);
 
-    constructor(private path: string) { }
+    constructor(private path: string) {
+    }
     
-    public getDocuments<T extends DocumentData>(...constraints: QueryConstraint[]): Observable<T[]> {
-        const query = this.createQuery<T>(...constraints);
+    public getDocuments(...constraints: QueryConstraint[]): Observable<T[]> {
+        const query = this.createQuery(...constraints);
         return collectionData<T>(query, { idField: 'id' }).pipe(startWith([]));
     }
 
-    public async getDocumentsAsync<T extends DocumentData>(...constraints: QueryConstraint[]): Promise<T[]> {
-        const query = this.createQuery<T>(...constraints);
+    public async getDocumentsAsync(...constraints: QueryConstraint[]): Promise<T[]> {
+        const query = this.createQuery(...constraints);
         return getDocs<T, DocumentData>(query).then((snapshot) => {
             const result: T[] = [];
             snapshot.forEach((doc) => result.push({
@@ -63,7 +64,7 @@ export class FirestoreService {
         });
     }
 
-    private createQuery<T extends DocumentData>(...constraints: QueryConstraint[]): Query<T, DocumentData> {
+    private createQuery(...constraints: QueryConstraint[]): Query<T, DocumentData> {
         const items = collection(this.store, this.path).withConverter({
             toFirestore: this.toFirestore,
             fromFirestore: this.fromFirestore
@@ -86,7 +87,7 @@ export class FirestoreService {
         return q;
     }
 
-    protected toFirestore<T>(modelObject: T) {
+    protected toFirestore(modelObject: T) {
         return modelObject;
     }
 
@@ -94,17 +95,17 @@ export class FirestoreService {
         return snapshot.data(snapshotOptions);
     }
     
-    public getDocument<T>(id?: string): Observable<T | null> {
-        if (id && this.store && this.path) {
-            const docRef = doc(this.store, this.path, id);
-            return docData(docRef, { idField: 'id' }) as Observable<T | null>;
+    public getDocument(id?: string): Observable<T | null> {
+        if (id && this.store) {
+            const ref = doc(this.store, this.path, id);
+            return docData(ref, { idField: 'id' }) as Observable<T | null>;
         }
         return of(null);
     }
 
-    public async getDocumentAsync<T>(id: string): Promise<T | undefined> {
+    public async getDocumentAsync<TResult = T>(id: string): Promise<TResult | undefined> {
         const docRef = doc(this.store, this.path, id);
-        const document = await this.toDocument(docRef) as T;
+        const document = await this.toDocument(docRef) as TResult;
         if (document) {
             return {
                 id: id,
@@ -115,7 +116,7 @@ export class FirestoreService {
     }
 
     protected async toDocument<T>(docRef: DocumentReference<T, DocumentData>) {
-        const snapshot = await getDoc(docRef);
+        const snapshot = await getDoc<T, DocumentData>(docRef);
         if (snapshot.exists()) {
             return {
                 id: snapshot.id,

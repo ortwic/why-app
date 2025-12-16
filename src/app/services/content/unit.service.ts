@@ -3,15 +3,16 @@ import { getDoc, orderBy, DocumentReference, QueryDocumentSnapshot } from '@angu
 import { FirestoreService, snapshotOptions } from '../firestore.service';
 import { Unit } from '../../models/unit.model';
 import { Page } from '../../models/page.model';
+import { GuideService } from './guide.service';
 
 @Injectable({
     providedIn: 'root',
 })
-export class UnitService extends FirestoreService {
-    readonly dataPromise = super.getDocumentsAsync<Unit>(orderBy('order'));
+export class UnitService extends FirestoreService<Unit> {
+    readonly dataPromise = super.getDocumentsAsync(orderBy('order'));
 
-    constructor() {
-        super('units');
+    constructor(guideService: GuideService) {
+        super(`guides/${guideService.currentId}/units`);
     }
 
     protected override fromFirestore(snapshot: QueryDocumentSnapshot) {

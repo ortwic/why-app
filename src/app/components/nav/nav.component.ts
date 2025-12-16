@@ -9,8 +9,8 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { Observable, of } from 'rxjs';
 import { map, shareReplay } from 'rxjs/operators';
-import { CommonService } from '../../services/common/common.service';
 import { GuideService } from '../../services/content/guide.service';
+import { NavigationService } from '../../services/common/navigation.service';
 import { NavigationItem } from '../../models/nav.model';
 import { Guide } from '../../models/guide.model';
 
@@ -32,7 +32,7 @@ import { Guide } from '../../models/guide.model';
     ],
 })
 export class NavComponent implements AfterViewInit {
-    private readonly _commonService = inject(CommonService);
+    private readonly _navService = inject(NavigationService);
     private readonly _guideService = inject(GuideService);
     private readonly _breakpointObserver = inject(BreakpointObserver);
 
@@ -46,7 +46,7 @@ export class NavComponent implements AfterViewInit {
     toolbarTop$: Observable<string> = of('0');
     
     async ngOnInit() {
-        this._routes = await this._commonService.getNavigation();
+        this._routes = await this._navService.getNavigation();
     }
 
     ngAfterViewInit(): void {

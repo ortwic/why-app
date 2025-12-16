@@ -7,13 +7,13 @@ export const emptyPage = { content: [] as PageContent[] } as Page;
 @Injectable({
     providedIn: 'root',
 })
-export class PageService extends FirestoreService {
+export class PageService extends FirestoreService<Page> {
     constructor() {
         super('pages');
     }
 
     async getSinglePageOrDefault(pageId: string): Promise<Page> {
-        const page = await this.getDocumentAsync<Page>(pageId);
+        const page = await this.getDocumentAsync(pageId);
         return page ?? emptyPage;
     }
 }

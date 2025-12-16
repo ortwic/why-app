@@ -9,5 +9,4 @@ export interface Guide {
     caption: string;
     overview: string;
     description: string;
-    units: Promise<Unit[]>;
 }
