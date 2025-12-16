@@ -39,19 +39,11 @@ export const routes: Routes = [
     { 
         path: 'blog',
         title: 'Blog | Why App',
-        component: BlogComponent,
-        canActivate: [termsOfUseGuard]
-    },
-    { 
-        path: 'blog/:tag',
-        component: BlogComponent,
         canActivate: [termsOfUseGuard],
-        resolve: {
-            tag: (route: ActivatedRouteSnapshot) => route.params['tag']
-        }
+        component: BlogComponent
     },
     { 
-        path: 'post/:id', 
+        path: 'blog/:id', 
         component: BlogPostComponent,
         canActivate: [termsOfUseGuard]
     },

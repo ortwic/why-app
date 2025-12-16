@@ -2,7 +2,7 @@ import { Component, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, RouterModule } from '@angular/router';
-import { BehaviorSubject, map, Subscription } from 'rxjs';
+import { BehaviorSubject, Subscription } from 'rxjs';
 import { BlogPostView, BlogService } from '../../services/content/blog.service';
 
 @Component({
@@ -18,7 +18,7 @@ export class BlogComponent implements OnDestroy {
     readonly blogPosts$ = this.blogPostsSubject.asObservable();
 
     constructor(route: ActivatedRoute, service: BlogService) {
-        this.subscriptions = service.getBlogPosts(route.paramMap.pipe(map(p => p.get('tag'))))
+        this.subscriptions = service.getBlogPosts(route.fragment)
             .subscribe(posts => this.blogPostsSubject.next(posts));
     }
 

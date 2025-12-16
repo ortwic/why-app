@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, inject, viewChild } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AsyncPipe, CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
@@ -35,19 +36,14 @@ export class NavComponent implements AfterViewInit {
     private readonly _navService = inject(NavigationService);
     private readonly _guideService = inject(GuideService);
     private readonly _breakpointObserver = inject(BreakpointObserver);
-
-    private _sidenavContainer = viewChild(MatSidenavContainer);
-    private _routes: NavigationItem[] = [];
+    private readonly _sidenavContainer = viewChild(MatSidenavContainer);
+    private readonly _routes = toSignal(this._navService.getNavigation(), { initialValue: [] });
 
     isHandset$: Observable<boolean> = this._breakpointObserver.observe(Breakpoints.Handset).pipe(
         map((result) => result.matches),
         shareReplay()
     );
     toolbarTop$: Observable<string> = of('0');
-    
-    async ngOnInit() {
-        this._routes = await this._navService.getNavigation();
-    }
 
     ngAfterViewInit(): void {
         let lastScrollTop = 0;
@@ -77,10 +73,10 @@ export class NavComponent implements AfterViewInit {
     }
 
     get sidenavRoutes(): NavigationItem[] {
-        return this._routes.filter(route => route.sidenav);
+        return this._routes().filter(route => route.sidenav);
     }
 
     get footerRoutes(): NavigationItem[] {
-        return this._routes.filter(route => route.footer);
+        return this._routes().filter(route => route.footer);
     }
 }
