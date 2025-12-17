@@ -1,10 +1,8 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { firebaseProviders } from '../../../tests/test.config';
 import { ActivatedRoute } from '@angular/router';
 import { StartComponent } from './start.component';
-import { CommonService } from '../../services/common/common.service';
-import { UnitService } from '../../services/content/unit.service';
-import { Unit } from '../../models/unit.model';
 
 describe('StartComponent', () => {
   let component: StartComponent;
@@ -12,23 +10,11 @@ describe('StartComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [StartComponent],
+      imports: [...firebaseProviders(), StartComponent],
       providers: [
         { 
           provide: ActivatedRoute, 
           useValue: {} 
-        },
-        {
-          provide: CommonService,
-          useValue: { 
-            getResources: () => Promise.resolve({}) 
-          }
-        },
-        {
-          provide: UnitService,
-          useValue: { 
-            dataPromise: Promise.resolve([] as Unit[]) 
-          }
         }
       ]
     })

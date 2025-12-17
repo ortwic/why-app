@@ -22,8 +22,8 @@ export const markedMedia = (resolveHref: (path: string) => Promise<[string?, str
     const walkTokens = async (token: Token) => {
         const isYouTubeId = (id: string) => id.match(/^[\w-]+$/);
         if (token.type === 'image' && !isYouTubeId(token.href)) {
-            const [url, error] = await resolveHref(token.href);
-            token.href = url;
+            const [href, error] = await resolveHref(token.href);
+            token.href = href;
             token.title = error || token.title;
         }
     };

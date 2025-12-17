@@ -15,7 +15,7 @@ describe('MarkedPipe', () => {
             { 
                 provide: MediaStorageService, 
                 useValue: {
-                    downloadUrl: (path: string) => Promise.resolve(resourceUrl + path)
+                    downloadUrl: (path: string) => Promise.resolve([resourceUrl + path])
                 } 
             }
         ]

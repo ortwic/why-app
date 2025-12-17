@@ -21,6 +21,7 @@ describe('MarkdownComponent', () => {
         }).compileComponents();
 
         fixture = TestBed.createComponent(MarkdownComponent);
+        fixture.componentRef.setInput('content', 'Lorem ipsum');
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

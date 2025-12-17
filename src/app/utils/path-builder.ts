@@ -7,6 +7,10 @@ export class PathBuilder {
     }
 
     build(...docIds: readonly string[]): string {
+        if (docIds.length < this.collectionIds.length - 1) {
+            throw new Error('Invalid argument: docIds');
+        }
+
         return this.collectionIds
             .flatMap((col, i) => (docIds[i] ? [col, docIds[i]] : [col]))
             .join('/');

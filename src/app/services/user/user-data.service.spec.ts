@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 
+import { firebaseProviders } from '../../../tests/test.config';
 import { UserDataService, defaultKey } from './user-data.service';
 import { UserDataItems } from '../../models/user-data.model';
 
@@ -15,7 +16,7 @@ describe('UserDataService', () => {
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [UserDataService],
+            imports: [...firebaseProviders()]
         });
 
         spyOn(window.localStorage, 'getItem').and.callFake((key) => (key in localStore ? localStore[key] : null));

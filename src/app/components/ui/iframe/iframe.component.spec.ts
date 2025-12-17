@@ -13,8 +13,8 @@ describe('IframeComponent', () => {
     .compileComponents();
     
     fixture = TestBed.createComponent(IFrameComponent);
+    fixture.componentRef.setInput('value', { type: 'youtube', src: 'test', title: '' });
     component = fixture.componentInstance;
-    component.value = { type: 'youtube', src: 'test', title: '' };
     fixture.detectChanges();
   });
 

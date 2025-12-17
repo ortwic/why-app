@@ -2,8 +2,8 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
 import { of } from 'rxjs';
 
+import { firebaseProviders } from '../../../tests/test.config';
 import { BlogComponent } from './blog.component';
-import { BlogService } from '../../services/content/blog.service';
 import { MediaStorageService } from '../../services/common/media-storage.service';
 
 const params = {
@@ -16,25 +16,20 @@ describe('BlogComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [BlogComponent],
+      imports: [...firebaseProviders(), BlogComponent],
       providers: [
         { 
           provide: ActivatedRoute, 
           useValue: { 
             params: of(params),
+            fragment: of(),
             snapshot: { params }
           } 
         },
         {
-          provide: BlogService,
-          useValue: { 
-            data$: of([])
-          }
-        },
-        {
           provide: MediaStorageService,
           useValue: { 
-            downloadUrl: () => Promise.resolve('') 
+            downloadUrl: () => Promise.resolve(['']) 
           }
         }
       ]

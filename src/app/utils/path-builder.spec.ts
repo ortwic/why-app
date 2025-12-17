@@ -35,6 +35,13 @@ describe('PathBuilder', () => {
       .toBe('root/rootId');
   });
 
+  it('throws error on missing document ids (invalid combinations)', () => {
+    const builder = new PathBuilder(['root', 'sub']);
+
+    expect(() => builder.build())
+      .toThrowError();
+  });
+
   it('allows indexed access to collection ids via at()', () => {
     const builder = new PathBuilder(['root', 'sub']);
 

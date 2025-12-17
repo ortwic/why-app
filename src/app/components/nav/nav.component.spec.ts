@@ -2,9 +2,10 @@ import { waitForAsync, ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 
+import { of } from 'rxjs';
+import { firebaseProviders } from '../../../tests/test.config';
 import { NavComponent } from './nav.component';
-import { CommonService } from '../../services/common/common.service';
-import { GuideService } from '../../services/content/guide.service';
+import { NavigationService } from '../../services/common/navigation.service';
 
 describe('NavComponent', () => {
   let component: NavComponent;
@@ -12,28 +13,23 @@ describe('NavComponent', () => {
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      imports: [NoopAnimationsModule],
+      imports: [...firebaseProviders(), NoopAnimationsModule],
       providers: [
         { 
           provide: ActivatedRoute, 
           useValue: {} 
         },
         {
-          provide: CommonService,
+          provide: NavigationService,
           useValue: { 
-            getNavigation: () => Promise.resolve([
+            getNavigation: () => of([
               { path: '/', title: 'Start', icon: 'home' },
               { path: '/blog', title: 'Blog', icon: 'feed' },
               { path: '/imprint', title: 'Impressum', icon: 'info' },
               { path: '/privacy', title: 'Datenschutz', icon: 'security' },
               { path: '/settings', title: 'Einstellungen', icon: 'settings' }          
-            ]),
-            getResources: () => Promise.resolve({}) 
+            ])
           }
-        },
-        { 
-          provide: GuideService, 
-          useValue: {} 
         }
       ]
     }).compileComponents();

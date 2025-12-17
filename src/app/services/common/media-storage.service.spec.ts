@@ -1,12 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 
+import { firebaseProviders } from '../../../tests/test.config';
 import { MediaStorageService } from './media-storage.service';
 
-xdescribe('MediaStorageService', () => {
+describe('MediaStorageService', () => {
   let service: MediaStorageService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [...firebaseProviders()]
+    });
     service = TestBed.inject(MediaStorageService);
   });
 

@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { firebaseProviders } from '../../../../tests/test.config';
 import { GuidesComponent } from './guides.component';
 
 describe('GuidesComponent', () => {
@@ -8,7 +9,7 @@ describe('GuidesComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GuidesComponent]
+      imports: [...firebaseProviders(), GuidesComponent]
     })
     .compileComponents();
     

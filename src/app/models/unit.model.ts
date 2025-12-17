@@ -6,5 +6,5 @@ export interface Unit {
     title: string;
     caption: string;
     description: string;
-    pages: Promise<Page[]>;
+    pages?: Promise<Page[]>;
 }
