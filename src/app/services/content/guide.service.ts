@@ -1,7 +1,7 @@
 import { inject, Injectable, OnDestroy, signal } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { orderBy } from '@angular/fire/firestore';
-import { BehaviorSubject, map, Observable, Subject, Subscription, tap } from 'rxjs';
+import { map, Observable, Subject, Subscription } from 'rxjs';
 import { FirestoreService } from '../firestore.service';
 import { Guide } from '../../models/guide.model';
 import { UserDataService } from '../user/user-data.service';
@@ -31,9 +31,11 @@ export class GuideService extends FirestoreService<Guide> implements OnDestroy {
     }
 
     get currentId(): string {
-        return this.current().id 
-            ?? this.idFromStorage() 
-            ?? '';
+        const id: string = this.current().id ?? this.idFromStorage();
+        if (!id) {
+            throw new Error('No current guide');
+        }
+        return id; 
     }
 
     ngOnDestroy(): void {

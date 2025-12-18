@@ -1,13 +1,14 @@
 import { InputValue } from "./content.model";
 import { UserDataItems } from "./user-data.model";
 
-export type ResultValue = Result | Progress | UserDataItems<InputValue> | undefined;
+export type UnitResults = Record<string, PageResults> & { progress: Progress };
 
-export interface Result {
-    [key: string]: ResultValue;
-    data?: UserDataItems<InputValue>;
+export interface PageResults extends Record<string, ResultUnion> {
+    items?: UserDataItems<InputValue>;
     progress: Progress;
 }
+
+export type ResultUnion = PageResults | Progress | UserDataItems<InputValue> | undefined;
 
 export interface Progress {
     count: number;

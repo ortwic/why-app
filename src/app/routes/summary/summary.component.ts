@@ -1,17 +1,16 @@
 import { Component, inject } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
 import { CommonModule, KeyValue } from '@angular/common';
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { derivedAsync } from 'ngxtension/derived-async';
+import { tap } from 'rxjs';
 import { LoadingComponent } from '../../components/ui/loading/loading.component';
 import { ProgressSpinnerComponent } from '../../components/ui/progress-spinner/progress-spinner.component';
 import { UnitService } from '../../services/content/unit.service';
-import { Unit } from '../../models/unit.model';
-import { Result, ResultValue } from '../../models/result.model';
+import { PageResults, ResultUnion, UnitResults } from '../../models/result.model';
 import { InputDefinition, InputValue } from '../../models/content.model';
 import { Page } from '../../models/page.model';
-import { GuideService } from '../../services/content/guide.service';
 import { UserResultService } from '../../services/user/user-result.service';
 import { pageReadTime } from '../../services/user/user-data.service';
 import { UserDataComponent } from "../settings/user-data/user-data.component";
@@ -37,44 +36,36 @@ import { TranslatePipe } from "../../pipes/translate.pipe";
 export class SummaryComponent {
     private readonly _unitService = inject(UnitService);
     private readonly _resultService = inject(UserResultService);
-    private readonly _guideService = inject(GuideService);
     
-    private _units!: Unit[];
-    private _results = derivedAsync(() => this._resultService.resultTree(this._guideService.currentId));
+    private _unitViews = toSignal(this._unitService.viewData$.pipe(tap(() => this.loading = false)), { initialValue: [] });
     readonly doneKey = pageReadTime;
     loading = true;
 
-    async ngOnInit() {
-        this._units = await this._unitService.dataPromise;
-
-        this.loading = false;
-    }
-
-    get summary(): Result[] | undefined {
-        return this._results();
+    get results(): UnitResults[] {
+        return this._resultService.results();
     }
 
     title(index: number) {
-        return this._units[index].title;
+        return this._unitViews()[index]?.title ?? '-';
     }
 
-    pages(index: number) {
-        return this._units[index].pages;
+    pages(index: number): Page[] {
+        return this._unitViews()[index]?.pages() ?? [];
     }
     
-    data(result: ResultValue) {
-        const data = (<Result>result).data;
-        if (data && data[this.doneKey]) {
-            return Object.keys(data).reduce((acc, key) => {
-                acc[key] = data[key];
+    data(result: ResultUnion) {
+        const items = (<PageResults>result)?.items;
+        if (items && items[this.doneKey]) {
+            return Object.keys(items).reduce((acc, key) => {
+                acc[key] = items[key];
                 return acc;
             }, {} as Record<string, InputValue>);
         }
         return null;
     }
 
-    percent(result: ResultValue) {
-        return (<Result>result).progress.percent;
+    percent(result: ResultUnion) {
+        return (<PageResults>result).progress.percent || 0;
     }
 
     caption(page: Page, id: string) {

@@ -16,9 +16,9 @@ import { InputSectionComponent } from '../../components/input-section/input-sect
 import { ContinueEventArgs, InputStepperComponent } from '../../components/input-stepper/input-stepper.component';
 import { MarkdownComponent } from '../../components/ui/markdown/markdown.component';
 import { GuideService } from '../../services/content/guide.service';
-import { ConjunctionService } from '../../services/content/conjunction.service';
+import { ContentService } from '../../services/content/content.service';
 import { pageReadTime } from '../../services/user/user-data.service';
-import { PageView } from '../../models/page.model';
+import { UnitPageView } from '../../models/page.model';
 import { InputValue } from '../../models/content.model';
 import { UserDataItems } from '../../models/user-data.model';
 import { expandTrigger } from '../../utils/animations.helper';
@@ -61,7 +61,7 @@ export class PageComponent {
             : this._content.getUnitPageView(+unitIndex, pageIndex, this._guideService.currentId)
     });
 
-    constructor(private _router: Router, private _content: ConjunctionService) {
+    constructor(private _router: Router, private _content: ContentService) {
         effect(() => {
             const page = this.pageView();
             if (page) {
@@ -75,7 +75,7 @@ export class PageComponent {
         });
     } 
 
-    private initBreakpoints(page?: PageView): number[] {
+    private initBreakpoints(page?: UnitPageView): number[] {
         if (page) {
             return page.content.reduce((acc, def, index) => {
                 // consider input-stepper as a breakpoint only
@@ -98,7 +98,7 @@ export class PageComponent {
         }
     }
 
-    private nextBreakpoint(page: PageView) {
+    private nextBreakpoint(page: UnitPageView) {
         this._currentBreakpoint = this._breakpoints()?.shift() ?? page.content.length;
     }
     

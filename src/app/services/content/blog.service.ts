@@ -2,14 +2,9 @@ import { Injectable } from '@angular/core';
 import { orderBy, QueryConstraint, where } from '@angular/fire/firestore';
 import { Observable, map, switchMap } from 'rxjs';
 import { FirestoreService } from '../firestore.service';
-import { BlogPost } from '../../models/blog.model';
+import { BlogPost, BlogPostView } from '../../models/blog.model';
 import { MediaStorageService } from '../common/media-storage.service';
 import { GuideService } from './guide.service';
-
-export type BlogPostView = BlogPost & {
-    imageSrc: string;
-    alt: string;
-};
 
 @Injectable({
     providedIn: 'root',

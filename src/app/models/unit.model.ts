@@ -1,4 +1,6 @@
+import { Signal } from "@angular/core";
 import { Page } from "./page.model";
+import { UnitResults } from "./result.model";
 
 export interface Unit {
     id: string;
@@ -6,5 +8,9 @@ export interface Unit {
     title: string;
     caption: string;
     description: string;
-    pages?: Promise<Page[]>;
+}
+
+export interface UnitView extends Unit {
+    pages: Signal<Page[]>;
+    results?: UnitResults;
 }

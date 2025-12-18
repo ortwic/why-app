@@ -1,26 +1,26 @@
 <app-loading [loading]="loading">
-    @for (unit of summary; track $index) {
+    @for (unitResult of results; track $index) {
         <div class="header">
             <h2>
                 {{'start.unit' | t}} {{$index + 1}}
             </h2>
             <span class="sub">{{title($index)}}</span>
-            <app-progress-spinner [size]="40" [value]="unit.progress.percent">
-                <small>{{unit.progress.percent}}%</small>
+            <app-progress-spinner [size]="40" [value]="unitResult.progress.percent || 0">
+                <small>{{unitResult.progress.percent || 0}}%</small>
             </app-progress-spinner>
         </div>
         <mat-accordion multi>
-            <ng-container *ngFor="let page of pages($index) | async">
-                @if (data(unit[page.id])) {
+            @for (page of pages($index); track page) {
+                @if (data(unitResult[page.id])) {
                     <mat-expansion-panel expanded>
                         <mat-expansion-panel-header>
                             <mat-panel-title class="header">
                                 <span>{{page.title}}</span>
-                                <small>{{percent(unit[page.id])}}%</small>
+                                <small>{{percent(unitResult[page.id])}}%</small>
                             </mat-panel-title>
                         </mat-expansion-panel-header>
                         <div class="content">
-                            @for (item of data(unit[page.id]) | keyvalue: doneAtLast; track $index) {
+                            @for (item of data(unitResult[page.id]) | keyvalue: doneAtLast; track $index) {
                                 @if (item.key === doneKey) {
                                     <mat-divider /><br/>
                                     <label [title]="item.value + 's'">
@@ -38,7 +38,7 @@
                         </div>
                     </mat-expansion-panel>
                 }
-            </ng-container>
+            }
         </mat-accordion>
         <mat-divider class="spacer" />
     }

@@ -1,39 +1,53 @@
-import { Injectable } from '@angular/core';
-import { getDoc, orderBy, DocumentReference, QueryDocumentSnapshot } from '@angular/fire/firestore';
-import { FirestoreService, snapshotOptions } from '../firestore.service';
-import { Unit } from '../../models/unit.model';
+import { Injectable, OnDestroy, signal } from '@angular/core';
+import { orderBy } from '@angular/fire/firestore';
+import { map, Observable, Subscription } from 'rxjs';
+import { FirestoreService } from '../firestore.service';
+import { Unit, UnitView } from '../../models/unit.model';
 import { Page } from '../../models/page.model';
 import { GuideService } from './guide.service';
+import { UnitPageService } from './unit-page.service';
 
 @Injectable({
     providedIn: 'root',
 })
-export class UnitService extends FirestoreService<Unit> {
-    readonly dataPromise = super.getDocumentsAsync(orderBy('order'));
+export class UnitService extends FirestoreService<Unit> implements OnDestroy {
+    private readonly _subscriptions: Subscription[] = [];
+    private readonly _viewData$ = this.getDocuments(
+            this.guideService.currentId, 
+            orderBy('order')
+        ).pipe(
+            map((units) => units.map((unit) => (this.appendPages(unit))))
+        );
 
-    constructor(guideService: GuideService) {
-        super(`guides/${guideService.currentId}/units`);
+    constructor(private guideService: GuideService, private pageService: UnitPageService) {
+        super('guides', 'units');
     }
 
-    protected override fromFirestore(snapshot: QueryDocumentSnapshot) {
-        const toDocument = async (docRef: DocumentReference) => {
-            const doc = await getDoc(docRef);
-            return {
-                id: doc.id,
-                ...doc.data(snapshotOptions),
-            };
-        };
-
-        const data = snapshot.data(snapshotOptions);
-        const pageIds = data['pages'] ?? [];
-        const pages = Promise.all(pageIds.map(toDocument));
-        return {
-            ...data,
-            pages,
-        };
+    ngOnDestroy(): void {
+        this._subscriptions.forEach(s => s.unsubscribe());
     }
 
-    async getPages(index: number): Promise<Page[]> {
-        return this.dataPromise.then((unit) => unit[index]?.pages ?? []);
+    get viewData$(): Observable<UnitView[]> {
+        return this._viewData$;
+    }
+
+    private appendPages(unit: Unit): UnitView {
+        const pages = signal<Page[]>([]);
+        this._subscriptions.push(
+            this.pageService.getPages(unit.id).subscribe(p => pages.set(p))
+        );
+        return { ...unit, pages };
+    }
+
+    pageViewByIndex(unitIndex: number, pageIndex: number): Observable<[Page, number]> {
+        return this._viewData$.pipe(
+            map((units) => {
+                const pages = units[unitIndex].pages() ?? [];
+                if (!pages[pageIndex]) {
+                    throw new Error(`Page index ${pageIndex} not found in unit ${unitIndex}`);
+                }
+                return [pages[pageIndex], pages.length];
+            })
+        );
     }
 }

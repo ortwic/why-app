@@ -48,33 +48,16 @@ export abstract class FirestoreService<T extends DocumentData> {
         this.path = new PathBuilder(collectionIds);
     }
     
-    public getDocuments(...args: Array<QueryConstraint | string>): Observable<T[]> {
+    protected getDocuments(...args: Array<QueryConstraint | string>): Observable<T[]> {
         const fullPath = this.path.build(...args.filter(e => typeof e === 'string') as string[]);
         const constraints = args.filter(e => e instanceof QueryConstraint) as QueryConstraint[];
+        
         const query = this.createQuery(fullPath, constraints);
         return collectionData<T>(query, { idField: 'id' }).pipe(startWith([]));
     }
 
-    public async getDocumentsAsync(...args: Array<QueryConstraint | string>): Promise<T[]> {
-        const fullPath = this.path.build(...args.filter(e => typeof e === 'string') as string[]);
-        const constraints = args.filter(e => e instanceof QueryConstraint) as QueryConstraint[];
-        const query = this.createQuery(fullPath, constraints);
-        return getDocs<T, DocumentData>(query).then((snapshot) => {
-            const result: T[] = [];
-            snapshot.forEach((doc) => result.push({
-                id: doc.id,
-                ...doc.data(snapshotOptions)
-            }));
-            return result;
-        });
-    }
-
     private createQuery(path: string, constraints: QueryConstraint[]): Query<T, DocumentData> {
-        const items = collection(this.store, path).withConverter({
-            toFirestore: this.toFirestore,
-            fromFirestore: this.fromFirestore
-        }) as CollectionReference<T>;
-        
+        const items = collection(this.store, path) as CollectionReference<T>;
         const q = query<T, DocumentData>(items, ...constraints);
 
         if(isDevMode()) {
@@ -91,16 +74,8 @@ export abstract class FirestoreService<T extends DocumentData> {
 
         return q;
     }
-
-    protected toFirestore(modelObject: T) {
-        return modelObject;
-    }
-
-    protected fromFirestore(snapshot: QueryDocumentSnapshot) {
-        return snapshot.data(snapshotOptions);
-    }
     
-    public getDocument(id?: string): Observable<T | null> {
+    protected getDocument(id?: string): Observable<T | null> {
         if (id && this.store) {
             const ref = doc(this.store, this.path.toString(), id);
             return docData(ref, { idField: 'id' }) as Observable<T | null>;

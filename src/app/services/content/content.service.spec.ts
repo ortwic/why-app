@@ -1,12 +1,12 @@
 import { TestBed } from '@angular/core/testing';
 
-import { ConjunctionService } from './conjunction.service';
+import { ContentService } from './content.service';
 import { PageService } from './page.service';
 import { UnitService } from './unit.service';
 import { UserDataService } from '../user/user-data.service';
 
-describe('ConjunctionService', () => {
-    let service: ConjunctionService;
+describe('ContentService', () => {
+    let service: ContentService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -31,7 +31,7 @@ describe('ConjunctionService', () => {
                 },
             ],
         });
-        service = TestBed.inject(ConjunctionService);
+        service = TestBed.inject(ContentService);
     });
 
     it('should be created', () => {

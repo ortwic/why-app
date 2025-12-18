@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { BehaviorSubject, Subscription } from 'rxjs';
-import { BlogPostView, BlogService } from '../../services/content/blog.service';
+import { BlogPostView } from '../../models/blog.model';
+import { BlogService } from '../../services/content/blog.service';
 
 @Component({
     selector: 'app-blog',

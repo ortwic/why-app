@@ -9,7 +9,7 @@ export const emptyPage = { content: [] as PageContent[] } as Page;
 })
 export class PageService extends FirestoreService<Page> {
     constructor() {
-        super('pages');
+        super('guides', 'pages');
     }
 
     async getSinglePageOrDefault(pageId: string): Promise<Page> {

@@ -3,6 +3,7 @@ import { UserDataItems } from "./user-data.model";
 
 export interface Page {
     id: string;
+    order: number;
     title: string;
     hero_section: HeroSection,
     content: PageContent[];
@@ -15,11 +16,14 @@ export interface Page {
 
 export interface PageView extends Page {
     sectionCount: number;
-    guideId?: string;
-    unitIndex?: number;
-    prevIndex?: number;
-    nextIndex?: number;
     userData: UserDataItems<InputValue>;
+}
+
+export interface UnitPageView extends PageView {
+    guideId: string | undefined;
+    unitIndex: number | undefined;
+    prevIndex: number | undefined;
+    nextIndex: number | undefined;
 }
 
 export interface HeroSection {

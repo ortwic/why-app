@@ -1,21 +1,22 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, inject, Signal, signal } from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import { map, tap } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
-import { derivedAsync } from 'ngxtension/derived-async';
 import { LoadingComponent } from '../../components/ui/loading/loading.component';
 import { MarkdownComponent } from '../../components/ui/markdown/markdown.component';
 import { ProgressSpinnerComponent } from '../../components/ui/progress-spinner/progress-spinner.component';
 import { termsOfUseKey } from '../../guards/terms-of-use.guard';
+import { Page } from '../../models/page.model';
+import { UnitView } from '../../models/unit.model';
 import { CommonService } from '../../services/common/common.service';
 import { GuideService } from '../../services/content/guide.service';
 import { UnitService } from '../../services/content/unit.service';
 import { UserDataService } from '../../services/user/user-data.service';
-import { UserResultService, percentOf } from '../../services/user/user-result.service';
-import { Unit } from '../../models/unit.model';
-import { Result } from '../../models/result.model';
+import { UserResultService } from '../../services/user/user-result.service';
 import { TranslatePipe } from "../../pipes/translate.pipe";
 
 @Component({
@@ -41,9 +42,14 @@ export class StartComponent {
     private readonly _unitService = inject(UnitService);
     private readonly _resultService = inject(UserResultService);
     private readonly _dataService = inject(UserDataService);
-    
-    private _units!: Unit[];
-    private _results = derivedAsync(() => this._resultService.resultTree(this._guideService.currentId));
+    private readonly _unitViews = toSignal(this._unitService.viewData$.pipe(
+        map(units => units.map((unit, index) => ({ 
+            ...unit, 
+            results: this._resultService.calcUnitResult(unit, index)
+        } as UnitView))),
+        tap(() => this.loading = false)
+    ), { initialValue: [] });
+
     readonly randomName: Signal<string> = signal('');
     loading = true;
 
@@ -51,16 +57,11 @@ export class StartComponent {
         this.randomName = computed(() => {
             const defaultNames = this._commonService.getResource<string[]>('start', 'user-names');
             return defaultNames ? defaultNames[Math.floor(Math.random() * defaultNames.length)] : '';
-        })
+        });
     }
 
-    async ngOnInit() {    
-        this._units = await this._unitService.dataPromise;
-        this.loading = false;
-    }
-
-    get units(): Unit[] {
-        return this._units?.sort((a, b) => a.order - b.order);
+    get units(): Signal<UnitView[]> {
+        return this._unitViews; //.sort((a, b) => a.order - b.order);
     }
 
     get greeting(): string {
@@ -96,13 +97,11 @@ export class StartComponent {
         return this._guideService.current()?.overview;
     }
 
-    unitProgressPercent(unitIndex: number) {
-        const results: Result[] = this._results() ?? [];
-        return results ? percentOf(results[unitIndex]) : 0;
+    unitProgressPercent(view: UnitView) {
+        return view.results ? view.results.progress.percent || 0 : 0;
     }
 
-    pageProgressPercent(unitIndex: number, pageId: string) {
-        const results: Result[] = this._results() ?? [];
-        return results[unitIndex] ? percentOf(<Result>results[unitIndex][pageId]) : 0;
+    pageProgressPercent(view: UnitView, page: Page) {
+        return view.results ? view.results[page.id]?.progress.percent || 0 : 0;
     }
 }
