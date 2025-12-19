@@ -68,6 +68,9 @@
               "sourceMap": true
             },
             "emulators": {
+              "optimization": false,
+              "extractLicenses": false,
+              "sourceMap": true,
               "fileReplacements": [
                 {
                   "replace": "src/environments/env.default.ts",

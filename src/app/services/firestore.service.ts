@@ -75,27 +75,16 @@ export abstract class FirestoreService<T extends DocumentData> {
         return q;
     }
     
-    protected getDocument(id?: string): Observable<T | null> {
-        if (id && this.store) {
-            const ref = doc(this.store, this.path.toString(), id);
+    protected getDocument(...docIds: string[]): Observable<T | null> {
+        if (docIds.length && this.store) {
+            const id = docIds.pop();
+            const ref = doc(this.store, this.path.build(...docIds), id!);
             return docData(ref, { idField: 'id' }) as Observable<T | null>;
         }
         return of(null);
     }
 
-    public async getDocumentAsync<TResult = T>(id: string): Promise<TResult | undefined> {
-        const docRef = doc(this.store, this.path.toString(), id);
-        const document = await this.toDocument(docRef) as TResult;
-        if (document) {
-            return {
-                id: id,
-                ...document
-            };
-        }
-        return undefined;
-    }
-
-    protected async toDocument<T>(docRef: DocumentReference<T, DocumentData>) {
+    protected async resolveDocumentReference<T>(docRef: DocumentReference<T, DocumentData>) {
         const snapshot = await getDoc<T, DocumentData>(docRef);
         if (snapshot.exists()) {
             return {
@@ -108,11 +97,19 @@ export abstract class FirestoreService<T extends DocumentData> {
     }
 
     public async setDocument<T extends { id: string }>(data: T, options?: SetOptions): Promise<void> {
+        if (this.path.length > 1) {
+            throw new Error('Support for subcollections not yet implemented');
+        }
+
         const docRef = doc(this.store, this.path.toString(), data.id);
         await setDoc(docRef, omitUndefinedFields(data), options ?? {});
     }
 
     public async setDocuments<T extends { id: string }>(array: T[], options?: SetOptions): Promise<void> {
+        if (this.path.length > 1) {
+            throw new Error('Support for subcollections not yet implemented');
+        }
+
         const batch = writeBatch(this.store);
         array.forEach((data) => {
             const docRef = doc(this.store, this.path.toString(), data.id);
@@ -122,16 +119,28 @@ export abstract class FirestoreService<T extends DocumentData> {
     }
 
     public async updateDocument(data: Partial<unknown>, id: string): Promise<void> {
+        if (this.path.length > 1) {
+            throw new Error('Support for subcollections not yet implemented');
+        }
+
         const docRef = doc(this.store, this.path.toString(), id);
         await updateDoc(docRef, data);
     }
 
     public async setDeletedFlag(id: string): Promise<void> {
+        if (this.path.length > 1) {
+            throw new Error('Support for subcollections not yet implemented');
+        }
+
         const docRef = doc(this.store, this.path.toString(), id);
         await setDoc(docRef, { deleted: new Date() });
     }
 
     public async removeDocument(id: string): Promise<void> {
+        if (this.path.length > 1) {
+            throw new Error('Support for subcollections not yet implemented');
+        }
+        
         const docRef = doc(this.store, this.path.toString(), id);
         await deleteDoc(docRef);
     }

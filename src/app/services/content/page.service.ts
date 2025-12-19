@@ -1,19 +1,30 @@
 import { Injectable } from '@angular/core';
+import { map, Observable } from 'rxjs';
 import { FirestoreService } from '../firestore.service';
-import { Page, PageContent } from '../../models/page.model';
+import { Page } from '../../models/page.model';
+import { GuideService } from './guide.service';
 
-export const emptyPage = { content: [] as PageContent[] } as Page;
+const emptyPage = { 
+    title: '404 - Page Not Found',
+    content: [
+        {
+            type: 'text',
+            value: 'The page you were looking for was not found',
+        },
+    ],
+} as Page;
 
 @Injectable({
     providedIn: 'root',
 })
 export class PageService extends FirestoreService<Page> {
-    constructor() {
+    constructor(private guideService: GuideService) {
         super('guides', 'pages');
     }
 
-    async getSinglePageOrDefault(pageId: string): Promise<Page> {
-        const page = await this.getDocumentAsync(pageId);
-        return page ?? emptyPage;
+    getSinglePageOrDefault(pageId: string): Observable<Page> {
+        return this.getDocument(this.guideService.currentId, pageId).pipe(
+            map((page) => page ?? emptyPage)
+        );
     }
 }

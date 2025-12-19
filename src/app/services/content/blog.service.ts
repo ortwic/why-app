@@ -6,6 +6,16 @@ import { BlogPost, BlogPostView } from '../../models/blog.model';
 import { MediaStorageService } from '../common/media-storage.service';
 import { GuideService } from './guide.service';
 
+const emptyPost = {
+    title: '404 - Blog Post Not Found',
+    content: [
+        {
+            type: 'text',
+            value: 'The blog post you were looking for was not found',
+        },
+    ],
+} as BlogPost;
+
 @Injectable({
     providedIn: 'root',
 })
@@ -31,6 +41,12 @@ export class BlogService extends FirestoreService<BlogPost> {
             }),
             map((arr) => arr.sort((a) => (a.sticky ? -1 : 1))),
             switchMap(async (posts) => this.resolveUrl(posts))
+        );
+    }
+
+    getBlogPost(id: string): Observable<BlogPost> {
+        return this.getDocument(this.guideService.currentId, id).pipe(
+            map(p => p ?? emptyPost)
         );
     }
 

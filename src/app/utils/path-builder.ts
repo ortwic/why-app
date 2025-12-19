@@ -1,5 +1,12 @@
-export class PathBuilder {
+export class PathBuilder implements ArrayLike<string> {
+    [n: number]: string;
+    readonly length: number;
+
     constructor(private readonly collectionIds: readonly string[]) {
+        this.length = collectionIds.length;
+        collectionIds.forEach((id, i) => {
+            this[i] = id;
+        });
     }
 
     at(index: number): string | undefined {

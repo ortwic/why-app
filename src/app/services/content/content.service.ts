@@ -19,14 +19,15 @@ export class ContentService {
         private userDataService: UserDataService<InputValue>
     ) {}
 
-    async getSinglePageView(pageId: string): Promise<UnitPageView> {
-        const page = await this.pageService.getSinglePageOrDefault(pageId);
+    getSinglePageView(pageId: string): Observable<UnitPageView> {
         const userData = this.userDataService.getItems(pageId);
-        return {
-            ...page,
-            sectionCount: page.content.length,
-            userData
-        } as UnitPageView; // TODO should be a PageView
+        return this.pageService.getSinglePageOrDefault(pageId).pipe(
+            map((page) => ({
+                ...page,
+                sectionCount: page.content.length,
+                userData
+            } as UnitPageView)) // TODO should be a PageView
+        );
     }
 
     getUnitPageView(unitIndex: number, pageIndex: number, guideId?: string): Observable<UnitPageView> {

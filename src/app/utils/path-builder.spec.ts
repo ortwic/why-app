@@ -45,9 +45,9 @@ describe('PathBuilder', () => {
   it('allows indexed access to collection ids via at()', () => {
     const builder = new PathBuilder(['root', 'sub']);
 
-    expect(builder.at(0)).toBe('root');
-    expect(builder.at(1)).toBe('sub');
-    expect(builder.at(2)).toBeUndefined();
+    expect(builder[0]).toBe('root');
+    expect(builder[1]).toBe('sub');
+    expect(builder[2]).toBeUndefined();
   });
 
 });
