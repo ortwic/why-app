@@ -17,7 +17,7 @@ export class UserResultService {
     private readonly _userDataService = inject(UserDataService);
     private readonly _storageKey: string;
 
-    readonly results = toSignal(this.unitService.viewData$.pipe(
+    readonly results = toSignal(this.unitService.getUnits().pipe(
         map(units => units.map((unit, index) => this.calcUnitResult(unit, index)))
     ), { initialValue: [] });
 

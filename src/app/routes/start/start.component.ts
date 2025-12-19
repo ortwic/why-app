@@ -42,7 +42,7 @@ export class StartComponent {
     private readonly _unitService = inject(UnitService);
     private readonly _resultService = inject(UserResultService);
     private readonly _dataService = inject(UserDataService);
-    private readonly _unitViews = toSignal(this._unitService.viewData$.pipe(
+    private readonly _unitViews = toSignal(this._unitService.getUnits().pipe(
         map(units => units.map((unit, index) => ({ 
             ...unit, 
             results: this._resultService.calcUnitResult(unit, index)

@@ -15,10 +15,9 @@ import { ImageSliderComponent } from '../../components/image-slider/image-slider
 import { InputSectionComponent } from '../../components/input-section/input-section.component';
 import { ContinueEventArgs, InputStepperComponent } from '../../components/input-stepper/input-stepper.component';
 import { MarkdownComponent } from '../../components/ui/markdown/markdown.component';
-import { GuideService } from '../../services/content/guide.service';
 import { ContentService } from '../../services/content/content.service';
 import { pageReadTime } from '../../services/user/user-data.service';
-import { UnitPageView } from '../../models/page.model';
+import { PageView } from '../../models/page.model';
 import { InputValue } from '../../models/content.model';
 import { UserDataItems } from '../../models/user-data.model';
 import { expandTrigger } from '../../utils/animations.helper';
@@ -46,22 +45,16 @@ import { expandTrigger } from '../../utils/animations.helper';
     animations: [ expandTrigger('next') ],
 })
 export class PageComponent {
-    private readonly _guideService = inject(GuideService);
-    private _params = injectParams((params) => ([params['unit'],  +(params['page'] ?? 0)] as [string, number]));
+    private _params = injectParams((params) => ([params['unit'], +(params['page'])] as [string, number]));
     private _returnPath = injectQueryParams('from', { initialValue: '/' });
     private _breakpoints = computed(() => this.initBreakpoints(this.pageView()));
     private _currentBreakpoint = 0;
     private _startTime!: number;
     private _minReadTime!: number;
     
-    readonly pageView = derivedAsync(() => {
-        const [unitIndex, pageIndex] = this._params();
-        return isNaN(+unitIndex) 
-            ? this._content.getSinglePageView(unitIndex) 
-            : this._content.getUnitPageView(+unitIndex, pageIndex, this._guideService.currentId)
-    });
+    readonly pageView = derivedAsync(() => this.content.getPageView(...this._params()));
 
-    constructor(private _router: Router, private _content: ContentService) {
+    constructor(private _router: Router, public content: ContentService) {
         effect(() => {
             const page = this.pageView();
             if (page) {
@@ -75,7 +68,7 @@ export class PageComponent {
         });
     } 
 
-    private initBreakpoints(page?: UnitPageView): number[] {
+    private initBreakpoints(page?: PageView): number[] {
         if (page) {
             return page.content.reduce((acc, def, index) => {
                 // consider input-stepper as a breakpoint only
@@ -91,14 +84,14 @@ export class PageComponent {
     continue(args: ContinueEventArgs) {
         const page = this.pageView();
         if (page) {            
-            this._content.saveUserInput(page, args.data);
+            this.content.saveUserInput(page, args.data);
             if (args.completed) {
                 this.nextBreakpoint(page);
             }
         }
     }
 
-    private nextBreakpoint(page: UnitPageView) {
+    private nextBreakpoint(page: PageView) {
         this._currentBreakpoint = this._breakpoints()?.shift() ?? page.content.length;
     }
     

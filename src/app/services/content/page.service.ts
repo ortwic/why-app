@@ -4,8 +4,9 @@ import { FirestoreService } from '../firestore.service';
 import { Page } from '../../models/page.model';
 import { GuideService } from './guide.service';
 
-const emptyPage = { 
+export const emptyPage = { 
     title: '404 - Page Not Found',
+    hero_section: {},
     content: [
         {
             type: 'text',
@@ -22,7 +23,7 @@ export class PageService extends FirestoreService<Page> {
         super('guides', 'pages');
     }
 
-    getSinglePageOrDefault(pageId: string): Observable<Page> {
+    getPage(pageId: string): Observable<Page> {
         return this.getDocument(this.guideService.currentId, pageId).pipe(
             map((page) => page ?? emptyPage)
         );

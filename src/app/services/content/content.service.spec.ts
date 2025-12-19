@@ -1,35 +1,14 @@
 import { TestBed } from '@angular/core/testing';
 
+import { firebaseProviders } from '../../../tests/test.config';
 import { ContentService } from './content.service';
-import { PageService } from './page.service';
-import { UnitService } from './unit.service';
-import { UserDataService } from '../user/user-data.service';
 
 describe('ContentService', () => {
     let service: ContentService;
 
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [
-                {
-                    provide: UnitService,
-                    useValue: {
-                        getPages: () => Promise.resolve([]),
-                    },
-                },
-                {
-                    provide: PageService,
-                    useValue: {
-                        getSinglePageOrDefault: () => Promise.resolve({}),
-                    },
-                },
-                {
-                    provide: UserDataService,
-                    useValue: {
-                        getEntry: () => ({}),
-                    },
-                },
-            ],
+            imports: [...firebaseProviders()]
         });
         service = TestBed.inject(ContentService);
     });

@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { UnitService } from './unit.service';
+import { map, Observable } from 'rxjs';
+import { GuideService } from './guide.service';
 import { PageService } from './page.service';
 import { UserDataService } from '../user/user-data.service';
-import { Page, UnitPageView } from '../../models/page.model';
+import { UnitPageService } from './unit-page.service';
+import { Page, PageView, UnitPageView } from '../../models/page.model';
 import { InputValue } from '../../models/content.model';
 import { UserDataItems } from '../../models/user-data.model';
-import { map, Observable } from 'rxjs';
 
 export const pageReadTime = '__page-read-in';
 
@@ -13,45 +14,62 @@ export const pageReadTime = '__page-read-in';
     providedIn: 'root',
 })
 export class ContentService {
+    private readonly _storageKey: string;
+    readonly isUnitPageView = (page: PageView): page is UnitPageView => 'unitId' in page;
+
     constructor(
-        private unitService: UnitService,
+        private guideService: GuideService,
+        private unitPageService: UnitPageService,
         private pageService: PageService,
         private userDataService: UserDataService<InputValue>
-    ) {}
+    ) {
+        this._storageKey = this.guideService.currentId;
+    }
 
-    getSinglePageView(pageId: string): Observable<UnitPageView> {
+    getPageView(unitId: string, pageIndex: number): Observable<PageView> {
+        return isNaN(pageIndex)
+            ? this.getSinglePageView(unitId)
+            : this.getUnitPageView(unitId, pageIndex);
+    }
+
+    private getSinglePageView(pageId: string): Observable<PageView> {
         const userData = this.userDataService.getItems(pageId);
-        return this.pageService.getSinglePageOrDefault(pageId).pipe(
+        return this.pageService.getPage(pageId).pipe(
             map((page) => ({
                 ...page,
                 sectionCount: page.content.length,
                 userData
-            } as UnitPageView)) // TODO should be a PageView
+            }))
         );
     }
 
-    getUnitPageView(unitIndex: number, pageIndex: number, guideId?: string): Observable<UnitPageView> {
+    private getUnitPageView(unitId: string, pageIndex: number): Observable<UnitPageView> {
         const asView = (page: Page, totalCount: number): UnitPageView => {
-            const userData = guideId ? this.userDataService.getItems(page.id, unitIndex, guideId) : {};
+            const unitIndex = unitId?.match(/\d+/)?.[0] || 0; // TODO avoid unit index
+            const userData = this._storageKey ? this.userDataService.getItems(page.id, +unitIndex, this._storageKey) : {};
             const prev = pageIndex > 0 ? pageIndex - 1 : undefined;
             const next = pageIndex + 1 < totalCount ? pageIndex + 1 : undefined;
             return {
                 ...page,
                 sectionCount: page.content.length,
                 userData,
-                guideId,
-                unitIndex,
+                unitId,
                 prevIndex: prev,
                 nextIndex: next,
             };
         }
 
-        return this.unitService.pageViewByIndex(unitIndex, pageIndex).pipe(
+        return this.unitPageService.getPageByIndex(unitId, pageIndex).pipe(
             map(([page, count]) => asView(page, count))
         );
     }
 
-    async saveUserInput(page: UnitPageView, newData: UserDataItems<InputValue>) {
-        this.userDataService.saveItems([page.id, page.unitIndex], newData, page.guideId);
+    async saveUserInput(page: PageView, newData: UserDataItems<InputValue>) {
+        if (this.isUnitPageView(page)) {
+            const unitIndex = page.unitId.match(/\d+/)?.[0] || 0; // TODO avoid unit index
+            this.userDataService.saveItems([page.id, +unitIndex], newData, this._storageKey);
+        } else {
+            this.userDataService.saveItems([page.id, 0], newData);
+        }
     }
 }

@@ -12,12 +12,6 @@ import { UnitPageService } from './unit-page.service';
 })
 export class UnitService extends FirestoreService<Unit> implements OnDestroy {
     private readonly _subscriptions: Subscription[] = [];
-    private readonly _viewData$ = this.getDocuments(
-            this.guideService.currentId, 
-            orderBy('order')
-        ).pipe(
-            map((units) => units.map((unit) => (this.appendPages(unit))))
-        );
 
     constructor(private guideService: GuideService, private pageService: UnitPageService) {
         super('guides', 'units');
@@ -27,8 +21,10 @@ export class UnitService extends FirestoreService<Unit> implements OnDestroy {
         this._subscriptions.forEach(s => s.unsubscribe());
     }
 
-    get viewData$(): Observable<UnitView[]> {
-        return this._viewData$;
+    getUnits(): Observable<UnitView[]> {
+        return this.getDocuments(this.guideService.currentId, orderBy('order')).pipe(
+            map((units) => units.map((unit) => (this.appendPages(unit))))
+        );
     }
 
     private appendPages(unit: Unit): UnitView {
@@ -37,17 +33,5 @@ export class UnitService extends FirestoreService<Unit> implements OnDestroy {
             this.pageService.getPages(unit.id).subscribe(p => pages.set(p))
         );
         return { ...unit, pages };
-    }
-
-    pageViewByIndex(unitIndex: number, pageIndex: number): Observable<[Page, number]> {
-        return this._viewData$.pipe(
-            map((units) => {
-                const pages = units[unitIndex].pages() ?? [];
-                if (!pages[pageIndex]) {
-                    throw new Error(`Page index ${pageIndex} not found in unit ${unitIndex}`);
-                }
-                return [pages[pageIndex], pages.length];
-            })
-        );
     }
 }

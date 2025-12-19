@@ -20,8 +20,7 @@ export interface PageView extends Page {
 }
 
 export interface UnitPageView extends PageView {
-    guideId: string | undefined;
-    unitIndex: number | undefined;
+    unitId: string;
     prevIndex: number | undefined;
     nextIndex: number | undefined;
 }

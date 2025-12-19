@@ -22,7 +22,7 @@
         <app-markdown class="content" content="{{overview}}" />
     </header>
 
-    @for(unit of units(); track unit; let ui = $index) {
+    @for(unit of units(); track unit) {
         <div class="unit">
             <div class="header" [id]="unit.order">
                 <span mat-subheader>Einheit {{unit.order}} &mdash; {{unit.caption}}</span>
@@ -41,7 +41,7 @@
                                         @if (page.status === 'draft') {
                                             <mat-icon color="primary" fontIcon="draw"></mat-icon>
                                         }
-                                        <a [routerLink]="['/p', ui, pi]">
+                                        <a [routerLink]="['/p', unit.id, pi]">
                                             {{page.title}}
                                         </a>
                                     </h3>

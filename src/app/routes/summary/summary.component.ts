@@ -37,7 +37,7 @@ export class SummaryComponent {
     private readonly _unitService = inject(UnitService);
     private readonly _resultService = inject(UserResultService);
     
-    private _unitViews = toSignal(this._unitService.viewData$.pipe(tap(() => this.loading = false)), { initialValue: [] });
+    private _unitViews = toSignal(this._unitService.getUnits().pipe(tap(() => this.loading = false)), { initialValue: [] });
     readonly doneKey = pageReadTime;
     loading = true;
 
