@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { orderBy } from '@angular/fire/firestore';
-import { FirestoreService } from '../firestore.service';
+import { FirestoreService } from '../../core/firestore.service';
 import { NavigationItem } from '../../models/nav.model';
 import { Observable } from 'rxjs';
 

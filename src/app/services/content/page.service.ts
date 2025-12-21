@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { map, Observable } from 'rxjs';
-import { FirestoreService } from '../firestore.service';
+import { FirestoreService } from '../../core/firestore.service';
 import { Page } from '../../models/page.model';
 import { GuideService } from './guide.service';
 

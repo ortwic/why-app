@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { orderBy, QueryConstraint, where } from '@angular/fire/firestore';
 import { Observable, map, switchMap } from 'rxjs';
-import { FirestoreService } from '../firestore.service';
+import { FirestoreService } from '../../core/firestore.service';
 import { BlogPost, BlogPostView } from '../../models/blog.model';
 import { MediaStorageService } from '../common/media-storage.service';
 import { GuideService } from './guide.service';

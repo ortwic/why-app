@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { orderBy } from '@angular/fire/firestore';
 import { map, Observable } from 'rxjs';
 import { Page } from '../../models/page.model';
-import { FirestoreService } from '../firestore.service';
+import { FirestoreService } from '../../core/firestore.service';
 import { GuideService } from './guide.service';
 import { emptyPage } from './page.service';
 

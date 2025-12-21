@@ -1,7 +1,7 @@
 import { Injectable, OnDestroy, signal } from '@angular/core';
 import { orderBy } from '@angular/fire/firestore';
 import { map, Observable, Subscription } from 'rxjs';
-import { FirestoreService } from '../firestore.service';
+import { FirestoreService } from '../../core/firestore.service';
 import { Unit, UnitView } from '../../models/unit.model';
 import { Page } from '../../models/page.model';
 import { GuideService } from './guide.service';

@@ -1,9 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
+import { signal } from '@angular/core';
 import { of } from 'rxjs';
 
 import { firebaseProviders } from '../../../tests/test.config';
 import { PageComponent } from './page.component';
+import { GuideService } from '../../services/content/guide.service';
 
 const params = {
     unit: 0,
@@ -18,6 +20,13 @@ describe('PageComponent', () => {
         await TestBed.configureTestingModule({
             imports: [...firebaseProviders(), PageComponent],
             providers: [
+                {
+                    provide: GuideService,
+                    useValue: {
+                        current: signal({}),
+                        currentId: '',
+                    }
+                },
                 {
                     provide: ActivatedRoute,
                     useValue: {

@@ -24,7 +24,7 @@ import {
 } from '@angular/fire/firestore';
 import { startWith } from 'rxjs/operators';
 import { of, Observable } from 'rxjs';
-import { PathBuilder } from '../utils/path-builder';
+import { PathBuilder } from './path-builder';
 
 // firestore does not like undefined values so omit them
 const omitUndefinedFields = (data: Record<string, unknown>) => {

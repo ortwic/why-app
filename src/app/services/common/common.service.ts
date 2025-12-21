@@ -1,6 +1,6 @@
 import { Injectable, OnDestroy, signal } from '@angular/core';
 import { map, Subscription } from 'rxjs';
-import { FirestoreService } from '../firestore.service';
+import { FirestoreService } from '../../core/firestore.service';
 
 type ResourceContainer = { id: string, resources: Record<string, unknown> };
 
