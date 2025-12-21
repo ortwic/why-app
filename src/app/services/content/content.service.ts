@@ -45,8 +45,7 @@ export class ContentService {
 
     private getUnitPageView(unitId: string, pageIndex: number): Observable<UnitPageView> {
         const asView = (page: Page, totalCount: number): UnitPageView => {
-            const unitIndex = unitId?.match(/\d+/)?.[0] || 0; // TODO avoid unit index
-            const userData = this._storageKey ? this.userDataService.getItems(page.id, +unitIndex, this._storageKey) : {};
+            const userData = this._storageKey ? this.userDataService.getItems(page.id, unitId, this._storageKey) : {};
             const prev = pageIndex > 0 ? pageIndex - 1 : undefined;
             const next = pageIndex + 1 < totalCount ? pageIndex + 1 : undefined;
             return {
@@ -66,8 +65,7 @@ export class ContentService {
 
     async saveUserInput(page: PageView, newData: UserDataItems<InputValue>) {
         if (this.isUnitPageView(page)) {
-            const unitIndex = page.unitId.match(/\d+/)?.[0] || 0; // TODO avoid unit index
-            this.userDataService.saveItems([page.id, +unitIndex], newData, this._storageKey);
+            this.userDataService.saveItems([page.id, page.unitId], newData, this._storageKey);
         } else {
             this.userDataService.saveItems([page.id, 0], newData);
         }

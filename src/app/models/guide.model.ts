@@ -1,5 +1,3 @@
-import { Unit } from "./unit.model";
-
 export interface Guide {
     id: string;
     lang: string;

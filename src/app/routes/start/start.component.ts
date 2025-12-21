@@ -9,7 +9,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { LoadingComponent } from '../../components/ui/loading/loading.component';
 import { MarkdownComponent } from '../../components/ui/markdown/markdown.component';
 import { ProgressSpinnerComponent } from '../../components/ui/progress-spinner/progress-spinner.component';
-import { termsOfUseKey } from '../../guards/terms-of-use.guard';
+import { initialPage, nameProp } from '../../guards/terms-of-use.guard';
 import { Page } from '../../models/page.model';
 import { UnitView } from '../../models/unit.model';
 import { CommonService } from '../../services/common/common.service';
@@ -86,9 +86,9 @@ export class StartComponent {
     }
 
     get userName(): string | undefined {
-        const entry = this._dataService.getItems(termsOfUseKey);
-        if ('display-name' in entry && entry['display-name']) {
-            return entry['display-name'];
+        const entry = this._dataService.getItems(initialPage);
+        if (nameProp in entry && entry[nameProp]) {
+            return entry[nameProp];
         }
         return undefined;
     }

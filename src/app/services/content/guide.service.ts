@@ -6,8 +6,8 @@ import { FirestoreService } from '../firestore.service';
 import { Guide } from '../../models/guide.model';
 import { UserDataService } from '../user/user-data.service';
 
-export const subscriptionKey = '0-subscription';
-const selectedGuideKey = 'current-guide';
+const itemKey = 'guide';
+const propKey = 'id';
 const emptyGuide = {
     title: '',
     caption: '',
@@ -58,15 +58,15 @@ export class GuideService extends FirestoreService<Guide> implements OnDestroy {
     }
 
     private idFromStorage(): string | undefined {
-        const entry = this._dataService.getItems(subscriptionKey);
-        if (selectedGuideKey in entry && entry[selectedGuideKey]) {
-            return entry[selectedGuideKey];
+        const entry = this._dataService.getItems(itemKey, 0);
+        if (propKey in entry && entry[propKey]) {
+            return entry[propKey];
         }
         return undefined;
     }
 
     setCurrentGuide(id: string): void {
-        this._dataService.saveItems([subscriptionKey], { [selectedGuideKey]: id });
+        this._dataService.saveItems([itemKey, 0], { [propKey]: id });
 
         this._subscription?.unsubscribe();
         this._subscription = this.getDocument(id)
