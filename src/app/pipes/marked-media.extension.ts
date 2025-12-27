@@ -1,5 +1,5 @@
 
-import { RendererObject, Token } from "marked";
+import { MarkedExtension, RendererObject, Token } from "marked";
 import { MediaAttributes, Attributes } from "./marked-media.model";
 
 /***
@@ -11,7 +11,7 @@ import { MediaAttributes, Attributes } from "./marked-media.model";
  * marked.parseInline("![this is audio](1 'type:wav,controls,autoplay,muted')
  * marked.parseInline("![](PB4gId2mPNc 'type:youtube,width:560,height:315')");")
  */
-export const markedMedia = (resolveHref: (path: string) => Promise<[string?, string?]>) => {
+export const markedMedia = (resolveHref: (path: string) => Promise<[string?, string?]>): MarkedExtension => {
     const parseAttributes = (title: string) => {
         return title.split(',').reduce((acc, element) => {
             let object = element.split('=');
@@ -56,5 +56,5 @@ export const markedMedia = (resolveHref: (path: string) => Promise<[string?, str
             return `<blockquote>${text}</blockquote>`;
         }
     };
-    return { walkTokens, renderer, sanitize: true, async: true };
+    return { walkTokens, renderer, async: true };
 };

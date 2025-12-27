@@ -6,7 +6,8 @@ const resourceUrl = "http://example.com/media/";
 
 describe('MarkedPipe', () => {
     let pipe: MarkedPipe;
-    let service: MediaStorageService;
+    let downloadUrlSpy: jasmine.Spy = jasmine.createSpy('downloadUrl')
+        .and.callFake((path) => Promise.resolve([resourceUrl + path]));
 
     beforeEach(() => {
         TestBed.configureTestingModule({
@@ -15,12 +16,11 @@ describe('MarkedPipe', () => {
             { 
                 provide: MediaStorageService, 
                 useValue: {
-                    downloadUrl: (path: string) => Promise.resolve([resourceUrl + path])
+                    downloadUrl: downloadUrlSpy
                 } 
             }
         ]
         });
-        service = TestBed.inject(MediaStorageService);
         pipe = TestBed.inject(MarkedPipe);
     });
 
@@ -29,19 +29,25 @@ describe('MarkedPipe', () => {
     });
 
     it('test img', async () => {
-        expect(await pipe.transform("![test](1.jpg 'style=width:300px,title=test img')")).toMatch(
+        const result = await pipe.transform("![test](1.jpg 'style=width:300px,title=test img')");
+
+        expect(result).toMatch(
             `<p><img class='marked-image' src='${resourceUrl}1.jpg' alt='test' style='width:300px' title='test img'></img></p>`
         );
     });
 
     it('test wav', async () => {
-        expect(await pipe.transform("![this is audio](1.wav 'type=wav,controls,autoplay,muted')")).toMatch(
+        const result = await pipe.transform("![this is audio](1.wav 'type=wav,controls,autoplay,muted')");
+
+        expect(result).toMatch(
             `<p><audio alt='this is audio' controls autoplay muted><source src='${resourceUrl}1.wav' type='audio/wav'></audio></p>`
         );
     });
 
     it('test youtube', async () => {
-        expect(await pipe.transform("![](PB4gId2mPNc 'type=youtube,width=320,height=240,allow=accelerometer;autoplay;clipboard-write,allowfullscreen')")).toMatch(
+        const result = await pipe.transform("![](PB4gId2mPNc 'type=youtube,width=320,height=240,allow=accelerometer;autoplay;clipboard-write,allowfullscreen')");
+        
+        expect(result).toMatch(
             "<p><iframe width='320' height='240' src='https://www.youtube.com/embed/PB4gId2mPNc' title='YouTube video player' frameborder='0' allow='accelerometer;autoplay;clipboard-write' allowfullscreen></iframe></p>"
         );
     });

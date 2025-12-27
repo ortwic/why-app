@@ -10,8 +10,11 @@ import { MediaStorageService } from '../services/common/media-storage.service';
 export class MarkedPipe implements PipeTransform {
     private _service = inject(MediaStorageService);
 
-    transform(value: string): Promise<string> {
+    constructor() {
         marked.use(markedMedia((path) => this._service.downloadUrl(path)));
+    }
+
+    transform(value: string): Promise<string> {
         return marked(value) as Promise<string>;
     }
 }
