@@ -83,10 +83,14 @@ export class PageComponent {
 
     continue(args: ContinueEventArgs) {
         const page = this.pageView();
-        if (page) {            
+        if (page) {
             this.content.saveUserInput(page, args.data);
-            if (args.completed) {
-                this.nextBreakpoint(page);
+            if (args.completed === true) {
+                if (!this.content.isUnitPageView(page)) {
+                    this._router.navigate([this._returnPath()]);
+                } else {
+                    this.nextBreakpoint(page);
+                }
             }
         }
     }
