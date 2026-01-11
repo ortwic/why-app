@@ -48,13 +48,13 @@ export class UserDataService<T = unknown> {
 
     /** Merges and saves updated items into the specified group and record. */
     saveItems(keys: [SetKey, RecordKey], newItems: UserDataItems<T>, storageKey = defaultKey) {
-        const setId = keys[0];
-        const index = keys[1];
-        const array = this.storage(storageKey);
-        const items = this.getItems(setId, index, storageKey);
-        this._userData[storageKey][index] = {
-            ...array[index],
-            [setId]: {
+        const key = keys[0];
+        const unit = keys[1];
+        const storage = this.storage(storageKey);
+        const items = this.getItems(key, unit, storageKey);
+        this._userData[storageKey][unit] = {
+            ...storage[unit],
+            [key]: {
                 ...items,
                 ...newItems
             }
