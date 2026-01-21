@@ -1,7 +1,7 @@
 import { TestBed } from '@angular/core/testing';
 
 import { firebaseProviders } from '../../../tests/test.config';
-import { UserDataService, defaultKey } from './user-data.service';
+import { UserDataService, DEFAULT_KEY } from './user-data.service';
 import { RecordKey, SetKey, UserDataItems } from '../../models/user-data.model';
 
 describe('UserDataService', () => {
@@ -24,7 +24,7 @@ describe('UserDataService', () => {
         spyOn(window.localStorage, 'getItem').and.callFake((key) => (key in localStore ? localStore[key] : null));
         spyOn(window.localStorage, 'setItem').and.callFake((key, value) => (localStore[key] = value + ''));
         spyOn(window.localStorage, 'clear').and.callFake(() => (localStore = {}));
-        window.localStorage.setItem(defaultKey, JSON.stringify({ [unit1]: { [pageId]: initialData } }));
+        window.localStorage.setItem(DEFAULT_KEY, JSON.stringify({ [unit1]: { [pageId]: initialData } }));
 
         service = TestBed.inject(UserDataService<{}>);
     });

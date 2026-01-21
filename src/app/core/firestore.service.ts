@@ -36,7 +36,7 @@ const omitUndefinedFields = (data: Record<string, unknown>) => {
     return data;
 };
 
-export const snapshotOptions: SnapshotOptions = {
+const snapshotOptions: SnapshotOptions = {
     serverTimestamps: 'none'
 };
 

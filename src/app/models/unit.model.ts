@@ -1,4 +1,3 @@
-import { Signal } from "@angular/core";
 import { Page } from "./page.model";
 import { UnitResults } from "./result.model";
 
@@ -11,6 +10,6 @@ export interface Unit {
 }
 
 export interface UnitView extends Unit {
-    pages: Signal<Page[]>;
+    pages: Page[];
     results?: UnitResults;
 }

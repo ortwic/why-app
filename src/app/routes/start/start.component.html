@@ -32,7 +32,7 @@
                 <mat-divider />
             </p>
             <div class="card-container">
-                @for (page of (unit.pages()); track page; let pi = $index) {
+                @for (page of unit.pages; track page; let pi = $index) {
                     <mat-card class="card">
                         <mat-card-header class="card-header">
                             <div class="card-title">

@@ -12,7 +12,7 @@ import { PageResults, ResultUnion, UnitResults } from '../../models/result.model
 import { InputDefinition, InputValue } from '../../models/content.model';
 import { Page } from '../../models/page.model';
 import { UserResultService } from '../../services/user/user-result.service';
-import { pageReadTime } from '../../services/user/user-data.service';
+import { PAGE_READ_TIME } from '../../services/user/user-data.service';
 import { UserDataComponent } from "../settings/user-data/user-data.component";
 import { TranslatePipe } from "../../pipes/translate.pipe";
 
@@ -37,8 +37,11 @@ export class SummaryComponent {
     private readonly _unitService = inject(UnitService);
     private readonly _resultService = inject(UserResultService);
     
-    private _unitViews = toSignal(this._unitService.getUnits().pipe(tap(() => this.loading = false)), { initialValue: [] });
-    readonly doneKey = pageReadTime;
+    private _unitViews = toSignal(this._unitService.getUnits()
+        .pipe(
+            tap(() => this.loading = false)), { initialValue: [] }
+        );
+    readonly doneKey = PAGE_READ_TIME;
     loading = true;
 
     get results(): UnitResults[] {
@@ -50,7 +53,7 @@ export class SummaryComponent {
     }
 
     pages(index: number): Page[] {
-        return this._unitViews()[index]?.pages() ?? [];
+        return this._unitViews()[index]?.pages ?? [];
     }
     
     data(result: ResultUnion) {
