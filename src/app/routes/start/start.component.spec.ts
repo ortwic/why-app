@@ -1,45 +1,40 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { signal } from '@angular/core';
 
+import { firebaseProviders } from '../../../tests/test.config';
 import { ActivatedRoute } from '@angular/router';
 import { StartComponent } from './start.component';
-import { CommonService } from '../../services/common/common.service';
-import { UnitService } from '../../services/content/unit.service';
-import { Unit } from '../../models/unit.model';
+import { GuideService } from '../../services/content/guide.service';
+import { GUIDE1_ID } from '../../../tests/seed-data';
 
 describe('StartComponent', () => {
-  let component: StartComponent;
-  let fixture: ComponentFixture<StartComponent>;
+    let component: StartComponent;
+    let fixture: ComponentFixture<StartComponent>;
 
-  beforeEach(async () => {
-    await TestBed.configureTestingModule({
-      imports: [StartComponent],
-      providers: [
-        { 
-          provide: ActivatedRoute, 
-          useValue: {} 
-        },
-        {
-          provide: CommonService,
-          useValue: { 
-            getResources: () => Promise.resolve({}) 
-          }
-        },
-        {
-          provide: UnitService,
-          useValue: { 
-            dataPromise: Promise.resolve([] as Unit[]) 
-          }
-        }
-      ]
-    })
-    .compileComponents();
-    
-    fixture = TestBed.createComponent(StartComponent);
-    component = fixture.componentInstance;
-    fixture.detectChanges();
-  });
+    beforeEach(async () => {
+        await TestBed.configureTestingModule({
+            imports: [...firebaseProviders(), StartComponent],
+            providers: [
+                {
+                    provide: GuideService,
+                    useValue: {
+                        current: signal({}),
+                        currentId: GUIDE1_ID,
+                    }
+                },
+                {
+                    provide: ActivatedRoute,
+                    useValue: {},
+                },
+            ],
+        }).compileComponents();
 
-  it('should create', () => {
-    expect(component).toBeTruthy();
-  });
+        fixture = TestBed.createComponent(StartComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
+
+    it('should create', () => {
+        expect(component).toBeTruthy();
+    });
 });

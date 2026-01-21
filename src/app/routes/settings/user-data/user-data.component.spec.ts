@@ -1,5 +1,6 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { firebaseProviders } from '../../../../tests/test.config';
 import { UserDataComponent } from './user-data.component';
 
 describe('UserDataComponent', () => {
@@ -8,7 +9,7 @@ describe('UserDataComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [UserDataComponent]
+      imports: [...firebaseProviders(), UserDataComponent]
     })
     .compileComponents();
     

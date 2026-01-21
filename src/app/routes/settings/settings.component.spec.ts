@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
+import { firebaseProviders } from '../../../tests/test.config';
 import { SettingsComponent } from './settings.component';
-import { CommonService } from '../../services/common/common.service';
 
 describe('SettingsComponent', () => {
   let component: SettingsComponent;
@@ -9,15 +9,7 @@ describe('SettingsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [SettingsComponent],
-      providers: [
-        {
-          provide: CommonService,
-          useValue: { 
-            getResources: () => Promise.resolve({}) 
-          }
-        }
-      ]
+      imports: [...firebaseProviders(), SettingsComponent]
     })
     .compileComponents();
     

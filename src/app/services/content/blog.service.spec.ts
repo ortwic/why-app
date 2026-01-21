@@ -1,12 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 
+import { firebaseProviders } from '../../../tests/test.config';
 import { BlogService } from './blog.service';
 
-xdescribe('BlogService', () => {
+describe('BlogService', () => {
   let service: BlogService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      imports: [...firebaseProviders()]
+    });
     service = TestBed.inject(BlogService);
   });
 

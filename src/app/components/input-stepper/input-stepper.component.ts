@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
-import { expandTrigger } from '../../animations.helper';
+import { expandTrigger } from '../../utils/animations.helper';
 import { InputSectionComponent } from '../input-section/input-section.component';
 import { ProgressSpinnerComponent } from '../ui/progress-spinner/progress-spinner.component';
 import { UserDataItems } from '../../models/user-data.model';

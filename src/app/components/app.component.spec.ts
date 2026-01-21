@@ -1,25 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
+
+import { firebaseProviders } from '../../tests/test.config';
 import { AppComponent } from './app.component';
-import { CommonService } from '../services/common/common.service';
-import { GuideService } from '../services/content/guide.service';
 
 describe('AppComponent', () => {
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [AppComponent, NoopAnimationsModule],
-      providers: [
-        {
-          provide: CommonService,
-          useValue: { 
-            getNavigation: () => Promise.resolve([])
-          }
-        },
-        {
-          provide: GuideService,
-          useValue: {}
-        }
-      ],
+      imports: [...firebaseProviders(), AppComponent, NoopAnimationsModule],
     }).compileComponents();
   });
 

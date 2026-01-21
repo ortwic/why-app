@@ -46,7 +46,13 @@ export class ImageSliderComponent {
     }
 
     private async resolveUrl({ title, file, url }: SliderImage) {
-        url = file ? await this._storageService.downloadUrl(file) : url;
+        if (file) {
+            const [url, error] = await this._storageService.downloadUrl(file);
+            if (!url) {
+                return { title: error!, url: '' };
+            }
+            return { title, url };
+        }
         return { title, url };
     }
 }

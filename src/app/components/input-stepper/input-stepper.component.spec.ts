@@ -15,7 +15,6 @@ describe('InputStepperComponent', () => {
     
     fixture = TestBed.createComponent(InputStepperComponent);
     component = fixture.componentInstance;
-    fixture.componentRef.setInput('pageId', '0-test');
     fixture.componentRef.setInput('definitions', [
       {
         type: 'textarea',

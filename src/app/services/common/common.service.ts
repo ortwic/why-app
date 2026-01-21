@@ -1,22 +1,19 @@
 import { Injectable, OnDestroy, signal } from '@angular/core';
-import { orderBy } from '@angular/fire/firestore';
 import { map, Subscription } from 'rxjs';
-import { FirestoreService } from '../firestore.service';
-import { NavigationItem } from '../../models/nav.model';
+import { FirestoreService } from '../../core/firestore.service';
 
 type ResourceContainer = { id: string, resources: Record<string, unknown> };
 
 @Injectable({
     providedIn: 'root',
 })
-export class CommonService implements OnDestroy {
-    private readonly navStore = new FirestoreService('navigation');
-    private readonly resStore = new FirestoreService('common');
+export class CommonService extends FirestoreService<ResourceContainer> implements OnDestroy {
     private readonly resources = signal<Record<string, Record<string, unknown>>>({});
     private readonly subscription: Subscription;
 
     constructor() {
-        this.subscription = this.resStore.getDocuments<ResourceContainer>()
+        super('common');
+        this.subscription = this.getDocuments()
             .pipe(
                 map(docs => docs.reduce((acc, { id, resources }) => {
                     acc[id] = resources;
@@ -28,10 +25,6 @@ export class CommonService implements OnDestroy {
 
     ngOnDestroy() {
         this.subscription?.unsubscribe();
-    }
-
-    async getNavigation(): Promise<NavigationItem[]> {
-        return this.navStore.getDocumentsAsync<NavigationItem>(orderBy('order'));
     }
 
     getResources(namespace: string): Record<string, unknown> {        

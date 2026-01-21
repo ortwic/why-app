@@ -2,12 +2,12 @@
     <mat-card class="card">
         <mat-card-header>
             @if (post.imageSrc) {
-                <img class="thumbnail" mat-card-lg-image [src]="post.imageSrc" />
+                <img class="thumbnail" mat-card-lg-image [src]="post.imageSrc" [alt]="post.alt" />
             }
             <mat-card-title-group>
                 <mat-card-title>
                     <h3>
-                        <a [routerLink]="['/post', post.id]">
+                        <a [routerLink]="['/blog', post.id]">
                             {{post.title}}
                         </a>
                     </h3>
@@ -21,7 +21,7 @@
         <mat-card-footer>
             <div class="label-group">
                 @for (tag of post.tags; track $index) {
-                    <a [routerLink]="['/blog', tag]" class="label">{{tag}}</a>
+                    <a routerLink="/blog" [fragment]="tag" class="label">{{tag}}</a>
                 }
             </div>
         </mat-card-footer>

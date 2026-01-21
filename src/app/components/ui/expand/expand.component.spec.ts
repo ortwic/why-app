@@ -14,6 +14,7 @@ describe('ExpandComponent', () => {
     .compileComponents();
     
     fixture = TestBed.createComponent(ExpandComponent);
+    fixture.componentRef.setInput('title', 'Expand test');
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

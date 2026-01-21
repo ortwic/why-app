@@ -9,6 +9,7 @@ import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
 import { connectFirestoreEmulator, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, provideFirestore } from '@angular/fire/firestore';
 import { connectStorageEmulator, getStorage, provideStorage } from '@angular/fire/storage';
 import { environment as env } from '../environments/env.default';
+import { provideGuide } from './core/guide.provider';
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
@@ -52,6 +53,7 @@ export const appConfig: ApplicationConfig = {
                 return getStorage();
             }),
         ),
+        provideGuide(),
         // ScreenTrackingService,
         // UserTrackingService,
     ],

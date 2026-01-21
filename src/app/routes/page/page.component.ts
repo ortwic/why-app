@@ -15,13 +15,12 @@ import { ImageSliderComponent } from '../../components/image-slider/image-slider
 import { InputSectionComponent } from '../../components/input-section/input-section.component';
 import { ContinueEventArgs, InputStepperComponent } from '../../components/input-stepper/input-stepper.component';
 import { MarkdownComponent } from '../../components/ui/markdown/markdown.component';
-import { GuideService } from '../../services/content/guide.service';
-import { ConjunctionService } from '../../services/content/conjunction.service';
-import { pageReadTime } from '../../services/user/user-data.service';
+import { ContentService } from '../../services/content/content.service';
+import { PAGE_READ_TIME } from '../../services/user/user-data.service';
 import { PageView } from '../../models/page.model';
 import { InputValue } from '../../models/content.model';
 import { UserDataItems } from '../../models/user-data.model';
-import { expandTrigger } from '../../animations.helper';
+import { expandTrigger } from '../../utils/animations.helper';
 
 @Component({
     selector: 'app-page',
@@ -46,22 +45,16 @@ import { expandTrigger } from '../../animations.helper';
     animations: [ expandTrigger('next') ],
 })
 export class PageComponent {
-    private readonly _guideService = inject(GuideService);
-    private _params = injectParams((params) => ([params['unit'],  +(params['page'] ?? 0)] as [string, number]));
+    private _params = injectParams((params) => ([params['unit'], +(params['page'])] as [string, number]));
     private _returnPath = injectQueryParams('from', { initialValue: '/' });
     private _breakpoints = computed(() => this.initBreakpoints(this.pageView()));
     private _currentBreakpoint = 0;
     private _startTime!: number;
     private _minReadTime!: number;
     
-    readonly pageView = derivedAsync(() => {
-        const [unitIndex, pageIndex] = this._params();
-        return isNaN(+unitIndex) 
-            ? this._content.getSinglePageView(unitIndex) 
-            : this._content.getUnitPageView(+unitIndex, pageIndex, this._guideService.currentId)
-    });
+    readonly pageView = derivedAsync(() => this.content.getPageView(...this._params()));
 
-    constructor(private _router: Router, private _content: ConjunctionService) {
+    constructor(private _router: Router, public content: ContentService) {
         effect(() => {
             const page = this.pageView();
             if (page) {
@@ -90,10 +83,14 @@ export class PageComponent {
 
     continue(args: ContinueEventArgs) {
         const page = this.pageView();
-        if (page) {            
-            this._content.saveUserInput(page, args.data);
-            if (args.completed) {
-                this.nextBreakpoint(page);
+        if (page) {
+            this.content.saveUserInput(page, args.data);
+            if (args.completed === true) {
+                if (!this.content.isUnitPageView(page)) {
+                    this._router.navigate([this._returnPath()]);
+                } else {
+                    this.nextBreakpoint(page);
+                }
             }
         }
     }
@@ -118,7 +115,7 @@ export class PageComponent {
                 completed: true, 
                 data: {
                     ...data,
-                    [pageReadTime]: elapsedTime / 1000
+                    [PAGE_READ_TIME]: elapsedTime / 1000
                 } 
             });
         }

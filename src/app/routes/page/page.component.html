@@ -30,10 +30,10 @@
     }
 
     <footer class="content centered">
-        @if (!page.footer_override) {
+        @if (content.isUnitPageView(page)) {
             @if (page.prevIndex !== undefined) {
                 <a role="button" mat-button color="primary" aria-label="Vorherige Seite"
-                [routerLink]="[ '/p', page.unitIndex, page.prevIndex ]">
+                [routerLink]="[ '/p', page.unitId, page.prevIndex ]">
                     <span class="prev">
                         <mat-icon fontIcon="arrow_back" /> &nbsp;Vorherige Seite
                     </span>
@@ -41,7 +41,7 @@
             }
             @if (page.nextIndex !== undefined) {
                 <a role="button" mat-button color="primary" aria-label="Nächste Seite"
-                [routerLink]="[ '/p', page.unitIndex, page.nextIndex ]" 
+                [routerLink]="[ '/p', page.unitId, page.nextIndex ]" 
                 (click)="next(page.userData)" [disabled]="nextDisabled(page.sectionCount)">
                     <span class="next">
                         <mat-icon fontIcon="arrow_forward" /> Nächste Seite&nbsp;
@@ -55,8 +55,8 @@
                     </span>
                 </a>
             }
-        } @else {
-            <app-markdown [content]="page.footer_override" />
         }
+        
+        <app-markdown [content]="page.footer_override" />
     </footer>
 </ng-container>

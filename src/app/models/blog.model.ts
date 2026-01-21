@@ -14,6 +14,11 @@ export interface BlogPost {
     sticky: boolean;
 }
 
+export type BlogPostView = BlogPost & {
+    imageSrc: string;
+    alt: string;
+};
+
 type BlogContent = MarkdownContent 
                  | QuoteContent 
                  | IFrameContent 

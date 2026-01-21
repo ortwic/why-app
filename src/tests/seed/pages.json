@@ -1,0 +1,147 @@
+[
+  {
+    "id": "0-demo",
+    "status": "draft",
+    "publish_date": {
+      "seconds": 1715346166,
+      "nanoseconds": 767000000
+    },
+    "content": [
+      {
+        "value": "# Yes, except the Dave Matthews Band doesn't rock.\n\nFetal stemcells, aren't those controversial? Throw her in the brig. I decline the title of Iron Cook and accept the lesser title of Zinc Saucier, which I just made up. Uhh… also, comes with double prize money.\n\nYep, I remember. They came in last at the Olympics, then retired to promote alcoholic beverages! Dr. __Zoidberg, that doesn't make sense.__ *But, okay!* Anyhoo, your net-suits will allow you to experience Fry's worm infested bowels as if you were actually wriggling through them.",
+        "type": "text"
+      },
+      {
+        "type": "stepper",
+        "value": [
+          {
+            "type": "textarea",
+            "value": {
+              "caption": "Was gibt/gab es heute zu Mittag?",
+              "id": "last-lunch",
+              "placeholder": "Spaghetti mit Schokosauce"
+            }
+          },
+          {
+            "value": {
+              "options": [
+                "Keines",
+                "2/3",
+                "Trage keine Jeans"
+              ],
+              "caption": "Wie viele Löcher in Hosen sind okay?",
+              "id": "pants-hole-count"
+            },
+            "type": "select"
+          },
+          {
+            "type": "textarea",
+            "value": {
+              "caption": "Was ist das schlechteste Geschenk, das du jemals erhalten hast?",
+              "placeholder": null,
+              "id": "worst-present"
+            }
+          },
+          {
+            "type": "select",
+            "value": {
+              "multiline": true,
+              "caption": "Wenn du ein Tier wärst, welches würdest du gerne sein?",
+              "options": [
+                "Einhorn",
+                "Eichhörnchen",
+                "Qualle",
+                "Seestern",
+                "Geier",
+                "Antilope",
+                "Dinosaurier",
+                "Pantoffeltierchen",
+                "Ratte",
+                "Wildbiene"
+              ],
+              "multiple": true,
+              "id": "fav-animal"
+            }
+          }
+        ]
+      },
+      {
+        "type": "expand",
+        "value": {
+          "title": "I was all of history's great robot actors",
+          "content": "Oh Leela! You're the only person I could turn to; you're the only person who ever loved me. Say what? What kind of a father would I be if I said no? \n\nThere's one way and only one way to determine if an animal is intelligent. Dissect its brain!\n\n1. Ah, yes! John Quincy Adding Machine. He struck a chord with the voters when he pledged not to go on a killing spree.\n2. All I want is to be a monkey of moderate intelligence who wears a suit… that's why I'm transferring to business school!\n3. Take me to your leader!",
+          "description": "Acting Unit 0.8; Thespomat; David Duchovny!"
+        }
+      },
+      {
+        "value": [
+          {
+            "file": "page/images/hero/5bf4m_targets_pexels-nita-54300.jpg",
+            "title": "Pusteblume aka Löwenzahn"
+          },
+          {
+            "file": "https://firebasestorage.googleapis.com/v0/b/why-app-8a640.appspot.com/o/page%2Fimages%2Fhero%2F6nurz_skills_pexels-pixabay-301703.jpg?alt=media&token=cc2bea7f-2287-4481-82df-31c91dc5dfdf",
+            "title": "Schreibtisch mit ganz viel Werkzeug drauf um etwas schönes zu basteln"
+          },
+          {
+            "title": "Maschendrahtzaun",
+            "url": "https://firebasestorage.googleapis.com/v0/b/why-app-8a640.appspot.com/o/page%2Fimages%2Fhero%2Fpnhvy_caveats_pexels-jeshoots.jpg?alt=media&token=eba136cc-70b1-4f80-a339-db4c3eec8ccd"
+          }
+        ],
+        "type": "slider"
+      },
+      {
+        "type": "text",
+        "value": "### When will that be?\n\nUh, is the puppy mechanical in any way? Eeeee! Now say \"nuclear wessels\"! Shut up and take my money! Soothe us with sweet lies.\n\n* I've got to find a way to escape the horrible ravages of youth. Suddenly, I'm going to the bathroom like clockwork, every three hours. And those jerks at Social Security stopped sending me checks. Now 'I'' have to pay ''them'!\n* I daresay that Fry has discovered the smelliest object in the known universe!\n* Whoa a real live robot; or is that some kind of cheesy New Year's costume?\n\n> Shinier than yours, meatbag. \n> -- Bender\n\nHello, little man. I will destroy you! Well, thanks to the Internet, I'm now bored with sex. Is there a place on the web that panders to my lust for violence? Fatal. \n\nOr a guy who burns down a bar for the insurance money! This is the worst kind of discrimination: the kind against me! Guards! Bring me the forms I need to fill out to have her taken away! What are you hacking off? Is it my torso?! 'It is!' My precious torso!\n\nI love this planet! I've got wealth, fame, and access to the depths of sleaze that those things bring. Bender! Ship! Stop bickering or I'm going to come back there and change your opinions manually! You lived before you met me?!\n\n![Letters](page/images/hero/4yuf5_letters_pexels-alex-andrews-821643.jpg)\n\nWe'll need to have a look inside you with this camera. Aww, it's true. I've been hiding it for so long. Tell them I hate them. This is the worst kind of discrimination: the kind against me! A true inspiration for the children.\n\nWho are you, my warranty?! And I'm his friend Jesus. Quite possible. We live long and are celebrated poopers. So, how 'bout them Knicks? You're going back for the Countess, aren't you?\n\nI daresay that Fry has discovered the smelliest object in the known universe! Soon enough. I guess because my parents keep telling me to be more ladylike. As though! I don't 'need' to drink. I can quit anytime I want!\n\nYes, except the Dave Matthews Band doesn't rock. Shinier than yours, meatbag. Yes, except the Dave Matthews Band doesn't rock. Come, Comrade Bender! We must take to the streets! You know, I was God once."
+      },
+      {
+        "type": "stepper",
+        "value": [
+          {
+            "value": {
+              "id": "useless-fact",
+              "placeholder": "Briefmarkenkleber enthält durchschnittlich 5,9 Kalorien pro Briefmarke.",
+              "caption": "Was ist der nutzloseste Fakt, den du kennst?"
+            },
+            "type": "textarea"
+          },
+          {
+            "value": {
+              "id": "useful-4-zombies",
+              "multiline": false,
+              "multiple": false,
+              "options": [
+                "Wie Baum",
+                "Wie Schaf",
+                "Rasenmäher",
+                "Chuck Norris"
+              ],
+              "caption": "Wie nützlich wärst du in einer Zombie-Apokalypse?"
+            },
+            "type": "select"
+          }
+        ]
+      },
+      {
+        "value": "I could if you hadn't turned on the light and shut off my stereo. Kif, I have mated with a woman. Inform the men. Oh dear! She's stuck in an infinite loop, and he's an idiot! Well, that's love for you.\n\nAnyone who laughs is a communist! You know, I was God once. Good man. Nixon's pro-war and pro-family. I feel like I was mauled by Jesus. You can crush me but you can't crush my spirit!\n\nOh, I think we should just stay friends. Michelle, I don't regret this, but I both rue and lament it. Bender, quit destroying the universe! Bender, hurry! This fuel's expensive! Also, we're dying! Why would a robot need to drink?\n\nMan, I'm sore all over. I feel like I just went ten rounds with mighty Thor. Who's brave enough to fly into something we all keep calling a death sphere? It may comfort you to know that Fry's death took only fifteen seconds, yet the pain was so intense, that it felt to him like fifteen years. And it goes without saying, it caused him to empty his bowels.",
+        "type": "text"
+      }
+    ],
+    "hero_section": {
+      "image": "https://firebasestorage.googleapis.com/v0/b/why-app-8a640.appspot.com/o/page%2Fimages%2Fhero%2F7xj5h_demo_pexels-pixabay-248152.jpg?alt=media&token=c21df3c2-41ea-4992-adba-68a95fbeabbf",
+      "call_to_action_link": null,
+      "headline": "Demo Page",
+      "call_to_action": null,
+      "image_info": "pexels.com/@pixabay",
+      "subhead": "Testseite für UI Elemente"
+    },
+    "slug": "demo",
+    "footer_override": null,
+    "min_read_time": 5,
+    "last_updated": {
+      "seconds": 1715346166,
+      "nanoseconds": 767000000
+    },
+    "title": "Demo Page"
+  }
+]

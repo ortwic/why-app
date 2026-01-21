@@ -1,5 +1,3 @@
-import { Unit } from "./unit.model";
-
 export interface Guide {
     id: string;
     lang: string;
@@ -9,5 +7,4 @@ export interface Guide {
     caption: string;
     overview: string;
     description: string;
-    units: Promise<Unit[]>;
 }

@@ -1,9 +1,11 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ActivatedRoute } from '@angular/router';
+import { signal } from '@angular/core';
 import { of } from 'rxjs';
 
+import { firebaseProviders } from '../../../tests/test.config';
 import { PageComponent } from './page.component';
-import { ConjunctionService } from '../../services/content/conjunction.service';
+import { GuideService } from '../../services/content/guide.service';
 
 const params = {
     unit: 0,
@@ -16,22 +18,23 @@ describe('PageComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            imports: [PageComponent],
+            imports: [...firebaseProviders(), PageComponent],
             providers: [
+                {
+                    provide: GuideService,
+                    useValue: {
+                        current: signal({}),
+                        currentId: '',
+                    }
+                },
                 {
                     provide: ActivatedRoute,
                     useValue: {
                         params: of(params),
+                        queryParams: of(),
                         snapshot: { params },
                     },
-                },
-                {
-                    provide: ConjunctionService,
-                    useValue: {
-                        getSinglePageView: () => Promise.resolve({}),
-                        getUnitPageView: () => Promise.resolve({}),
-                    },
-                },
+                }
             ],
         }).compileComponents();
 
