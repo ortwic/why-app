@@ -8,9 +8,10 @@ import { tap } from 'rxjs';
 import { LoadingComponent } from '../../components/ui/loading/loading.component';
 import { ProgressSpinnerComponent } from '../../components/ui/progress-spinner/progress-spinner.component';
 import { UnitService } from '../../services/content/unit.service';
-import { PageResults, ResultUnion, UnitResults } from '../../models/result.model';
+import { isProgress, PageResults, Progress, ResultUnion, UnitResults } from '../../models/result.model';
 import { InputDefinition, InputValue } from '../../models/content.model';
 import { Page } from '../../models/page.model';
+import { UserDataItems } from '../../models/user-data.model';
 import { UserResultService } from '../../services/user/user-result.service';
 import { PAGE_READ_TIME } from '../../services/user/user-data.service';
 import { UserDataComponent } from "../settings/user-data/user-data.component";
@@ -56,13 +57,15 @@ export class SummaryComponent {
         return this._unitViews()[index]?.pages ?? [];
     }
     
-    data(result: ResultUnion) {
-        const items = (<PageResults>result)?.items;
-        if (items && items[this.doneKey]) {
-            return Object.keys(items).reduce((acc, key) => {
-                acc[key] = items[key];
-                return acc;
-            }, {} as Record<string, InputValue>);
+    data(result: ResultUnion): Record<string, InputValue> | null {
+        const items = result as UserDataItems<InputValue> | Progress;
+        if (typeof items === 'object') {
+            return Object.entries(items)
+                .filter(([k, v]) => !isProgress(k, v))
+                .reduce((acc, [key, value]) => {
+                    acc[key] = value;
+                    return acc;
+                }, {} as Record<string, InputValue>);
         }
         return null;
     }

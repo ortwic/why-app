@@ -15,3 +15,7 @@ export interface Progress {
     total: number;
     percent: number;
 }
+
+export function isProgress(key: string, obj: Progress): key is Exclude<keyof ResultUnion, keyof Progress> {
+  return key === 'progress' && 'percent' in obj && 'count' in obj && 'total' in obj;
+}
