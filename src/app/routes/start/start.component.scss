@@ -1,0 +1,121 @@
+$icon-size: 18px;
+
+header {
+    margin-bottom: 4rem;
+    
+    [mat-subheader] {
+        color: var(--mat-card-subtitle-text-color);;
+        font-weight: 500;
+    }
+
+    div[role=progress] {
+        margin-bottom: .4rem;
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        align-items: center;
+        flex-wrap: nowrap;
+        gap: 1rem;
+        overflow-x: auto;
+    
+        & > a {
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            border-radius: var(--mdc-elevated-card-container-shape);
+            background-color: var(--bg2);
+            text-align: center;
+            white-space: nowrap;
+            height: 64px;
+            padding: 24px;
+            transition: all .3s ease-in-out;
+    
+            &:hover {
+                background-color: var(--bg3);
+            }
+    
+            p.value {
+                font-size: large;
+            }
+        }
+    }
+}
+
+.summary {
+    margin: 1rem .4rem;
+    display: flex;
+    justify-content: start;
+    gap: 4px;
+
+    .mat-icon {
+        font-size: $icon-size;
+        height: $icon-size;
+        width: $icon-size;
+    }
+}
+
+.unit {
+    border-radius: var(--mdc-elevated-card-container-shape);
+    box-shadow: var(--mdc-elevated-card-container-elevation);
+    background-color: var(--bg2);
+    padding: 16px;
+    margin-bottom: 4rem;
+
+    .header {
+        padding-left: .4rem;
+
+        h3 {
+            margin-top: 2px;
+        }
+    }
+
+    .card-container {
+        display: flex;
+        flex-direction: row;
+        justify-content: start;
+        flex-wrap: wrap;
+        gap: 1rem;
+
+        .card {
+            flex: 1 0 auto;
+            max-width: 367px;
+
+            .card-header {
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+
+                .card-title {
+                    flex-grow: 1;
+                }
+
+                .card-progress {
+                    margin: 0 16px;
+                }
+            }
+
+            .card-content {
+                padding: 0;
+
+                .thumbnail {
+                    width: 100%;
+                    max-height: 200px;
+                    object-fit: cover;
+                }
+            }
+        
+            .footer {
+                margin: 16px;
+                display: flex;
+                gap: .4rem;
+                align-items: center;
+            }
+
+            .mat-icon {
+                font-size: $icon-size;
+                height: $icon-size;
+                width: $icon-size;
+            }
+        }
+    }
+}

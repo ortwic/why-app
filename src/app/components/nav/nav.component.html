@@ -1,0 +1,61 @@
+<mat-sidenav-container class="sidenav-container">
+  <mat-sidenav #drawer 
+      class="sidenav blur" 
+      fixedInViewport
+      [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+      [mode]="(isHandset$ | async) ? 'over' : 'side'"
+      [opened]="(isHandset$ | async) === false">
+    <mat-toolbar class="blur" *ngIf="(isHandset$ | async)">
+      <img src="assets/icons/logo.svg" alt="{{currentGuide.title}}" width="24"/> 
+      <strong>&nbsp; {{currentGuide.caption}}</strong>
+    </mat-toolbar>
+    <mat-nav-list>
+      <ul>
+        @for (item of sidenavRoutes; track item.path) {
+          <li>
+            <a mat-list-item [routerLink]="item.path">
+              <mat-icon color="accent" fontIcon="{{item.icon}}"></mat-icon>
+              {{item.title}}
+            </a>
+          </li>  
+        }
+      </ul>
+    </mat-nav-list>
+  </mat-sidenav>
+  <mat-sidenav-content>
+    <!-- <mat-toolbar [style.top]="toolbarTop$ | async"> -->
+    <mat-toolbar class="blur">
+      @if (isHandset$ | async) {
+        <button mat-icon-button
+          aria-label="Toggle sidenav"
+          (click)="drawer.toggle()">
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+      }
+      <ng-container *ngIf="currentGuide.title">
+        <img src="assets/icons/logo.svg" alt="{{currentGuide.title}}" width="24"/> 
+        <strong>&nbsp; {{currentGuide.title}}</strong>
+        <span>&nbsp;&mdash; {{currentGuide.caption}}</span>
+      </ng-container>
+      <span class="spacer"></span>
+      <a mat-icon-button color="accent" title="Spenden"
+        href="https://liberapay.com/OCSoft42/donate" target="_blank">
+        <mat-icon fontIcon="coffee"/>
+      </a>
+    </mat-toolbar>
+
+    <ng-content />
+
+    <footer>
+      <ul class="inline">
+      @for (item of footerRoutes; track item.path; let last = $last) {
+        <li [class.pipe]="!last" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">
+          <a [routerLink]="item.path">
+            {{item.title}}
+          </a>
+        </li>
+      }
+      </ul>
+    </footer>
+  </mat-sidenav-content>
+</mat-sidenav-container>

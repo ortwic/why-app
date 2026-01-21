@@ -1,0 +1,3 @@
+@if (content()) {
+    <span [innerHTML]="content() | marked | async" (click)="onClick($event)"></span>
+}

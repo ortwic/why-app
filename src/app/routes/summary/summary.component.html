@@ -1,0 +1,47 @@
+<app-loading [loading]="loading">
+    @for (unitResult of results; track $index) {
+        <div class="header">
+            <h2>
+                {{'start.unit' | t}} {{$index + 1}}
+            </h2>
+            <span class="sub">{{title($index)}}</span>
+            <app-progress-spinner [size]="40" [value]="unitResult.progress.percent || 0">
+                <small>{{unitResult.progress.percent || 0}}%</small>
+            </app-progress-spinner>
+        </div>
+        <mat-accordion multi>
+            @for (page of pages($index); track page) {
+                @if (data(unitResult[page.id])) {
+                    <mat-expansion-panel expanded>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title class="header">
+                                <span>{{page.title}}</span>
+                                <small>{{percent(unitResult[page.id])}}%</small>
+                            </mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="content">
+                            @for (item of data(unitResult[page.id]) | keyvalue: doneAtLast; track $index) {
+                                @if (item.key === doneKey) {
+                                    <mat-divider /><br/>
+                                    <label [title]="item.value + 's'">
+                                        <mat-icon fontIcon="task_alt"/> Erledigt
+                                    </label>
+                                } @else {
+                                    <label>
+                                        {{caption(page, item.key)}}
+                                    </label>
+                                    <div class="value">
+                                        {{format(item.value) || 'Keine Angabe'}}
+                                    </div>
+                                }
+                            }
+                        </div>
+                    </mat-expansion-panel>
+                }
+            }
+        </mat-accordion>
+        <mat-divider class="spacer" />
+    }
+
+    <app-user-data />
+</app-loading>

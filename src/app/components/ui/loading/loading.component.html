@@ -1,0 +1,7 @@
+@if(loading()) {
+    <div style="text-align: center;">
+        Lade Inhalt...<mat-progress-bar color="primary" mode="indeterminate" /> 
+    </div>
+} @else {
+    <ng-content></ng-content>
+}
