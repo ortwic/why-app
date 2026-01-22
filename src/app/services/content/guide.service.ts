@@ -41,12 +41,15 @@ export class GuideService extends FirestoreService<Guide> implements OnDestroy {
         this._subscription?.unsubscribe();
     }
 
-    init(domain: string): Observable<Guide> {
+    init(domain: string, lang: string): Observable<Guide> {
+        const lang2letter = lang.split('-')[0] ?? lang;
+        const matchByParams = (g: Guide) => g.domain?.includes(domain) && g.lang?.startsWith(lang2letter);
         const id = this.idFromStorage();
-
         const guide$ = id !== undefined
             ? this.getDocument(id)
-            : this.getGuides().pipe(map((guides) => guides.find((g) => g.domain?.includes(domain)) || guides[0]));
+            : this.getGuides().pipe(
+                map((guides) => guides.find((g) => matchByParams(g)) || guides[0])
+            );
 
         return guide$.pipe(
             filter(Boolean),
