@@ -1,6 +1,7 @@
 <mat-card class="card" *ngIf="item() as definition">
     <mat-card-header>
-        <mat-card-title class="title">
+        <!-- TODO show (i) icon with placeholder text for help -->
+        <mat-card-title class="card-title">
             {{definition.value.caption}}
         </mat-card-title>
     </mat-card-header>
@@ -20,7 +21,7 @@
             }
         </mat-button-toggle-group>
     } @else if (definition.type === 'textarea') {
-        <mat-form-field class="field" appearance="outline">
+        <mat-form-field class="form-field" appearance="outline">
             <textarea matInput
                 [name]="definition.value.id" 
                 [disabled]="disabled()"

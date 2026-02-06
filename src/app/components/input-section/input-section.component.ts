@@ -1,4 +1,4 @@
-import { Component, forwardRef, input, model, output } from '@angular/core';
+import { Component, forwardRef, input, model, output, ViewEncapsulation } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ControlValueAccessor, FormsModule, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -28,7 +28,8 @@ import { InputDefinition, InputValue } from '../../models/content.model';
             useExisting: forwardRef(() => InputSectionComponent),
             multi: true
         }
-    ]
+    ],
+    encapsulation: ViewEncapsulation.None
 })
 export class InputSectionComponent implements ControlValueAccessor {
     item = input.required<InputDefinition>();

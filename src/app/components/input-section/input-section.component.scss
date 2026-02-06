@@ -1,29 +1,40 @@
-.title {
-    margin-top: .4rem;
+.card-title {
+    margin-top: 0.4rem;
     margin-bottom: 1rem;
     font-weight: 500;
 }
 
 .select-group {
-    
     &.wrap-options {
         display: flex;
         flex-direction: column;
         align-items: end;
-        gap: .5rem;
+        gap: 0.5rem;
         border: 0;
+    }
 
-        .mat-button-toggle {
-            display: inline-block;
-            margin: 0 2rem;
-            border: dotted 1px var(--mat-standard-button-toggle-divider-color);
-            border-radius: var(--mat-legacy-button-toggle-shape);
-            width: max-content;
-        }
+    .mat-button-toggle {
+        display: inline-block;
+        margin: 0 2rem;
+        border: dotted 1px var(--mat-standard-button-toggle-divider-color);
+        border-radius: var(--mat-legacy-button-toggle-shape);
+        height: auto;
+    }
+
+    /* Break long option text */
+    .mat-button-toggle-label-content {
+        white-space: normal;
+        line-height: 1.1;
+        text-align: center;
+        text-justify: inter-word;
+
+        display: flex;
+        align-items: center;
+        justify-content: center;
     }
 }
 
-.field {
+.form-field {
     --height: 20vh;
     width: 100%;
 
@@ -35,3 +46,4 @@
         height: calc(var(--height) - 2rem) !important;
     }
 }
+
