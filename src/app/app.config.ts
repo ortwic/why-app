@@ -5,7 +5,7 @@ import { provideServiceWorker } from '@angular/service-worker';
 import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
 import { getApp, initializeApp, provideFirebaseApp } from '@angular/fire/app';
 import { connectAuthEmulator, getAuth, provideAuth } from '@angular/fire/auth';
-// import { getAnalytics, provideAnalytics, ScreenTrackingService, UserTrackingService } from '@angular/fire/analytics';
+import { getAnalytics, provideAnalytics } from '@angular/fire/analytics';
 import { connectFirestoreEmulator, initializeFirestore, persistentLocalCache, persistentMultipleTabManager, provideFirestore } from '@angular/fire/firestore';
 import { connectStorageEmulator, getStorage, provideStorage } from '@angular/fire/storage';
 import { environment as env } from '../environments/env.default';
@@ -30,7 +30,7 @@ export const appConfig: ApplicationConfig = {
                 }
                 return auth;
             }),
-            // provideAnalytics(() => getAnalytics()),
+            provideAnalytics(() => getAnalytics()),
             provideFirestore(() => {
                 const store = initializeFirestore(getApp(), env.useEmulators ? {} : {
                     localCache: persistentLocalCache({
@@ -53,8 +53,6 @@ export const appConfig: ApplicationConfig = {
                 return getStorage();
             }),
         ),
-        provideGuide(),
-        // ScreenTrackingService,
-        // UserTrackingService,
+        provideGuide()
     ],
 };

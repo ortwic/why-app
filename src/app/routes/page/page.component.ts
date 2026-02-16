@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, computed, effect, inject, isDevMode } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+import { Analytics, logEvent } from '@angular/fire/analytics';
 import { Router, RouterModule } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
@@ -12,7 +13,6 @@ import { ExpandComponent } from '../../components/ui/expand/expand.component';
 import { IFrameComponent } from '../../components/ui/iframe/iframe.component';
 import { HeroSectionComponent } from '../../components/hero-section/hero-section.component';
 import { ImageSliderComponent } from '../../components/image-slider/image-slider.component';
-import { InputSectionComponent } from '../../components/input-section/input-section.component';
 import { ContinueEventArgs, InputStepperComponent } from '../../components/input-stepper/input-stepper.component';
 import { MarkdownComponent } from '../../components/ui/markdown/markdown.component';
 import { ContentService } from '../../services/content/content.service';
@@ -36,7 +36,6 @@ import { expandTrigger } from '../../utils/animations.helper';
         HeroSectionComponent,
         IFrameComponent,
         ImageSliderComponent,
-        InputSectionComponent,
         InputStepperComponent,
         MarkdownComponent
     ],
@@ -47,6 +46,7 @@ import { expandTrigger } from '../../utils/animations.helper';
 export class PageComponent {
     private _params = injectParams((params) => ([params['unit'], +(params['page'])] as [string, number]));
     private _returnPath = injectQueryParams('from', { initialValue: '/' });
+    private _analytics = inject(Analytics);
     private _breakpoints = computed(() => this.initBreakpoints(this.pageView()));
     private _currentBreakpoint = 0;
     private _startTime!: number;
@@ -99,17 +99,23 @@ export class PageComponent {
         this._currentBreakpoint = this._breakpoints()?.shift() ?? page.content.length;
     }
     
-    show(index: number): 'expanded' | 'collapsed' {
+    nextItem(index: number): 'expanded' | 'collapsed' {
         return index <= this._currentBreakpoint ? 'expanded' : 'collapsed';
     }
 
-    complete(data: UserDataItems<InputValue>) {
-        this.next(data);
+    finishUnit(data: UserDataItems<InputValue>) {
+        this.nextPage(data);
         this._router.navigate([this._returnPath()]);
     }
 
-    next(data: UserDataItems<InputValue>) {
-        const elapsedTime = Date.now() - this._startTime;        
+    nextPage(data: UserDataItems<InputValue>) {
+        const elapsedTime = Date.now() - this._startTime;
+        logEvent(this._analytics, 'page_read', { 
+            unit_id: this._params()[0],
+            page_id: this.pageView()?.id, 
+            read_time: elapsedTime / 1000,
+            lang: navigator.language
+        });
         if (elapsedTime > this._minReadTime * 60 * 1000) {
             this.continue({ 
                 completed: true, 
