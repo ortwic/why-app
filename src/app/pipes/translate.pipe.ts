@@ -12,7 +12,7 @@ export class TranslatePipe implements PipeTransform {
 
   transform(path: string): string {
     const [ns, key] = path.split('.');
-    const value = this._commonService.getResource<string>(ns, key);
+    const value = this._commonService.getResource(ns, key);
     return value ?? key;
   }
 }

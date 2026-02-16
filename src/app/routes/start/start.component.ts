@@ -55,7 +55,7 @@ export class StartComponent {
 
     constructor() {
         this.randomName = computed(() => {
-            const defaultNames = this._commonService.getResource<string[]>('start', 'user-names');
+            const defaultNames = this._commonService.getResource('start', 'user-names').split(',');
             return defaultNames ? defaultNames[Math.floor(Math.random() * defaultNames.length)] : '';
         });
     }
@@ -65,24 +65,7 @@ export class StartComponent {
     }
 
     get greeting(): string {
-        const greetings = this._commonService.getResource<Record<number, string>>('start', 'greetings');
-        if (typeof greetings === 'object') {
-            const currentHour = new Date().getHours();
-
-            if (currentHour >= 5 && currentHour < 12) {
-                return greetings[5];
-            } else if (currentHour >= 12 && currentHour < 18) {
-                return greetings[12];
-            } else if (currentHour >= 18 && currentHour < 21) {
-                return greetings[18];
-            } else if (currentHour >= 21 && currentHour < 24) {
-                return greetings[21];
-            } else {
-                return greetings[0];
-            }
-        }
-
-        return '';
+        return this._commonService.getResourceByCurrentHour('start', 'greeting');
     }
 
     get userName(): string | undefined {
