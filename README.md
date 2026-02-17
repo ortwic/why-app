@@ -1,13 +1,12 @@
 <a name="readme-top"></a>
 
 # Why-App
-A philosophical tool for your existential journey.
+A interdisciplinary guide for your existential journey.
 
 ## Demo of capabilities
 
-- [Demo for testing](https://why-test.firebaseapp.com/)
-- [English Why-App](https://why-app.firebaseapp.com/)
-- [German Why-App](https://wozu-das-alles.firebaseapp.com/)
+- [Plattform Demo](https://why-beta.firebaseapp.com/)
+- [Why-App](https://why-app.firebaseapp.com/)
 
 
 # Content Management

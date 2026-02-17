@@ -1,8 +1,8 @@
 {
   "name": "why-app",
-  "version": "0.1.0",
+  "version": "0.1.2",
   "author": "OCSoft42",
-  "description": "A philosophical tool for your existential journey.",
+  "description": "A interdisciplinary guide for your existential journey.",
   "keywords": [
     "42",
     "nihilism",
@@ -26,6 +26,7 @@
     "dev": "ng serve -c emulators",
     "start": "ng serve -c development",
     "build": "ng build --aot --verbose",
+    "build:icons": "node scripts/export-icons.mjs",
     "watch": "ng build --watch -c development",
     "host:beta": "firebase --project why-app-8a640 deploy --only hosting:beta",
     "host:prod": "firebase --project why-app-8a640 deploy --only hosting:prod",
@@ -72,6 +73,7 @@
     "karma-coverage": "~2.2.0",
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
+    "sharp": "^0.34.5",
     "typescript": "~5.3.2"
   },
   "repository": {

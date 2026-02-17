@@ -1,41 +1,114 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <svg
-   width="512.0px"
-   height="512.0px"
-   viewBox="0 0 512.0 512.0"
+   width="512"
+   height="512"
+   viewBox="0 0 512 512"
    version="1.1"
-   id="SVGRoot"
+   id="svg3827"
    sodipodi:docname="logo.svg"
+   inkscape:version="1.2.2 (b0a8486541, 2022-12-01)"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
    xmlns:svg="http://www.w3.org/2000/svg">
-  <sodipodi:namedview
-     id="namedview261"
-     pagecolor="#202020"
-     bordercolor="#000000"
-     borderopacity="0.25"
-     showgrid="true"
-     showguides="false" />
   <defs
-     id="defs256" />
+     id="defs3831">
+    <inkscape:path-effect
+       effect="taper_stroke"
+       id="path-effect942"
+       is_visible="true"
+       lpeversion="1"
+       stroke_width="38"
+       attach_start="1e-07"
+       end_offset="0.85721335"
+       start_smoothing="0.5"
+       end_smoothing="0.5"
+       jointype="extrapolated"
+       start_shape="center"
+       end_shape="center"
+       miter_limit="100" />
+    <inkscape:path-effect
+       effect="taper_stroke"
+       id="path-effect940"
+       is_visible="true"
+       lpeversion="1"
+       stroke_width="38"
+       attach_start="0"
+       end_offset="0.91247669"
+       start_smoothing="1.3"
+       end_smoothing="0.5"
+       jointype="round"
+       start_shape="center"
+       end_shape="center"
+       miter_limit="100" />
+    <clipPath
+       clipPathUnits="userSpaceOnUse"
+       id="clipPath992">
+      <circle
+         cx="256"
+         cy="251.35529"
+         r="248.25418"
+         fill="#ffd740"
+         id="circle994"
+         inkscape:label="mask"
+         style="stroke-width:1.19353" />
+    </clipPath>
+  </defs>
+  <sodipodi:namedview
+     id="namedview3829"
+     pagecolor="#505050"
+     bordercolor="#eeeeee"
+     borderopacity="1"
+     inkscape:showpageshadow="0"
+     inkscape:pageopacity="0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#505050"
+     showgrid="false"
+     inkscape:zoom="0.84251673"
+     inkscape:cx="262.30933"
+     inkscape:cy="387.5294"
+     inkscape:window-width="1920"
+     inkscape:window-height="1008"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="svg3827" />
+  <!-- Gelber Kreis -->
+  <circle
+     cx="256"
+     cy="256"
+     r="208"
+     fill="#ffd740"
+     id="circle3817"
+     style="fill:#ffd740;fill-opacity:1" />
+  <!-- Y – drei durchgehende Linien -->
   <g
-     id="layer1">
-    <circle
-       style="fill:#ffec00;fill-opacity:1;stroke-width:6.3093"
-       id="path1471"
-       cx="256.32864"
-       cy="257.66022"
-       r="208.39185" />
-    <text
-       xml:space="preserve"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:382.148px;font-family:'DejaVu Sans';fill:#202020;fill-opacity:1;stroke-width:19.3439"
-       x="184.69328"
-       y="378.15683"
-       id="text1533"><tspan
-         sodipodi:role="line"
-         id="tspan1531"
-         x="184.69328"
-         y="378.15683"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-family:Corbel;fill:#202020;fill-opacity:1;stroke-width:19.3439">?</tspan></text>
+     stroke="#202020"
+     stroke-width="40"
+     stroke-linecap="round"
+     fill="none"
+     id="g3825"
+     transform="matrix(0.83785093,0,0,0.83785093,41.510162,45.401739)"
+     style="stroke-linecap:square"
+     clip-path="url(#clipPath992)">
+    <!-- Linker Schenkel -->
+    <!-- Rechter Schenkel -->
+    <path
+       id="line3821"
+       d="m 503.0823,75.977126 c -12.28501,19.541418 -25.78541,38.577584 -40.27382,57.073884 -38.58518,49.30255 -82.18605,93.71495 -127.34089,133.97146 -47.04047,41.91336 -94.34553,77.92546 -138.97389,108.59917 -47.98302,32.96538 -88.98692,57.32502 -124.958446,76.3627 0,0 -2.3e-5,1e-5 -2.3e-5,1e-5 -19.595168,10.36918 -35.175277,17.81873 -49.074797,23.82822 -7.863262,3.3997 -14.2171929,5.90729 -19.7643191,7.92523 -10.2987922,3.74536 -16.0597339,5.12013 -16.0597339,5.12013 0,0 5.8840899,-0.64032 16.6356322,-3.19672 5.7659203,-1.37057 12.4672698,-3.16914 20.7149438,-5.70321 14.518457,-4.46054 31.177683,-10.34203 51.842983,-18.77569 -10e-7,0 2.4e-5,-10e-6 2.4e-5,-10e-6 37.828496,-15.43575 82.053796,-36.48417 132.967706,-66.11943 47.5551,-27.66981 98.28595,-61.44661 148.50773,-102.41257 48.23193,-39.32031 94.84827,-84.41774 135.41802,-136.16649 15.22131,-19.43193 29.49238,-39.54389 42.52971,-60.282004 z"
+       sodipodi:nodetypes="cc"
+       inkscape:label="2"
+       inkscape:path-effect="#path-effect940"
+       inkscape:original-d="M 519.16776,86.089397 C 374.5071,316.19711 69.98673,472.45692 -13.363619,488.85793"
+       style="fill:#202020;fill-rule:nonzero;stroke:none;stroke-width:40.1972" />
+    <!-- Unterer Schenkel -->
+    <path
+       id="line3819"
+       style="fill:#202020;fill-rule:nonzero;stroke:none;stroke-width:45.5405"
+       d="m -14.231574,157.38803 c 12.9333333,11.74279 26.764377,23.01867 41.342678,33.7496 48.210271,35.45788 100.596396,59.71836 150.329446,75.64208 47.96189,15.38467 89.72194,21.82243 120.77293,24.50269 30.53018,2.63531 48.77593,1.7944 48.77593,1.7944 0,0 -17.9912,-3.29778 -47.08122,-11.29656 C 269.95583,273.54435 231.68815,260.95678 187.39287,240.87636 141.48234,220.03419 94.727516,193.75386 49.637732,160.53451 36.045294,150.52926 23.23485,140.07928 11.312377,129.2543 Z"
+       sodipodi:nodetypes="cc"
+       inkscape:label="1"
+       inkscape:original-d="M -1.4596243,143.32114 C 85.578696,222.34739 216.40952,280.72654 346.98941,293.0768"
+       inkscape:path-effect="#path-effect942" />
   </g>
 </svg>
