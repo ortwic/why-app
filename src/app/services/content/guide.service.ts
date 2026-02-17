@@ -41,8 +41,7 @@ export class GuideService extends FirestoreService<Guide> implements OnDestroy {
         this._subscription?.unsubscribe();
     }
 
-    init(domain: string, lang: string): Observable<Guide> {
-        const lang2letter = lang.split('-')[0] ?? lang;
+    init(domain: string, lang2letter: string): Observable<Guide> {
         const matchByParams = (g: Guide) => g.domain?.includes(domain) && g.lang?.startsWith(lang2letter);
         const id = this.idFromStorage();
         const guide$ = id !== undefined

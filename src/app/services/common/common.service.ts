@@ -1,8 +1,8 @@
 import { Injectable, OnDestroy, signal } from '@angular/core';
 import { map, Subscription } from 'rxjs';
 import { FirestoreService } from '../../core/firestore.service';
+import { getLanguageCode, L10nCode } from '../../core/lang.service';
 
-type L10nCode = 'en' | 'de';
 type Resources = Record<string, Record<L10nCode, string>>;
 type ResourceContainer = { id: string, resources: Resources };
 
@@ -47,9 +47,9 @@ export class CommonService extends FirestoreService<ResourceContainer> implement
     }
 
     getResource(namespace: string, key: string): string {
-        const lang = navigator.language.split('-')[0] as L10nCode ?? 'en';
+        const lang = getLanguageCode();
         const entries = this.getResources(namespace);
-        return entries[key] ? entries[key][lang] : key;
+        return (entries[key] && entries[key][lang]) ?? key;
     }
 
     getResourceByCurrentHour(namespace: string, key: string): string {
