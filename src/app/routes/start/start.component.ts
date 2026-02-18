@@ -24,17 +24,17 @@ import { TranslatePipe } from "../../pipes/translate.pipe";
     selector: 'app-start',
     standalone: true,
     imports: [
-    CommonModule,
-    RouterModule,
-    MatCardModule,
-    MatDividerModule,
-    MatIconModule,
-    ExpandComponent,
-    MarkdownComponent,
-    LoadingComponent,
-    ProgressSpinnerComponent,
-    TranslatePipe
-],
+        CommonModule,
+        RouterModule,
+        MatCardModule,
+        MatDividerModule,
+        MatIconModule,
+        ExpandComponent,
+        MarkdownComponent,
+        LoadingComponent,
+        ProgressSpinnerComponent,
+        TranslatePipe
+    ],
     templateUrl: './start.component.html',
     styleUrl: './start.component.scss',
 })

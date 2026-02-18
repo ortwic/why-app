@@ -21,6 +21,7 @@ import { PageView } from '../../models/page.model';
 import { InputValue } from '../../models/content.model';
 import { UserDataItems } from '../../models/user-data.model';
 import { expandTrigger } from '../../utils/animations.helper';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
     selector: 'app-page',
@@ -37,7 +38,8 @@ import { expandTrigger } from '../../utils/animations.helper';
         IFrameComponent,
         ImageSliderComponent,
         InputStepperComponent,
-        MarkdownComponent
+        MarkdownComponent,
+        TranslatePipe
     ],
     templateUrl: './page.component.html',
     styleUrl: './page.component.scss',
