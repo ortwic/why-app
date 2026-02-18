@@ -4,6 +4,7 @@ import { orderBy } from '@angular/fire/firestore';
 import { filter, map, Observable, ReplaySubject, Subscription, take, tap } from 'rxjs';
 import { FirestoreService } from '../../core/firestore.service';
 import { Guide } from '../../models/guide.model';
+import { StartContent } from '../../models/page.model';
 import { UserDataService } from '../user/user-data.service';
 
 const itemKey = 'guide';
@@ -11,7 +12,7 @@ const propKey = 'id';
 const emptyGuide = {
     title: '',
     caption: '',
-    overview: '',
+    content: [] as StartContent[],
     description: '',
     order: 0,
 } as Guide;

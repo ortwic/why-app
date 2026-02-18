@@ -19,7 +19,17 @@
             <mat-icon color="primary" fontIcon="analytics"></mat-icon>
             <a role="button" [routerLink]="['/summary']">{{'start.summary' | t}}</a>
         </summary>
-        <app-markdown class="content" content="{{overview}}" />
+        @for (item of content; track $index) {   
+            @if (item.type === 'expand') {
+                <div class="content">
+                    <app-expand [title]="item.value.title" [description]="item.value.description">
+                        <app-markdown [content]="item.value.content" />
+                    </app-expand>
+                </div>
+            } @else {
+                <app-markdown class="content" [content]="item.value" />
+            }
+        }
     </header>
 
     @for(unit of units(); track unit) {

@@ -6,11 +6,12 @@ import { RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatIconModule } from '@angular/material/icon';
+import { ExpandComponent } from "../../components/ui/expand/expand.component";
 import { LoadingComponent } from '../../components/ui/loading/loading.component';
 import { MarkdownComponent } from '../../components/ui/markdown/markdown.component';
 import { ProgressSpinnerComponent } from '../../components/ui/progress-spinner/progress-spinner.component';
 import { initialPage, nameProp } from '../../guards/terms-of-use.guard';
-import { Page } from '../../models/page.model';
+import { Page, StartContent } from '../../models/page.model';
 import { UnitView } from '../../models/unit.model';
 import { CommonService } from '../../services/common/common.service';
 import { GuideService } from '../../services/content/guide.service';
@@ -28,6 +29,7 @@ import { TranslatePipe } from "../../pipes/translate.pipe";
     MatCardModule,
     MatDividerModule,
     MatIconModule,
+    ExpandComponent,
     MarkdownComponent,
     LoadingComponent,
     ProgressSpinnerComponent,
@@ -76,8 +78,8 @@ export class StartComponent {
         return undefined;
     }
 
-    get overview() {
-        return this._guideService.current()?.overview;
+    get content(): StartContent[] {
+        return this._guideService.current()?.content ?? [];
     }
 
     unitProgressPercent(view: UnitView) {

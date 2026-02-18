@@ -1,3 +1,5 @@
+import { StartContent } from "./page.model";
+
 export interface Guide {
     id: string;
     lang: string;
@@ -5,6 +7,6 @@ export interface Guide {
     title: string;
     domain: string;
     caption: string;
-    overview: string;
+    content: StartContent[];
     description: string;
 }

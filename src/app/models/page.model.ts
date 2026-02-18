@@ -34,6 +34,8 @@ export interface HeroSection {
     image: string;
 }
 
+export type StartContent = MarkdownContent | ExpandContent;
+
 export type PageContent = MarkdownContent 
                         | ExpandContent
                         | FormContent
