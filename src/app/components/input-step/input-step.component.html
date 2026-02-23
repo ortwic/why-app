@@ -8,7 +8,10 @@
     <mat-card-content class="content">
     @if(def.type === 'select') {
         <mat-button-toggle-group class="select-group"
-            [ngClass]="{'wrap-options': def.value.multiline}"
+            [ngClass]="{ 
+                'wrap-options': def.value.multiline, 
+                'inline-options': !def.value.multiline 
+            }"
             [name]="def.value.id" 
             [multiple]="def.value.multiple"
             [disabled]="disabled()"

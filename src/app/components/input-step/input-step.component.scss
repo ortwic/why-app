@@ -11,6 +11,27 @@
         align-items: end;
         gap: 0.5rem;
         border: 0;
+
+        .mat-button-toggle {
+            height: auto;
+        
+            /* Break long option text */
+            button > span.mat-button-toggle-label-content {
+                white-space: normal;
+                text-align: center;
+                text-justify: inter-word;
+
+                display: flex;
+                align-items: center;
+                justify-content: center;
+            }
+        }
+    }
+
+    &.inline-options {
+        .mat-button-toggle {
+            width: max-content;
+        }
     }
 
     .mat-button-toggle {
@@ -18,19 +39,10 @@
         margin: 0 2rem;
         border: dotted 1px var(--mat-standard-button-toggle-divider-color);
         border-radius: var(--mat-legacy-button-toggle-shape);
-        height: auto;
-    }
 
-    /* Break long option text */
-    .mat-button-toggle-label-content {
-        white-space: normal;
-        line-height: 1.1;
-        text-align: center;
-        text-justify: inter-word;
-
-        display: flex;
-        align-items: center;
-        justify-content: center;
+        button > span.mat-button-toggle-label-content {
+            line-height: 2rem;
+        }
     }
 }
 
