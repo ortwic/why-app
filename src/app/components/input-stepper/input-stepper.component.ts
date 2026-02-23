@@ -4,7 +4,7 @@ import { FormsModule } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { expandTrigger } from '../../utils/animations.helper';
-import { InputSectionComponent } from '../input-section/input-section.component';
+import { InputStepComponent } from '../input-step/input-step.component';
 import { ProgressSpinnerComponent } from '../ui/progress-spinner/progress-spinner.component';
 import { UserDataItems } from '../../models/user-data.model';
 import { InputDefinition, InputValue } from '../../models/content.model';
@@ -22,7 +22,7 @@ export interface ContinueEventArgs {
         FormsModule,
         MatButtonModule,
         MatIconModule,
-        InputSectionComponent,
+        InputStepComponent,
         ProgressSpinnerComponent,
     ],
     templateUrl: './input-stepper.component.html',
@@ -33,7 +33,7 @@ export class InputStepperComponent implements AfterViewInit {
     readonly definitions = input.required<InputDefinition[]>();
     readonly data = model<UserDataItems<InputValue>>({});
     readonly continue = output<ContinueEventArgs>();
-    inputs = viewChildren(InputSectionComponent);
+    inputs = viewChildren(InputStepComponent);
 
     done = false;
     disabled = true;

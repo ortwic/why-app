@@ -1,19 +1,19 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
-import { InputSectionComponent } from './input-section.component';
+import { InputStepComponent } from './input-step.component';
 
-describe('InputSectionComponent', () => {
-  let component: InputSectionComponent;
-  let fixture: ComponentFixture<InputSectionComponent>;
+describe('InputStepComponent', () => {
+  let component: InputStepComponent;
+  let fixture: ComponentFixture<InputStepComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [InputSectionComponent, NoopAnimationsModule]
+      imports: [InputStepComponent, NoopAnimationsModule]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(InputSectionComponent);
+    fixture = TestBed.createComponent(InputStepComponent);
     fixture.componentRef.setInput('item', {
       type: 'textarea',
       value: {}

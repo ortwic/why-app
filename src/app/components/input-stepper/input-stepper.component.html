@@ -1,7 +1,7 @@
 <section>
     @for (item of definitions(); track $index) {
         <div [@next]="show($index)">
-            <app-input-section [item]="item" [name]="item.value.id" [disabled]="!isActive($index)"
+            <app-input-step [item]="item" [name]="item.value.id" [disabled]="!isActive($index)"
                 [ngModel]="model(item)" (ngModelChange)="update($event, item.value.id)" />
         </div>
     }

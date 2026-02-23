@@ -9,7 +9,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { InputDefinition, InputValue } from '../../models/content.model';
 
 @Component({
-    selector: 'app-input-section',
+    selector: 'app-input-step',
     standalone: true,
     imports: [
         CommonModule, 
@@ -20,18 +20,18 @@ import { InputDefinition, InputValue } from '../../models/content.model';
         MatInputModule, 
         MatFormFieldModule
     ],
-    templateUrl: './input-section.component.html',
-    styleUrl: './input-section.component.scss',
+    templateUrl: './input-step.component.html',
+    styleUrl: './input-step.component.scss',
     providers: [
         {
             provide: NG_VALUE_ACCESSOR,
-            useExisting: forwardRef(() => InputSectionComponent),
+            useExisting: forwardRef(() => InputStepComponent),
             multi: true
         }
     ],
     encapsulation: ViewEncapsulation.None
 })
-export class InputSectionComponent implements ControlValueAccessor {
+export class InputStepComponent implements ControlValueAccessor {
     item = input.required<InputDefinition>();
     disabled = model(false);
     value = model<InputValue>(undefined, { alias: 'ngModel' });
