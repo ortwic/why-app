@@ -62,12 +62,18 @@ export interface FormContent {
 
 export type InputDefinition = SelectList | TextField;
 export type InputValue = string[] | string | number | boolean | undefined;
+interface Validatable {
+    id: string;
+    caption: string;
+    required: boolean;
+    validation: string;
+    message?: string;
+    hints?: string;
+}
 
 interface SelectList {
     type: 'select';
-    value: {
-        id: string;
-        caption: string;
+    value: Validatable & {
         options: string[];
         multiple: boolean;
         multiline: boolean;
@@ -76,11 +82,7 @@ interface SelectList {
 
 interface TextField {
     type: 'text' | 'textarea';
-    value: {
-        id: string;
-        caption: string;
+    value: Validatable & {
         placeholder: string;
-        validation: string;
-        message?: string;
     };
 }

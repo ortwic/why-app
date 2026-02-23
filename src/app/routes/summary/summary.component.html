@@ -31,7 +31,7 @@
                                         {{caption(page, item.key)}}
                                     </label>
                                     <div class="value">
-                                        {{format(item.value) || 'Keine Angabe'}}
+                                        {{format(item.value) || ('summary.empty' | t)}}
                                     </div>
                                 }
                             }

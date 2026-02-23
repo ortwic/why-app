@@ -8,6 +8,7 @@ import { InputStepComponent } from '../input-step/input-step.component';
 import { ProgressSpinnerComponent } from '../ui/progress-spinner/progress-spinner.component';
 import { UserDataItems } from '../../models/user-data.model';
 import { InputDefinition, InputValue } from '../../models/content.model';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 export interface ContinueEventArgs {
     completed: boolean;
@@ -24,6 +25,7 @@ export interface ContinueEventArgs {
         MatIconModule,
         InputStepComponent,
         ProgressSpinnerComponent,
+        TranslatePipe
     ],
     templateUrl: './input-stepper.component.html',
     styleUrl: './input-stepper.component.scss',

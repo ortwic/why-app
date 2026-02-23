@@ -1,14 +1,14 @@
 <section>
     @for (item of definitions(); track $index) {
         <div [@next]="show($index)">
-            <app-input-step [item]="item" [name]="item.value.id" [disabled]="!isActive($index)"
+            <app-input-step [definition]="item" [name]="item.value.id" [disabled]="!isActive($index)"
                 [ngModel]="model(item)" (ngModelChange)="update($event, item.value.id)" />
         </div>
     }
     <span class="footer">
         <app-progress-spinner [@next]="!done ? 'expanded' : 'collapsed'" [disabled]="disabled" [value]="progress" [size]="60">
             <button mat-icon-button class="next" color="primary" [disabled]="disabled"
-                [title]="last ? 'Fertig' : 'Weiter'" (click)="next();">
+                [title]="last ? 'page.step-done' : 'page.step-next' | t" (click)="next();">
                 <mat-icon [fontIcon]="last ? 'check' : 'arrow_downward'" />
             </button>
         </app-progress-spinner>
