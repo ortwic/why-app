@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
-import { orderBy } from '@angular/fire/firestore';
+import { Injectable, isDevMode } from '@angular/core';
+import { orderBy, where } from '@angular/fire/firestore';
 import { map, Observable } from 'rxjs';
 import { Page } from '../../models/page.model';
 import { FirestoreService } from '../../core/firestore.service';
@@ -15,7 +15,13 @@ export class UnitPageService extends FirestoreService<Page> {
     }
 
     getPages(unitId: string): Observable<Page[]> {
-        return this.getDocuments(this.guideService.currentId, unitId, orderBy('order'));
+        const filter = isDevMode() ? where('status', '!=', 'draft') : where('status', '==', 'published');
+        return this.getDocuments(
+            this.guideService.currentId, 
+            unitId, 
+            filter, 
+            orderBy('order')
+        );
     }
 
     getPageByIndex(unitId: string, pageIndex: number): Observable<[Page, number]> {

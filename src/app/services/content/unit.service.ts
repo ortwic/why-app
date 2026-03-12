@@ -16,7 +16,10 @@ export class UnitService extends FirestoreService<UnitView> {
     }
 
     getUnits(): Observable<UnitView[]> {
-        return this.getDocuments(this.guideService.currentId, orderBy('order')).pipe(
+        return this.getDocuments(
+            this.guideService.currentId, 
+            orderBy('order')
+        ).pipe(
             switchMap(units =>
                 combineLatest(
                     units.map(unit =>
@@ -25,7 +28,9 @@ export class UnitService extends FirestoreService<UnitView> {
                         )
                     )
                 )
-            )
+            ),
+            // For some reason orderBy('order') doesn't work reliably so sort again
+            map(units => units.sort((a, b) => a.order - b.order))
         );
     }
 }
