@@ -3,6 +3,7 @@ export interface NavigationItem {
     title: string;
     icon: string;
     order: number;
+    header: boolean;
     sidenav: boolean;
     footer: boolean;
 }

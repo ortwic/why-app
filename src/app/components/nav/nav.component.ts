@@ -74,6 +74,10 @@ export class NavComponent implements AfterViewInit {
         return this._guideService.current();
     }
 
+    get headerRoutes(): NavigationItem[] {
+        return this._routes().filter(route => route.header);
+    }
+
     get sidenavRoutes(): NavigationItem[] {
         return this._routes().filter(route => route.sidenav);
     }

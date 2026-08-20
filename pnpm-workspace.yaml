@@ -1,0 +1,6 @@
+allowBuilds:
+  esbuild: true
+  nice-napi: true
+  nx: false
+  protobufjs: false
+  sharp: true

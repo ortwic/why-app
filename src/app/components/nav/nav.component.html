@@ -38,10 +38,11 @@
         <span>&nbsp;&mdash; {{currentGuide.caption}}</span>
       </ng-container>
       <span class="spacer"></span>
-      <a mat-icon-button color="accent" title="Spenden"
-        href="https://liberapay.com/OCSoft42/donate" target="_blank">
-        <mat-icon fontIcon="coffee"/>
-      </a>
+        @for (item of headerRoutes; track item.path) {
+          <a mat-icon-button color="accent" [routerLink]="item.path" title="{{getTitle(item)}}">
+            <mat-icon fontIcon="{{item.icon}}"/>
+          </a>
+        }
     </mat-toolbar>
 
     <ng-content />
